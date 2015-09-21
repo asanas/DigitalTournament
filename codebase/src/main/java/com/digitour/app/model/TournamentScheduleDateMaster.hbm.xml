@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="TournamentScheduleDateMaster" table="tournament_schedule_date_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="tournamentScheduleId" type="java.lang.Long">
+            <column name="tournament_schedule_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tournamentMaster" class="TournamentMaster" fetch="select">
+            <column name="fk_tournament_id" not-null="true" />
+        </many-to-one>
+        <property name="tournamentDayDate" type="date">
+            <column name="tournament_day_date" length="10" not-null="true" />
+        </property>
+        <property name="sessionTime" type="string">
+            <column name="session_time" length="10" not-null="true" />
+        </property>
+        <property name="dayNumber" type="int">
+            <column name="day_number" not-null="true" />
+        </property>
+        <set name="tournamentScheduleMasters" table="tournament_schedule_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_tournament_schedule_date_id" not-null="true" />
+            </key>
+            <one-to-many class="TournamentScheduleMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

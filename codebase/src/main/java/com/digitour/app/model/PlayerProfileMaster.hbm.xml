@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="PlayerProfileMaster" table="player_profile_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="playerProfileId" type="java.lang.Long">
+            <column name="player_profile_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cityMaster" class="CityMaster" fetch="select">
+            <column name="fk_city_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="majorSkill" class="MajorSkill" fetch="select">
+            <column name="fk_major_skill_id" />
+        </many-to-one>
+        <many-to-one name="roleMaster" class="RoleMaster" fetch="select">
+            <column name="fk_role_id" />
+        </many-to-one>
+        <many-to-one name="teamMaster" class="TeamMaster" fetch="select">
+            <column name="fk_team_id" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="500" not-null="true" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="date_of_birth" length="10" not-null="true" />
+        </property>
+        <property name="photo" type="binary">
+            <column name="photo" />
+        </property>
+        <property name="height" type="string">
+            <column name="height" length="10" />
+        </property>
+        <property name="weight" type="java.lang.Double">
+            <column name="weight" precision="22" scale="0" />
+        </property>
+        <property name="totalToursParticipated" type="java.lang.Integer">
+            <column name="total_tours_participated" />
+        </property>
+        <property name="achievements" type="string">
+            <column name="achievements" length="500" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="1" not-null="true" />
+        </property>
+        <property name="contact" type="string">
+            <column name="contact" length="20" not-null="true" />
+        </property>
+        <set name="tournamentParticipantTeamMasters" table="tournament_participant_team_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_player_profile_id" not-null="true" />
+            </key>
+            <one-to-many class="TournamentParticipantTeamMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

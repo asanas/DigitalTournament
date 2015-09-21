@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="OfficialMaster" table="official_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="officialProfileId" type="java.lang.Long">
+            <column name="official_profile_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cityMaster" class="CityMaster" fetch="select">
+            <column name="fk_city_id" not-null="true" />
+        </many-to-one>
+        <property name="firstName" type="string">
+            <column name="first_name" length="100" not-null="true" />
+        </property>
+        <property name="middleName" type="string">
+            <column name="middle_name" length="100" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="100" not-null="true" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="date_of_birth" length="10" not-null="true" />
+        </property>
+        <property name="addressLine1" type="string">
+            <column name="address_line1" length="500" not-null="true" />
+        </property>
+        <property name="addressLine2" type="string">
+            <column name="address_line2" length="500" not-null="true" />
+        </property>
+        <property name="contact1" type="string">
+            <column name="contact1" length="20" not-null="true" />
+        </property>
+        <property name="contact2" type="string">
+            <column name="contact2" length="20" not-null="true" />
+        </property>
+        <set name="tournamentMatchMastersForFkMatchRefree" table="tournament_match_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_match_refree" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchMaster" />
+        </set>
+        <set name="tournamentMatchMastersForFkUmpire2" table="tournament_match_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_umpire2" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchMaster" />
+        </set>
+        <set name="tournamentMatchMastersForFkUmpire1" table="tournament_match_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_umpire1" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchMaster" />
+        </set>
+        <set name="tournamentMatchMastersForFkScorer2" table="tournament_match_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_scorer2" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchMaster" />
+        </set>
+        <set name="tournamentMatchMastersForFkScorer1" table="tournament_match_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_scorer1" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

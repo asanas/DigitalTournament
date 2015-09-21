@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="SymbolMaster" table="symbol_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="symbolId" type="java.lang.Long">
+            <column name="symbol_id" />
+            <generator class="identity" />
+        </id>
+        <property name="description" type="string">
+            <column name="Description" length="500" not-null="true" />
+        </property>
+        <set name="matchPointMasters" table="match_point_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="symbol" not-null="true" />
+            </key>
+            <one-to-many class="MatchPointMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

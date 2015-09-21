@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="TournamentMatchResultMaster" table="tournament_match_result_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="matchResultId" type="java.lang.Long">
+            <column name="match_result_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tournamentMatchMaster" class="TournamentMatchMaster" fetch="select">
+            <column name="fk_tournament_match_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tournamentParticipantMaster" class="TournamentParticipantMaster" fetch="select">
+            <column name="match_won_by" />
+        </many-to-one>
+        <many-to-one name="tournamentParticipantTeamMaster" class="TournamentParticipantTeamMaster" fetch="select">
+            <column name="fk_player_of_the_match" not-null="true" />
+        </many-to-one>
+        <property name="wonByPoints" type="long">
+            <column name="won_by_points" not-null="true" />
+        </property>
+        <property name="wonByTime" type="time">
+            <column name="won_by_time" length="8" not-null="true" />
+        </property>
+        <property name="resultDetails" type="string">
+            <column name="result_details" length="500" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

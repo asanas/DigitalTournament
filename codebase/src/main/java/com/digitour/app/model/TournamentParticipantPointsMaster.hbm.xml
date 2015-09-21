@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="TournamentParticipantPointsMaster" table="tournament_participant_points_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="tourPartipantPointId" type="java.lang.Long">
+            <column name="tour_partipant_point_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tournamentParticipantMaster" class="TournamentParticipantMaster" fetch="select">
+            <column name="fk_tournament_partipant_id" not-null="true" />
+        </many-to-one>
+        <property name="matchesWon" type="long">
+            <column name="matches_won" not-null="true" />
+        </property>
+        <property name="matchesLost" type="long">
+            <column name="matches_lost" not-null="true" />
+        </property>
+        <property name="matchesDrawn" type="long">
+            <column name="matches_drawn" not-null="true" />
+        </property>
+        <property name="totalWickets" type="long">
+            <column name="total_wickets" not-null="true" />
+        </property>
+        <property name="totalPoints" type="long">
+            <column name="total_points" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

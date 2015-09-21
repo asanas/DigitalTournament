@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="TournamentGroupDetailsMaster" table="tournament_group_details_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="tourGroupId" type="java.lang.Long">
+            <column name="tour_group_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="groupMaster" class="GroupMaster" fetch="select">
+            <column name="fk_tour_grp_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tournamentParticipantMaster" class="TournamentParticipantMaster" fetch="select">
+            <column name="fk_tour_participant_id" not-null="true" />
+        </many-to-one>
+        <property name="groupType" type="string">
+            <column name="group_type" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

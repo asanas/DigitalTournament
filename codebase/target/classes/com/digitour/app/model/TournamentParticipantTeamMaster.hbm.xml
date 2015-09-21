@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Sep, 2015 10:42:07 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="TournamentParticipantTeamMaster" table="tournament_participant_team_master" catalog="digitourapp" optimistic-lock="version">
+        <id name="tourPTId" type="java.lang.Long">
+            <column name="tour_p_t_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="playerProfileMaster" class="PlayerProfileMaster" fetch="select">
+            <column name="fk_player_profile_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tournamentParticipantMaster" class="TournamentParticipantMaster" fetch="select">
+            <column name="fk_tournament_participant_id" not-null="true" />
+        </many-to-one>
+        <property name="playerChaseNumber" type="long">
+            <column name="player_chase_number" not-null="true" />
+        </property>
+        <set name="tournamentMatchResultMasters" table="tournament_match_result_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_player_of_the_match" not-null="true" />
+            </key>
+            <one-to-many class="TournamentMatchResultMaster" />
+        </set>
+        <set name="matchPointMastersForFkDefenceId" table="match_point_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_defence_id" not-null="true" />
+            </key>
+            <one-to-many class="MatchPointMaster" />
+        </set>
+        <set name="matchPointMastersForFkAttackerId" table="match_point_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_attacker_id" not-null="true" />
+            </key>
+            <one-to-many class="MatchPointMaster" />
+        </set>
+        <set name="matchPointMastersForFkAssistId" table="match_point_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_assist_id" not-null="true" />
+            </key>
+            <one-to-many class="MatchPointMaster" />
+        </set>
+    </class>
+</hibernate-mapping>
