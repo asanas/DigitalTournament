@@ -6,7 +6,7 @@ import com.digitour.app.model.CityMaster;
 
 public interface CityMasterDAO {
 
-    public void persist(CityMaster transientInstance);
+    /*public void save(CityMaster transientInstance);
 
     public void attachDirty(CityMaster instance);
 
@@ -18,5 +18,7 @@ public interface CityMasterDAO {
 
     public CityMaster findById(java.lang.Long id);
 
-    public List<CityMaster> findByExample(CityMaster instance);
+    public List<CityMaster> findByExample(CityMaster instance);*/
+    
+    public List<CityMaster> getAll();
 }

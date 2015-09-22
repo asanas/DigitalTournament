@@ -1,42 +1,34 @@
 package com.digitour.app.dao.impl;
-// Generated 19 Sep, 2015 10:42:10 PM by Hibernate Tools 4.3.1
 
 import java.util.List;
-import javax.naming.InitialContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.digitour.app.dao.CityMasterDAO;
 import com.digitour.app.model.CityMaster;
 
-import static org.hibernate.criterion.Example.create;
-
-/**
- * Home object for domain model class CityMaster.
- * @see .CityMaster
- * @author Hibernate Tools
- */
+@Repository
 public class CityMasterDAOImpl implements CityMasterDAO{
 
     private static final Log log = LogFactory.getLog(CityMasterDAOImpl.class);
 
-    private final SessionFactory sessionFactory = getSessionFactory();
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
 
-    protected SessionFactory getSessionFactory() {
-        try {
-            return (SessionFactory) new InitialContext().lookup("SessionFactory");
-        } catch (Exception e) {
-            log.error("Could not locate SessionFactory in JNDI", e);
-            throw new IllegalStateException("Could not locate SessionFactory in JNDI");
-        }
+    @Override
+    public List<CityMaster> getAll() {
+        log.debug("Loading all city names");
+        return hibernateTemplate.loadAll(CityMaster.class);
     }
-
-    public void persist(CityMaster transientInstance) {
+    
+    /*public void save(CityMaster transientInstance) {
         log.debug("persisting CityMaster instance");
         try {
-            sessionFactory.getCurrentSession().persist(transientInstance);
+            hibernateTemplate.save(transientInstance);
             log.debug("persist successful");
         } catch (RuntimeException re) {
             log.error("persist failed", re);
@@ -116,5 +108,5 @@ public class CityMasterDAOImpl implements CityMasterDAO{
             log.error("find by example failed", re);
             throw re;
         }
-    }
+    }*/
 }

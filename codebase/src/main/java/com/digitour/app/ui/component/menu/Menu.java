@@ -6,7 +6,8 @@ public class Menu {
     private String urlTarget;
     private String className;
     private String displayText;
-    
+    private String jsFunctionCall;
+
     public String getMenuDescription() {
         return menuDescription;
     }
@@ -31,10 +32,16 @@ public class Menu {
     public void setClassName(String className) {
         this.className = className;
     }
-	public String getDisplayText() {
-		return displayText;
-	}
-	public void setDisplayText(String displayText) {
-		this.displayText = displayText;
-	}
+    public String getDisplayText() {
+        return displayText;
+    }
+    public void setDisplayText(String displayText) {
+        this.displayText = displayText;
+    }
+    public String getJsFunctionCall() {
+        return jsFunctionCall;
+    }
+    public void setJsFunctionCall(String jsFunctionCall) {
+        this.jsFunctionCall = jsFunctionCall;
+    }
 }

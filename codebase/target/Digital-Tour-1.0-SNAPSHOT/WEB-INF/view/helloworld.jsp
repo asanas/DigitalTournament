@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page isELIgnored ="false" %>
 <html>
 <head>
 <title>DIGITAL TOURNAMENT</title>

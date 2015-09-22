@@ -1,35 +1,24 @@
 package com.digitour.app.dao.impl;
-// Generated 19 Sep, 2015 10:42:10 PM by Hibernate Tools 4.3.1
 
 import java.util.List;
-import javax.naming.InitialContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.PlayerProfileMaster;
-
 import static org.hibernate.criterion.Example.create;
 
-/**
- * Home object for domain model class PlayerProfileMaster.
- * @see .PlayerProfileMaster
- * @author Hibernate Tools
- */
+import com.digitour.app.model.PlayerProfileMaster;
+
 public class PlayerProfileMasterDAOImpl {
 
     private static final Log log = LogFactory.getLog(PlayerProfileMasterDAOImpl.class);
 
-    private final SessionFactory sessionFactory = getSessionFactory();
+    private SessionFactory sessionFactory;
 
-    protected SessionFactory getSessionFactory() {
-        try {
-            return (SessionFactory) new InitialContext().lookup("SessionFactory");
-        } catch (Exception e) {
-            log.error("Could not locate SessionFactory in JNDI", e);
-            throw new IllegalStateException("Could not locate SessionFactory in JNDI");
-        }
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     public void persist(PlayerProfileMaster transientInstance) {
