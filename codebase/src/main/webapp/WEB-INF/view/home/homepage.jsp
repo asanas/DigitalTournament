@@ -4,10 +4,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Digital Tournament</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static_content/css/custom.css">
 <script src="${pageContext.request.contextPath}/static_content/js/common/commonUtils.js"></script>
 </head>
 <body>
-<ul>
+<ul class="form-3">
     <c:forEach items="${homePageMenus}" var="mainMenu">
         <li><a href="${pageContext.request.contextPath}/${mainMenu.menuURL}" class="${mainMenu.className}" title="${mainMenu.menuDescription}" onclick="javascript:${mainMenu.jsFunctionCall}">${mainMenu.displayText}</a></li>
     </c:forEach>

@@ -72,14 +72,14 @@ public class HomePageController {
         helpMenu.setClassName(MAIN_MENU);
         helpMenu.setMenuDescription("Guidelines");
         helpMenu.setDisplayText("Help!");
-        loadTourMenu.setJsFunctionCall("showAlert('Coming Soon');");
+        helpMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu creditsMenu = new Menu();
         creditsMenu.setMenuURL("credits");
         creditsMenu.setClassName(MAIN_MENU);
         creditsMenu.setMenuDescription("Credits");
         creditsMenu.setDisplayText("Credits");
-        loadTourMenu.setJsFunctionCall("showAlert('Coming Soon');");
+        creditsMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         lstMenu.add(createTour);
         lstMenu.add(loadTourMenu);
