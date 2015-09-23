@@ -45,13 +45,14 @@
                <prop key="hibernate.show_sql">true</prop>
            </props>
        </property>
+       <property name="packagesToScan" value="com.digitour.app.model" />
    </bean>
 
    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">  
         <property name="sessionFactory" ref="sessionFactory" />  
    </bean>
 
-   <tx:annotation-driven />
+   <tx:annotation-driven transaction-manager="transactionManager"/>
 
    <!-- Hibernate Transaction manager --> 
    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">

@@ -10,5 +10,29 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">digitourapp</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        
+        <!-- Mapping annoted classes -->
+        <mapping class="com.digitour.app.model.CountryMaster"/>
+        <mapping class="com.digitour.app.model.FoulMaster"/>
+        <mapping class="com.digitour.app.model.GroupMaster"/>
+        <mapping class="com.digitour.app.model.MajorSkill"/>
+        <mapping class="com.digitour.app.model.MatchPointMaster"/>
+        <mapping class="com.digitour.app.model.OfficialMaster"/>
+        <mapping class="com.digitour.app.model.PlayerProfileMaster"/>
+        <mapping class="com.digitour.app.model.RoleMaster"/>
+        <mapping class="com.digitour.app.model.StateMaster"/>
+        <mapping class="com.digitour.app.model.SymbolMaster"/>
+        <mapping class="com.digitour.app.model.TeamMaster"/>
+        <mapping class="com.digitour.app.model.TossDetailsMaster"/>
+        <mapping class="com.digitour.app.model.TournamentGroupDetailsMaster"/>
+        <mapping class="com.digitour.app.model.TournamentMaster"/>
+        <mapping class="com.digitour.app.model.TournamentMatchFoulMaster"/>
+        <mapping class="com.digitour.app.model.TournamentMatchMaster"/>
+        <mapping class="com.digitour.app.model.TournamentMatchResultMaster"/>
+        <mapping class="com.digitour.app.model.TournamentParticipantMaster"/>
+        <mapping class="com.digitour.app.model.TournamentParticipantPointsMaster"/>
+        <mapping class="com.digitour.app.model.TournamentParticipantTeamMaster"/>
+        <mapping class="com.digitour.app.model.TournamentScheduleDateMaster"/>
+        <mapping class="com.digitour.app.model.TournamentScheduleMaster"/>
     </session-factory>
 </hibernate-configuration>

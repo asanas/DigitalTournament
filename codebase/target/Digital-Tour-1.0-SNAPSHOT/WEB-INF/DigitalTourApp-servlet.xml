@@ -3,22 +3,28 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:p="http://www.springframework.org/schema/p"
    xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
    xsi:schemaLocation="
    http://www.springframework.org/schema/beans     
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+   http://www.springframework.org/schema/mvc
+   http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
    http://www.springframework.org/schema/context 
    http://www.springframework.org/schema/context/spring-context-3.0.xsd
    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
    ">
 
    <context:annotation-config />
-   <context:component-scan base-package="com.helloworld.app.*" />
+   <mvc:annotation-driven/>
+   <context:component-scan base-package="com.digitour.app.*" />
+
    <!-- Load JDBC config properties -->
    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
             <value>classpath:jdbc.properties</value>
         </property>
    </bean>
+
    <!-- Link with datasource -->
    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -26,9 +32,11 @@
           p:username="${jdbc.username}" 
           p:password="${jdbc.password}">
    </bean>
+
    <!-- Link with session factory -->
    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
        <property name="dataSource" ref="dataSource" />
+       <property name="packagesToScan" value="com.digitour.app.model" />
        <property name="configLocation">
            <value>classpath:hibernate.cfg.xml</value>
        </property>
@@ -39,20 +47,22 @@
            </props>
        </property>
    </bean>
-   <bean id="playerProfileDAO" class="com.digitour.app.dao.impl.PlayerProfileMasterDAOImpl">
-       <property name="sessionFactory" ref="sessionFactory" />
+
+   <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">  
+        <property name="sessionFactory" ref="sessionFactory" />  
    </bean>
-   
+
    <tx:annotation-driven />
-    
-    <!-- Hibernate Transaction manager 
-   <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+
+   <!-- Hibernate Transaction manager --> 
+   <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"></property>
-   </bean> -->
+   </bean>
 
    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name="prefix" value="/WEB-INF/view/" />
       <property name="suffix" value=".jsp" />
    </bean>
+   <mvc:default-servlet-handler/>
+   <mvc:resources mapping="/resources/**" location="/static_content/" />
 </beans>
