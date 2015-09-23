@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.digitour.app.manager.DummyManager;
-import com.digitour.app.model.CityMaster;
+import com.digitour.app.model.City;
 import com.digitour.app.ui.component.menu.Menu;
 
 @Controller
@@ -32,8 +32,8 @@ public class HomePageController {
     @RequestMapping(value="/beginQuickMatch", method=RequestMethod.GET)
     public ModelAndView fillDetailsToStratQuickMatch() {
         ModelAndView modelAndView = new ModelAndView("home/quickMatchForm");
-        List<CityMaster> cityList = dummyManager.getAllCities();
-        modelAndView.addObject("cities", cityList);
+        City city = dummyManager.getCityById(1L);
+        modelAndView.addObject("city", city);
         return modelAndView;
     }
     

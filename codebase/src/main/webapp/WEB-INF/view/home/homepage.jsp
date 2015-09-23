@@ -8,7 +8,7 @@
 <script src="${pageContext.request.contextPath}/static_content/js/common/commonUtils.js"></script>
 </head>
 <body>
-<ul class="form-3">
+<ul>
     <c:forEach items="${homePageMenus}" var="mainMenu">
         <li><a href="${pageContext.request.contextPath}/${mainMenu.menuURL}" class="${mainMenu.className}" title="${mainMenu.menuDescription}" onclick="javascript:${mainMenu.jsFunctionCall}">${mainMenu.displayText}</a></li>
     </c:forEach>

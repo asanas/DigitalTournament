@@ -2,13 +2,15 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.CityMaster;
+import com.digitour.app.model.City;
 
 public interface CityMasterDAO {
 
-    /*public void save(CityMaster transientInstance);
+    public void save(City cityMaster);
 
-    public void attachDirty(CityMaster instance);
+    public City getById(Long id);
+
+    /*public void attachDirty(CityMaster instance);
 
     public void attachClean(CityMaster instance);
 
@@ -20,5 +22,5 @@ public interface CityMasterDAO {
 
     public List<CityMaster> findByExample(CityMaster instance);*/
     
-    public List<CityMaster> getAll();
+    public List<City> getAll();
 }

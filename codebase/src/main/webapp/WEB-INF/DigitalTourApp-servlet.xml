@@ -24,7 +24,7 @@
             <value>classpath:jdbc.properties</value>
         </property>
    </bean>
-   
+
    <!-- Link with datasource -->
    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="${jdbc.driverClassName}"
@@ -32,7 +32,7 @@
           p:username="${jdbc.username}" 
           p:password="${jdbc.password}">
    </bean>
-   
+
    <!-- Link with session factory -->
    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
        <property name="dataSource" ref="dataSource" />
@@ -52,12 +52,11 @@
    </bean>
 
    <tx:annotation-driven />
-    
-    <!-- Hibernate Transaction manager 
-   <bean id="transactionManager"
-        class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+
+   <!-- Hibernate Transaction manager --> 
+   <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"></property>
-   </bean> -->
+   </bean>
 
    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <property name="prefix" value="/WEB-INF/view/" />

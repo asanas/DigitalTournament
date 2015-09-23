@@ -11,7 +11,6 @@ com\digitour\app\model\TossDetailsMaster.class
 com\digitour\app\dao\TossDetailsMasterDAO.class
 com\digitour\app\dao\impl\RoleMasterDAOImpl.class
 com\digitour\app\dao\GroupMasterDAO.class
-com\digitour\app\model\CityMaster.class
 com\digitour\app\dao\impl\MajorSkillDAOImpl.class
 com\helloworld\app\controller\HelloWorldController.class
 com\digitour\app\dao\TournamentParticipantMasterDAO.class
@@ -28,6 +27,7 @@ com\digitour\app\model\TournamentScheduleDateMaster.class
 com\digitour\app\dao\impl\TournamentParticipantPointsMasterDAOImpl.class
 com\digitour\app\dao\impl\TournamentParticipantTeamMasterDAOImpl.class
 com\digitour\app\dao\StateMasterDAO.class
+com\digitour\app\model\City.class
 com\digitour\app\dao\impl\TournamentGroupDetailsMasterDAOImpl.class
 com\digitour\app\model\TournamentParticipantMaster.class
 com\digitour\app\model\GroupMaster.class

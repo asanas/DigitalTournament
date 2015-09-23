@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.CityMasterDAO;
 import com.digitour.app.manager.DummyManager;
-import com.digitour.app.model.CityMaster;
+import com.digitour.app.model.City;
 
 @Service
 public class DummyManagerImpl implements DummyManager
@@ -17,8 +17,12 @@ public class DummyManagerImpl implements DummyManager
     CityMasterDAO cityMasterDAO;
     
     @Override
-    public List<CityMaster> getAllCities() {
+    public List<City> getAllCities() {
         return cityMasterDAO.getAll();
     }
 
+    @Override
+    public City getCityById(Long id) {
+        return cityMasterDAO.getById(id);
+    }
 }

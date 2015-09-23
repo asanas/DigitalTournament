@@ -6,33 +6,19 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.stereotype.Repository;
 
-import com.digitour.app.dao.CityMasterDAO;
 import com.digitour.app.model.City;
 
-@Repository
-public class CityMasterDAOImpl implements CityMasterDAO{
+public class CityMasterDAOImplTests {
 
-    private static final Log log = LogFactory.getLog(CityMasterDAOImpl.class);
+    private static final Log log = LogFactory.getLog(CityMasterDAOImplTests.class);
 
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
-    @Override
     public List<City> getAll() {
         log.debug("Loading all city names");
         return hibernateTemplate.loadAll(City.class);
     }
-
-    @Override
-    public void save(City cityMaster) {
-        
-    }
-
-    @Override
-    public City getById(Long id) {
-        City cityMaster = hibernateTemplate.load(City.class, id);
-        return cityMaster;
-    }
+    
 }

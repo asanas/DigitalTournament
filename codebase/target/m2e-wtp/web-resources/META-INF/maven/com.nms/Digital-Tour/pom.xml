@@ -16,6 +16,7 @@
         <jsp.version>2.3.1</jsp.version>
         <mysql.connector.version>5.1.30</mysql.connector.version>
         <hibernate.version>4.3.5.Final</hibernate.version>
+        <junit.version>4.11</junit.version>
     </properties>
     
     <dependencies>
@@ -88,6 +89,18 @@
             <groupId>com.fasterxml</groupId>
             <artifactId>classmate</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.8.8</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     

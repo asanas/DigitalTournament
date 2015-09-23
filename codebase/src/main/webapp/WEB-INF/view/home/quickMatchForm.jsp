@@ -8,10 +8,6 @@
 </head>
 <body>
 <h1>Fill in below details to start quick match</h1>
-<ul>
-    <c:forEach items="${cities}" var="cityName">
-        <li>cityName</li>
-    </c:forEach>
-</ul>
+${city}
 </body>
 </html>
