@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.TournamentScheduleDateMaster;
+import com.digitour.app.model.example.TournamentScheduleDateMaster;
 
 public interface TournamentScheduleDateMasterDAO {
 

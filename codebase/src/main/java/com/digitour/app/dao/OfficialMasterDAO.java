@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.OfficialMaster;
+import com.digitour.app.model.example.OfficialMaster;
 
 public interface OfficialMasterDAO {
 

@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.TournamentParticipantTeamMaster;
+import com.digitour.app.model.example.TournamentParticipantTeamMaster;
 
 public interface TournamentParticipantTeamMasterDAO {
 

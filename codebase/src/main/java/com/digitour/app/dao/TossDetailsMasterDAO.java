@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.TossDetailsMaster;
+import com.digitour.app.model.example.TossDetailsMaster;
 
 public interface TossDetailsMasterDAO {
 

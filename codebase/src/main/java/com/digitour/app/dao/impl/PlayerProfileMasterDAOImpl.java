@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 
 import static org.hibernate.criterion.Example.create;
 
-import com.digitour.app.model.PlayerProfileMaster;
+import com.digitour.app.model.example.PlayerProfileMaster;
 
 public class PlayerProfileMasterDAOImpl {
 
