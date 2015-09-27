@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.TeamMaster;
+import com.digitour.app.db.model.Team;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -34,7 +34,7 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public void persist(TeamMaster transientInstance) {
+    public void persist(Team transientInstance) {
         log.debug("persisting TeamMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -45,7 +45,7 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public void attachDirty(TeamMaster instance) {
+    public void attachDirty(Team instance) {
         log.debug("attaching dirty TeamMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -56,7 +56,7 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public void attachClean(TeamMaster instance) {
+    public void attachClean(Team instance) {
         log.debug("attaching clean TeamMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -67,7 +67,7 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public void delete(TeamMaster persistentInstance) {
+    public void delete(Team persistentInstance) {
         log.debug("deleting TeamMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -78,10 +78,10 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public TeamMaster merge(TeamMaster detachedInstance) {
+    public Team merge(Team detachedInstance) {
         log.debug("merging TeamMaster instance");
         try {
-            TeamMaster result = (TeamMaster) sessionFactory.getCurrentSession().merge(detachedInstance);
+            Team result = (Team) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (RuntimeException re) {
@@ -90,10 +90,10 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public TeamMaster findById(java.lang.Long id) {
+    public Team findById(java.lang.Long id) {
         log.debug("getting TeamMaster instance with id: " + id);
         try {
-            TeamMaster instance = (TeamMaster) sessionFactory.getCurrentSession().get("TeamMaster", id);
+            Team instance = (Team) sessionFactory.getCurrentSession().get("TeamMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -106,10 +106,10 @@ public class TeamMasterDAOImpl {
         }
     }
 
-    public List<TeamMaster> findByExample(TeamMaster instance) {
+    public List<Team> findByExample(Team instance) {
         log.debug("finding TeamMaster instance by example");
         try {
-            List<TeamMaster> results = (List<TeamMaster>) sessionFactory.getCurrentSession()
+            List<Team> results = (List<Team>) sessionFactory.getCurrentSession()
                     .createCriteria("TeamMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

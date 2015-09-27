@@ -15,12 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.Tournament;
+
 @Entity
 @Table(name = "tournament_schedule_date_master")
 public class TournamentScheduleDateMaster implements java.io.Serializable {
 
 	private Long tournamentScheduleId;
-	private TournamentMaster tournamentMaster;
+	private Tournament tournamentMaster;
 	private Date tournamentDayDate;
 	private String sessionTime;
 	private int dayNumber;
@@ -29,7 +31,7 @@ public class TournamentScheduleDateMaster implements java.io.Serializable {
 	public TournamentScheduleDateMaster() {
 	}
 
-	public TournamentScheduleDateMaster(TournamentMaster tournamentMaster, Date tournamentDayDate, String sessionTime,
+	public TournamentScheduleDateMaster(Tournament tournamentMaster, Date tournamentDayDate, String sessionTime,
 			int dayNumber) {
 		this.tournamentMaster = tournamentMaster;
 		this.tournamentDayDate = tournamentDayDate;
@@ -37,7 +39,7 @@ public class TournamentScheduleDateMaster implements java.io.Serializable {
 		this.dayNumber = dayNumber;
 	}
 
-	public TournamentScheduleDateMaster(TournamentMaster tournamentMaster, Date tournamentDayDate, String sessionTime,
+	public TournamentScheduleDateMaster(Tournament tournamentMaster, Date tournamentDayDate, String sessionTime,
 			int dayNumber, Set<TournamentScheduleMaster> tournamentScheduleMasters) {
 		this.tournamentMaster = tournamentMaster;
 		this.tournamentDayDate = tournamentDayDate;
@@ -59,11 +61,11 @@ public class TournamentScheduleDateMaster implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "tournament_id")
-	public TournamentMaster getTournamentMaster() {
+	public Tournament getTournamentMaster() {
 		return this.tournamentMaster;
 	}
 
-	public void setTournamentMaster(TournamentMaster tournamentMaster) {
+	public void setTournamentMaster(Tournament tournamentMaster) {
 		this.tournamentMaster = tournamentMaster;
 	}
 

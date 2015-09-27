@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.TournamentScheduleDateMaster;
+import com.digitour.app.model.TournamentScheduleDateMaster;
 
 import static org.hibernate.criterion.Example.create;
 

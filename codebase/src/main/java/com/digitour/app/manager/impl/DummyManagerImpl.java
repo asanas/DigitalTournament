@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.CityMasterDAO;
+import com.digitour.app.db.model.City;
 import com.digitour.app.manager.DummyManager;
-import com.digitour.app.model.City;
+import com.digitour.app.model.example.Category;
 
 @Service
 public class DummyManagerImpl implements DummyManager
@@ -25,4 +26,9 @@ public class DummyManagerImpl implements DummyManager
     public City getCityById(Long id) {
         return cityMasterDAO.getById(id);
     }
+
+	@Override
+	public List<Category> getAllCategories() {
+		return cityMasterDAO.getAllCategories();
+	}
 }

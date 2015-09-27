@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.TournamentParticipantMaster;
+import com.digitour.app.db.model.TournamentParticipant;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -34,7 +34,7 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public void persist(TournamentParticipantMaster transientInstance) {
+    public void persist(TournamentParticipant transientInstance) {
         log.debug("persisting TournamentParticipantMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -45,7 +45,7 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public void attachDirty(TournamentParticipantMaster instance) {
+    public void attachDirty(TournamentParticipant instance) {
         log.debug("attaching dirty TournamentParticipantMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -56,7 +56,7 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public void attachClean(TournamentParticipantMaster instance) {
+    public void attachClean(TournamentParticipant instance) {
         log.debug("attaching clean TournamentParticipantMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -67,7 +67,7 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public void delete(TournamentParticipantMaster persistentInstance) {
+    public void delete(TournamentParticipant persistentInstance) {
         log.debug("deleting TournamentParticipantMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -78,10 +78,10 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public TournamentParticipantMaster merge(TournamentParticipantMaster detachedInstance) {
+    public TournamentParticipant merge(TournamentParticipant detachedInstance) {
         log.debug("merging TournamentParticipantMaster instance");
         try {
-            TournamentParticipantMaster result = (TournamentParticipantMaster) sessionFactory.getCurrentSession()
+            TournamentParticipant result = (TournamentParticipant) sessionFactory.getCurrentSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -91,10 +91,10 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public TournamentParticipantMaster findById(java.lang.Long id) {
+    public TournamentParticipant findById(java.lang.Long id) {
         log.debug("getting TournamentParticipantMaster instance with id: " + id);
         try {
-            TournamentParticipantMaster instance = (TournamentParticipantMaster) sessionFactory.getCurrentSession()
+            TournamentParticipant instance = (TournamentParticipant) sessionFactory.getCurrentSession()
                     .get("TournamentParticipantMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
@@ -108,10 +108,10 @@ public class TournamentParticipantMasterDAOImpl {
         }
     }
 
-    public List<TournamentParticipantMaster> findByExample(TournamentParticipantMaster instance) {
+    public List<TournamentParticipant> findByExample(TournamentParticipant instance) {
         log.debug("finding TournamentParticipantMaster instance by example");
         try {
-            List<TournamentParticipantMaster> results = (List<TournamentParticipantMaster>) sessionFactory
+            List<TournamentParticipant> results = (List<TournamentParticipant>) sessionFactory
                     .getCurrentSession().createCriteria("TournamentParticipantMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

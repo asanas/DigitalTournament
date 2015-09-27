@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.TournamentParticipant;
+
 // TODO: Update this according to table
 @Entity
 @Table(name = "tournament_match_result_master")
@@ -17,7 +19,7 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 
 	private Long matchResultId;
 	private TournamentMatchMaster tournamentMatchMaster;
-	private TournamentParticipantMaster tournamentParticipantMaster;
+	private TournamentParticipant tournamentParticipantMaster;
 	private TournamentParticipantTeamMaster tournamentParticipantTeamMaster;
 	private long wonByPoints;
 	private Date wonByTime;
@@ -37,7 +39,7 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 	}
 
 	public TournamentMatchResultMaster(TournamentMatchMaster tournamentMatchMaster,
-			TournamentParticipantMaster tournamentParticipantMaster,
+			TournamentParticipant tournamentParticipantMaster,
 			TournamentParticipantTeamMaster tournamentParticipantTeamMaster, long wonByPoints, Date wonByTime,
 			String resultDetails) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
@@ -71,11 +73,11 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 
 	@ManyToOne
     @JoinColumn(name = "tour_participant_id")
-	public TournamentParticipantMaster getTournamentParticipantMaster() {
+	public TournamentParticipant getTournamentParticipantMaster() {
 		return this.tournamentParticipantMaster;
 	}
 
-	public void setTournamentParticipantMaster(TournamentParticipantMaster tournamentParticipantMaster) {
+	public void setTournamentParticipantMaster(TournamentParticipant tournamentParticipantMaster) {
 		this.tournamentParticipantMaster = tournamentParticipantMaster;
 	}
 

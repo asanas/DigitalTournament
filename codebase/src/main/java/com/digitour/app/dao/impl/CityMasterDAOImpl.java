@@ -9,7 +9,8 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.digitour.app.dao.CityMasterDAO;
-import com.digitour.app.model.City;
+import com.digitour.app.db.model.City;
+import com.digitour.app.model.example.Category;
 
 @Repository
 public class CityMasterDAOImpl implements CityMasterDAO{
@@ -35,4 +36,9 @@ public class CityMasterDAOImpl implements CityMasterDAO{
         City cityMaster = hibernateTemplate.load(City.class, id);
         return cityMaster;
     }
+
+	@Override
+	public List<Category> getAllCategories() {
+		return hibernateTemplate.loadAll(Category.class);
+	}
 }

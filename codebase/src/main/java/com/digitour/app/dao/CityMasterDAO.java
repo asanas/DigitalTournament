@@ -2,7 +2,8 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.City;
+import com.digitour.app.db.model.City;
+import com.digitour.app.model.example.Category;
 
 public interface CityMasterDAO {
 
@@ -23,4 +24,7 @@ public interface CityMasterDAO {
     public List<CityMaster> findByExample(CityMaster instance);*/
     
     public List<City> getAll();
+    
+    public List<Category> getAllCategories();
+
 }

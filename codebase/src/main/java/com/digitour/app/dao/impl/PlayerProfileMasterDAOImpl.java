@@ -7,9 +7,9 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import static org.hibernate.criterion.Example.create;
+import com.digitour.app.db.model.PlayerProfile;
 
-import com.digitour.app.model.example.PlayerProfileMaster;
+import static org.hibernate.criterion.Example.create;
 
 public class PlayerProfileMasterDAOImpl {
 
@@ -21,7 +21,7 @@ public class PlayerProfileMasterDAOImpl {
         this.sessionFactory = sessionFactory;
     }
 
-    public void persist(PlayerProfileMaster transientInstance) {
+    public void persist(PlayerProfile transientInstance) {
         log.debug("persisting PlayerProfileMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -32,7 +32,7 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public void attachDirty(PlayerProfileMaster instance) {
+    public void attachDirty(PlayerProfile instance) {
         log.debug("attaching dirty PlayerProfileMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -43,7 +43,7 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public void attachClean(PlayerProfileMaster instance) {
+    public void attachClean(PlayerProfile instance) {
         log.debug("attaching clean PlayerProfileMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -54,7 +54,7 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public void delete(PlayerProfileMaster persistentInstance) {
+    public void delete(PlayerProfile persistentInstance) {
         log.debug("deleting PlayerProfileMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -65,10 +65,10 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public PlayerProfileMaster merge(PlayerProfileMaster detachedInstance) {
+    public PlayerProfile merge(PlayerProfile detachedInstance) {
         log.debug("merging PlayerProfileMaster instance");
         try {
-            PlayerProfileMaster result = (PlayerProfileMaster) sessionFactory.getCurrentSession()
+            PlayerProfile result = (PlayerProfile) sessionFactory.getCurrentSession()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -78,10 +78,10 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public PlayerProfileMaster findById(java.lang.Long id) {
+    public PlayerProfile findById(java.lang.Long id) {
         log.debug("getting PlayerProfileMaster instance with id: " + id);
         try {
-            PlayerProfileMaster instance = (PlayerProfileMaster) sessionFactory.getCurrentSession()
+            PlayerProfile instance = (PlayerProfile) sessionFactory.getCurrentSession()
                     .get("PlayerProfileMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
@@ -95,10 +95,10 @@ public class PlayerProfileMasterDAOImpl {
         }
     }
 
-    public List<PlayerProfileMaster> findByExample(PlayerProfileMaster instance) {
+    public List<PlayerProfile> findByExample(PlayerProfile instance) {
         log.debug("finding PlayerProfileMaster instance by example");
         try {
-            List<PlayerProfileMaster> results = (List<PlayerProfileMaster>) sessionFactory.getCurrentSession()
+            List<PlayerProfile> results = (List<PlayerProfile>) sessionFactory.getCurrentSession()
                     .createCriteria("PlayerProfileMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

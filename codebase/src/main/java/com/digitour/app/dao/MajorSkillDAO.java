@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.example.MajorSkill;
+import com.digitour.app.model.MajorSkill;
 
 public interface MajorSkillDAO {
 

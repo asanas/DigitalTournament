@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.PlayerProfile;
+
 @Entity
 @Table(name = "role_master")
 public class RoleMaster implements java.io.Serializable {
 
 	private Long roleId;
 	private String roleName;
-	private Set<PlayerProfileMaster> playerProfileMasters = new HashSet<PlayerProfileMaster>(0);
+	private Set<PlayerProfile> playerProfileMasters = new HashSet<PlayerProfile>(0);
 
 	public RoleMaster() {
 	}
@@ -26,7 +28,7 @@ public class RoleMaster implements java.io.Serializable {
 		this.roleName = roleName;
 	}
 
-	public RoleMaster(String roleName, Set<PlayerProfileMaster> playerProfileMasters) {
+	public RoleMaster(String roleName, Set<PlayerProfile> playerProfileMasters) {
 		this.roleName = roleName;
 		this.playerProfileMasters = playerProfileMasters;
 	}
@@ -52,11 +54,11 @@ public class RoleMaster implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role_master")
-	public Set<PlayerProfileMaster> getPlayerProfileMasters() {
+	public Set<PlayerProfile> getPlayerProfileMasters() {
 		return this.playerProfileMasters;
 	}
 
-	public void setPlayerProfileMasters(Set<PlayerProfileMaster> playerProfileMasters) {
+	public void setPlayerProfileMasters(Set<PlayerProfile> playerProfileMasters) {
 		this.playerProfileMasters = playerProfileMasters;
 	}
 

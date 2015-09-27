@@ -45,7 +45,7 @@
                <prop key="hibernate.show_sql">true</prop>
            </props>
        </property>
-       <property name="packagesToScan" value="com.digitour.app.model" />
+       <property name="packagesToScan" value="com.digitour.app.db.model" />
    </bean>
 
    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">  

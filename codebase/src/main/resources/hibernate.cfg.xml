@@ -12,27 +12,27 @@
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         
         <!-- Mapping annoted classes -->
-        <mapping class="com.digitour.app.model.CountryMaster"/>
+        <!--  
         <mapping class="com.digitour.app.model.FoulMaster"/>
-        <mapping class="com.digitour.app.model.GroupMaster"/>
-        <mapping class="com.digitour.app.model.MajorSkill"/>
         <mapping class="com.digitour.app.model.MatchPointMaster"/>
-        <mapping class="com.digitour.app.model.OfficialMaster"/>
-        <mapping class="com.digitour.app.model.PlayerProfileMaster"/>
-        <mapping class="com.digitour.app.model.RoleMaster"/>
-        <mapping class="com.digitour.app.model.StateMaster"/>
         <mapping class="com.digitour.app.model.SymbolMaster"/>
-        <mapping class="com.digitour.app.model.TeamMaster"/>
         <mapping class="com.digitour.app.model.TossDetailsMaster"/>
-        <mapping class="com.digitour.app.model.TournamentGroupDetailsMaster"/>
-        <mapping class="com.digitour.app.model.TournamentMaster"/>
         <mapping class="com.digitour.app.model.TournamentMatchFoulMaster"/>
         <mapping class="com.digitour.app.model.TournamentMatchMaster"/>
         <mapping class="com.digitour.app.model.TournamentMatchResultMaster"/>
-        <mapping class="com.digitour.app.model.TournamentParticipantMaster"/>
         <mapping class="com.digitour.app.model.TournamentParticipantPointsMaster"/>
         <mapping class="com.digitour.app.model.TournamentParticipantTeamMaster"/>
         <mapping class="com.digitour.app.model.TournamentScheduleDateMaster"/>
-        <mapping class="com.digitour.app.model.TournamentScheduleMaster"/>
+        <mapping class="com.digitour.app.model.TournamentScheduleMaster"/> -->
+
+        <mapping class="com.digitour.app.db.model.City"/>
+        <mapping class="com.digitour.app.db.model.State"/>
+        <mapping class="com.digitour.app.db.model.PlayerProfile"/>
+        <mapping class="com.digitour.app.db.model.Team"/>
+        <mapping class="com.digitour.app.db.model.TournamentOfficial"/>
+        <mapping class="com.digitour.app.db.model.Tournament"/>
+        <mapping class="com.digitour.app.db.model.Group"/>
+        <mapping class="com.digitour.app.db.model.TournamentParticipant"/>
+        
     </session-factory>
 </hibernate-configuration>

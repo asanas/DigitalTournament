@@ -13,18 +13,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.TournamentOfficial;
+import com.digitour.app.db.model.TournamentParticipant;
+
 @Entity
 @Table(name = "tournament_match_master")
 public class TournamentMatchMaster implements java.io.Serializable {
 
 	private Long tournamentMatchId;
-	private OfficialMaster officialMasterByFkMatchRefree;
-	private OfficialMaster officialMasterByFkUmpire2;
-	private OfficialMaster officialMasterByFkUmpire1;
-	private OfficialMaster officialMasterByFkScorer2;
-	private OfficialMaster officialMasterByFkScorer1;
-	private TournamentParticipantMaster tournamentParticipantMasterByFkTeam2Id;
-	private TournamentParticipantMaster tournamentParticipantMasterByFkTeam1Id;
+	private TournamentOfficial officialMasterByFkMatchRefree;
+	private TournamentOfficial officialMasterByFkUmpire2;
+	private TournamentOfficial officialMasterByFkUmpire1;
+	private TournamentOfficial officialMasterByFkScorer2;
+	private TournamentOfficial officialMasterByFkScorer1;
+	private TournamentParticipant tournamentParticipantMasterByFkTeam2Id;
+	private TournamentParticipant tournamentParticipantMasterByFkTeam1Id;
 	private TournamentScheduleMaster tournamentScheduleMaster;
 	private long matchNumber;
 	private String matchDetails;
@@ -37,11 +40,11 @@ public class TournamentMatchMaster implements java.io.Serializable {
 	public TournamentMatchMaster() {
 	}
 
-	public TournamentMatchMaster(OfficialMaster officialMasterByFkMatchRefree, OfficialMaster officialMasterByFkUmpire2,
-			OfficialMaster officialMasterByFkUmpire1, OfficialMaster officialMasterByFkScorer2,
-			OfficialMaster officialMasterByFkScorer1,
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam2Id,
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam1Id,
+	public TournamentMatchMaster(TournamentOfficial officialMasterByFkMatchRefree, TournamentOfficial officialMasterByFkUmpire2,
+			TournamentOfficial officialMasterByFkUmpire1, TournamentOfficial officialMasterByFkScorer2,
+			TournamentOfficial officialMasterByFkScorer1,
+			TournamentParticipant tournamentParticipantMasterByFkTeam2Id,
+			TournamentParticipant tournamentParticipantMasterByFkTeam1Id,
 			TournamentScheduleMaster tournamentScheduleMaster, long matchNumber, String matchDetails) {
 		this.officialMasterByFkMatchRefree = officialMasterByFkMatchRefree;
 		this.officialMasterByFkUmpire2 = officialMasterByFkUmpire2;
@@ -55,11 +58,11 @@ public class TournamentMatchMaster implements java.io.Serializable {
 		this.matchDetails = matchDetails;
 	}
 
-	public TournamentMatchMaster(OfficialMaster officialMasterByFkMatchRefree, OfficialMaster officialMasterByFkUmpire2,
-			OfficialMaster officialMasterByFkUmpire1, OfficialMaster officialMasterByFkScorer2,
-			OfficialMaster officialMasterByFkScorer1,
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam2Id,
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam1Id,
+	public TournamentMatchMaster(TournamentOfficial officialMasterByFkMatchRefree, TournamentOfficial officialMasterByFkUmpire2,
+			TournamentOfficial officialMasterByFkUmpire1, TournamentOfficial officialMasterByFkScorer2,
+			TournamentOfficial officialMasterByFkScorer1,
+			TournamentParticipant tournamentParticipantMasterByFkTeam2Id,
+			TournamentParticipant tournamentParticipantMasterByFkTeam1Id,
 			TournamentScheduleMaster tournamentScheduleMaster, long matchNumber, String matchDetails,
 			Set<MatchPointMaster> matchPointMasters, Set<TossDetailsMaster> tossDetailsMasters,
 			Set<TournamentScheduleMaster> tournamentScheduleMasters,
@@ -95,73 +98,73 @@ public class TournamentMatchMaster implements java.io.Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "official_profile_id")
-	public OfficialMaster getOfficialMasterByFkMatchRefree() {
+	public TournamentOfficial getOfficialMasterByFkMatchRefree() {
 		return this.officialMasterByFkMatchRefree;
 	}
 
-	public void setOfficialMasterByFkMatchRefree(OfficialMaster officialMasterByFkMatchRefree) {
+	public void setOfficialMasterByFkMatchRefree(TournamentOfficial officialMasterByFkMatchRefree) {
 		this.officialMasterByFkMatchRefree = officialMasterByFkMatchRefree;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "official_profile_id")
-	public OfficialMaster getOfficialMasterByFkUmpire2() {
+	public TournamentOfficial getOfficialMasterByFkUmpire2() {
 		return this.officialMasterByFkUmpire2;
 	}
 
-	public void setOfficialMasterByFkUmpire2(OfficialMaster officialMasterByFkUmpire2) {
+	public void setOfficialMasterByFkUmpire2(TournamentOfficial officialMasterByFkUmpire2) {
 		this.officialMasterByFkUmpire2 = officialMasterByFkUmpire2;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "official_profile_id")
-	public OfficialMaster getOfficialMasterByFkUmpire1() {
+	public TournamentOfficial getOfficialMasterByFkUmpire1() {
 		return this.officialMasterByFkUmpire1;
 	}
 
-	public void setOfficialMasterByFkUmpire1(OfficialMaster officialMasterByFkUmpire1) {
+	public void setOfficialMasterByFkUmpire1(TournamentOfficial officialMasterByFkUmpire1) {
 		this.officialMasterByFkUmpire1 = officialMasterByFkUmpire1;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "official_profile_id")
-	public OfficialMaster getOfficialMasterByFkScorer2() {
+	public TournamentOfficial getOfficialMasterByFkScorer2() {
 		return this.officialMasterByFkScorer2;
 	}
 
-	public void setOfficialMasterByFkScorer2(OfficialMaster officialMasterByFkScorer2) {
+	public void setOfficialMasterByFkScorer2(TournamentOfficial officialMasterByFkScorer2) {
 		this.officialMasterByFkScorer2 = officialMasterByFkScorer2;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "official_profile_id")
-	public OfficialMaster getOfficialMasterByFkScorer1() {
+	public TournamentOfficial getOfficialMasterByFkScorer1() {
 		return this.officialMasterByFkScorer1;
 	}
 
-	public void setOfficialMasterByFkScorer1(OfficialMaster officialMasterByFkScorer1) {
+	public void setOfficialMasterByFkScorer1(TournamentOfficial officialMasterByFkScorer1) {
 		this.officialMasterByFkScorer1 = officialMasterByFkScorer1;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "tour_participant_id")
-	public TournamentParticipantMaster getTournamentParticipantMasterByFkTeam2Id() {
+	public TournamentParticipant getTournamentParticipantMasterByFkTeam2Id() {
 		return this.tournamentParticipantMasterByFkTeam2Id;
 	}
 
 	public void setTournamentParticipantMasterByFkTeam2Id(
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam2Id) {
+			TournamentParticipant tournamentParticipantMasterByFkTeam2Id) {
 		this.tournamentParticipantMasterByFkTeam2Id = tournamentParticipantMasterByFkTeam2Id;
 	}
 
 	@ManyToOne
     @JoinColumn(name = "tour_participant_id")
-	public TournamentParticipantMaster getTournamentParticipantMasterByFkTeam1Id() {
+	public TournamentParticipant getTournamentParticipantMasterByFkTeam1Id() {
 		return this.tournamentParticipantMasterByFkTeam1Id;
 	}
 
 	public void setTournamentParticipantMasterByFkTeam1Id(
-			TournamentParticipantMaster tournamentParticipantMasterByFkTeam1Id) {
+			TournamentParticipant tournamentParticipantMasterByFkTeam1Id) {
 		this.tournamentParticipantMasterByFkTeam1Id = tournamentParticipantMasterByFkTeam1Id;
 	}
 

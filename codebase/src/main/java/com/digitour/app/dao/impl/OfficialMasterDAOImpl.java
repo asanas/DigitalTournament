@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.OfficialMaster;
+import com.digitour.app.db.model.TournamentOfficial;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -34,7 +34,7 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public void persist(OfficialMaster transientInstance) {
+    public void persist(TournamentOfficial transientInstance) {
         log.debug("persisting OfficialMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -45,7 +45,7 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public void attachDirty(OfficialMaster instance) {
+    public void attachDirty(TournamentOfficial instance) {
         log.debug("attaching dirty OfficialMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -56,7 +56,7 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public void attachClean(OfficialMaster instance) {
+    public void attachClean(TournamentOfficial instance) {
         log.debug("attaching clean OfficialMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -67,7 +67,7 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public void delete(OfficialMaster persistentInstance) {
+    public void delete(TournamentOfficial persistentInstance) {
         log.debug("deleting OfficialMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -78,10 +78,10 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public OfficialMaster merge(OfficialMaster detachedInstance) {
+    public TournamentOfficial merge(TournamentOfficial detachedInstance) {
         log.debug("merging OfficialMaster instance");
         try {
-            OfficialMaster result = (OfficialMaster) sessionFactory.getCurrentSession().merge(detachedInstance);
+            TournamentOfficial result = (TournamentOfficial) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (RuntimeException re) {
@@ -90,10 +90,10 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public OfficialMaster findById(java.lang.Long id) {
+    public TournamentOfficial findById(java.lang.Long id) {
         log.debug("getting OfficialMaster instance with id: " + id);
         try {
-            OfficialMaster instance = (OfficialMaster) sessionFactory.getCurrentSession().get("OfficialMaster", id);
+            TournamentOfficial instance = (TournamentOfficial) sessionFactory.getCurrentSession().get("OfficialMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -106,10 +106,10 @@ public class OfficialMasterDAOImpl {
         }
     }
 
-    public List<OfficialMaster> findByExample(OfficialMaster instance) {
+    public List<TournamentOfficial> findByExample(TournamentOfficial instance) {
         log.debug("finding OfficialMaster instance by example");
         try {
-            List<OfficialMaster> results = (List<OfficialMaster>) sessionFactory.getCurrentSession()
+            List<TournamentOfficial> results = (List<TournamentOfficial>) sessionFactory.getCurrentSession()
                     .createCriteria("OfficialMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

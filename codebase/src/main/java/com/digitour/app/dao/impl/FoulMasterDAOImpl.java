@@ -1,6 +1,8 @@
 package com.digitour.app.dao.impl;
 // Generated 19 Sep, 2015 10:42:10 PM by Hibernate Tools 4.3.1
 
+import static org.hibernate.criterion.Example.create;
+
 import java.util.List;
 
 import javax.naming.InitialContext;
@@ -10,9 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.FoulMaster;
-
-import static org.hibernate.criterion.Example.create;
+import com.digitour.app.model.FoulMaster;
 
 /**
  * Home object for domain model class FoulMaster.

@@ -14,13 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.PlayerProfile;
+import com.digitour.app.db.model.TournamentParticipant;
+
 @Entity
 @Table(name = "tournament_participant_team_master")
 public class TournamentParticipantTeamMaster implements java.io.Serializable {
 
 	private Long tourPTId;
-	private PlayerProfileMaster playerProfileMaster;
-	private TournamentParticipantMaster tournamentParticipantMaster;
+	private PlayerProfile playerProfileMaster;
+	private TournamentParticipant tournamentParticipantMaster;
 	private long playerChaseNumber;
 	private Set<TournamentMatchResultMaster> tournamentMatchResultMasters = new HashSet<TournamentMatchResultMaster>(0);
 	private Set<MatchPointMaster> matchPointMastersForFkDefenceId = new HashSet<MatchPointMaster>(0);
@@ -30,15 +33,15 @@ public class TournamentParticipantTeamMaster implements java.io.Serializable {
 	public TournamentParticipantTeamMaster() {
 	}
 
-	public TournamentParticipantTeamMaster(PlayerProfileMaster playerProfileMaster,
-			TournamentParticipantMaster tournamentParticipantMaster, long playerChaseNumber) {
+	public TournamentParticipantTeamMaster(PlayerProfile playerProfileMaster,
+			TournamentParticipant tournamentParticipantMaster, long playerChaseNumber) {
 		this.playerProfileMaster = playerProfileMaster;
 		this.tournamentParticipantMaster = tournamentParticipantMaster;
 		this.playerChaseNumber = playerChaseNumber;
 	}
 
-	public TournamentParticipantTeamMaster(PlayerProfileMaster playerProfileMaster,
-			TournamentParticipantMaster tournamentParticipantMaster, long playerChaseNumber,
+	public TournamentParticipantTeamMaster(PlayerProfile playerProfileMaster,
+			TournamentParticipant tournamentParticipantMaster, long playerChaseNumber,
 			Set<TournamentMatchResultMaster> tournamentMatchResultMasters,
 			Set<MatchPointMaster> matchPointMastersForFkDefenceId,
 			Set<MatchPointMaster> matchPointMastersForFkAttackerId,
@@ -65,21 +68,21 @@ public class TournamentParticipantTeamMaster implements java.io.Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="player_profile_id", nullable=false)
-	public PlayerProfileMaster getPlayerProfileMaster() {
+	public PlayerProfile getPlayerProfileMaster() {
 		return this.playerProfileMaster;
 	}
 
-	public void setPlayerProfileMaster(PlayerProfileMaster playerProfileMaster) {
+	public void setPlayerProfileMaster(PlayerProfile playerProfileMaster) {
 		this.playerProfileMaster = playerProfileMaster;
 	}
 
 	@ManyToOne
 	@JoinColumn(name = "tour_participant_id")
-	public TournamentParticipantMaster getTournamentParticipantMaster() {
+	public TournamentParticipant getTournamentParticipantMaster() {
 		return this.tournamentParticipantMaster;
 	}
 
-	public void setTournamentParticipantMaster(TournamentParticipantMaster tournamentParticipantMaster) {
+	public void setTournamentParticipantMaster(TournamentParticipant tournamentParticipantMaster) {
 		this.tournamentParticipantMaster = tournamentParticipantMaster;
 	}
 

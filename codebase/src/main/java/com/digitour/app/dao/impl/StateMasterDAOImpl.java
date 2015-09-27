@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.StateMaster;
+import com.digitour.app.db.model.State;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -32,7 +32,7 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public void persist(StateMaster transientInstance) {
+    public void persist(State transientInstance) {
         log.debug("persisting StateMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -43,7 +43,7 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public void attachDirty(StateMaster instance) {
+    public void attachDirty(State instance) {
         log.debug("attaching dirty StateMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -54,7 +54,7 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public void attachClean(StateMaster instance) {
+    public void attachClean(State instance) {
         log.debug("attaching clean StateMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -65,7 +65,7 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public void delete(StateMaster persistentInstance) {
+    public void delete(State persistentInstance) {
         log.debug("deleting StateMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -76,10 +76,10 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public StateMaster merge(StateMaster detachedInstance) {
+    public State merge(State detachedInstance) {
         log.debug("merging StateMaster instance");
         try {
-            StateMaster result = (StateMaster) sessionFactory.getCurrentSession().merge(detachedInstance);
+            State result = (State) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (RuntimeException re) {
@@ -88,10 +88,10 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public StateMaster findById(java.lang.Long id) {
+    public State findById(java.lang.Long id) {
         log.debug("getting StateMaster instance with id: " + id);
         try {
-            StateMaster instance = (StateMaster) sessionFactory.getCurrentSession().get("StateMaster", id);
+            State instance = (State) sessionFactory.getCurrentSession().get("StateMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -104,10 +104,10 @@ public class StateMasterDAOImpl {
         }
     }
 
-    public List<StateMaster> findByExample(StateMaster instance) {
+    public List<State> findByExample(State instance) {
         log.debug("finding StateMaster instance by example");
         try {
-            List<StateMaster> results = (List<StateMaster>) sessionFactory.getCurrentSession()
+            List<State> results = (List<State>) sessionFactory.getCurrentSession()
                     .createCriteria("StateMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

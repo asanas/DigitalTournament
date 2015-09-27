@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.example.MatchPointMaster;
+import com.digitour.app.model.MatchPointMaster;
 
 import static org.hibernate.criterion.Example.create;
 

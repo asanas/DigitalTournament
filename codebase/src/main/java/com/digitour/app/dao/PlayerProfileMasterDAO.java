@@ -2,19 +2,19 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.example.PlayerProfileMaster;
+import com.digitour.app.db.model.PlayerProfile;
 
 public interface PlayerProfileMasterDAO {
 
-    public void persist(PlayerProfileMaster transientInstance);
-    public void attachDirty(PlayerProfileMaster instance);
+    public void persist(PlayerProfile transientInstance);
+    public void attachDirty(PlayerProfile instance);
 
-    public void attachClean(PlayerProfileMaster instance);
-    public void delete(PlayerProfileMaster persistentInstance);
+    public void attachClean(PlayerProfile instance);
+    public void delete(PlayerProfile persistentInstance);
 
-    public PlayerProfileMaster merge(PlayerProfileMaster detachedInstance);
+    public PlayerProfile merge(PlayerProfile detachedInstance);
 
-    public PlayerProfileMaster findById(java.lang.Long id);
+    public PlayerProfile findById(java.lang.Long id);
 
-    public List<PlayerProfileMaster> findByExample(PlayerProfileMaster instance);
+    public List<PlayerProfile> findByExample(PlayerProfile instance);
 }

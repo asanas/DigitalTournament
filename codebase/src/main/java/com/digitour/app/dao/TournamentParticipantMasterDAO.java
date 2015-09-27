@@ -2,20 +2,20 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.example.TournamentParticipantMaster;
+import com.digitour.app.db.model.TournamentParticipant;
 
 public interface TournamentParticipantMasterDAO {
 
-    public void persist(TournamentParticipantMaster transientInstance);
+    public void persist(TournamentParticipant transientInstance);
 
-    public void attachDirty(TournamentParticipantMaster instance);
+    public void attachDirty(TournamentParticipant instance);
 
-    public void attachClean(TournamentParticipantMaster instance);
+    public void attachClean(TournamentParticipant instance);
 
-    public void delete(TournamentParticipantMaster persistentInstance);
+    public void delete(TournamentParticipant persistentInstance);
 
-    public TournamentParticipantMaster merge(TournamentParticipantMaster detachedInstance);
+    public TournamentParticipant merge(TournamentParticipant detachedInstance);
 
-    public TournamentParticipantMaster findById(java.lang.Long id);
-    public List<TournamentParticipantMaster> findByExample(TournamentParticipantMaster instance);
+    public TournamentParticipant findById(java.lang.Long id);
+    public List<TournamentParticipant> findByExample(TournamentParticipant instance);
 }

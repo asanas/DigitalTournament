@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.CountryMaster;
+import com.digitour.app.db.model.Country;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -32,7 +32,7 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public void persist(CountryMaster transientInstance) {
+    public void persist(Country transientInstance) {
         log.debug("persisting CountryMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -43,7 +43,7 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public void attachDirty(CountryMaster instance) {
+    public void attachDirty(Country instance) {
         log.debug("attaching dirty CountryMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -54,7 +54,7 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public void attachClean(CountryMaster instance) {
+    public void attachClean(Country instance) {
         log.debug("attaching clean CountryMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -65,7 +65,7 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public void delete(CountryMaster persistentInstance) {
+    public void delete(Country persistentInstance) {
         log.debug("deleting CountryMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -76,10 +76,10 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public CountryMaster merge(CountryMaster detachedInstance) {
+    public Country merge(Country detachedInstance) {
         log.debug("merging CountryMaster instance");
         try {
-            CountryMaster result = (CountryMaster) sessionFactory.getCurrentSession().merge(detachedInstance);
+            Country result = (Country) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (RuntimeException re) {
@@ -88,10 +88,10 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public CountryMaster findById(java.lang.Long id) {
+    public Country findById(java.lang.Long id) {
         log.debug("getting CountryMaster instance with id: " + id);
         try {
-            CountryMaster instance = (CountryMaster) sessionFactory.getCurrentSession().get("CountryMaster", id);
+            Country instance = (Country) sessionFactory.getCurrentSession().get("CountryMaster", id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
             } else {
@@ -104,10 +104,10 @@ public class CountryMasterDAOImpl {
         }
     }
 
-    public List<CountryMaster> findByExample(CountryMaster instance) {
+    public List<Country> findByExample(Country instance) {
         log.debug("finding CountryMaster instance by example");
         try {
-            List<CountryMaster> results = (List<CountryMaster>) sessionFactory.getCurrentSession()
+            List<Country> results = (List<Country>) sessionFactory.getCurrentSession()
                     .createCriteria("CountryMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

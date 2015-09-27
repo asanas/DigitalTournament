@@ -7,7 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
-import com.digitour.app.model.City;
+import com.digitour.app.db.model.City;
 
 public class CityMasterDAOImplTests {
 
