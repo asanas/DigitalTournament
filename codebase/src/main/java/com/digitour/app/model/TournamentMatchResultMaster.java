@@ -10,7 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
+import com.digitour.app.db.model.TournamentParticipantTeam;
 
 // TODO: Update this according to table
 @Entity
@@ -18,9 +20,9 @@ import com.digitour.app.db.model.TournamentParticipant;
 public class TournamentMatchResultMaster implements java.io.Serializable {
 
 	private Long matchResultId;
-	private TournamentMatchMaster tournamentMatchMaster;
+	private TournamentMatchDetails tournamentMatchMaster;
 	private TournamentParticipant tournamentParticipantMaster;
-	private TournamentParticipantTeamMaster tournamentParticipantTeamMaster;
+	private TournamentParticipantTeam tournamentParticipantTeamMaster;
 	private long wonByPoints;
 	private Date wonByTime;
 	private String resultDetails;
@@ -28,8 +30,8 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 	public TournamentMatchResultMaster() {
 	}
 
-	public TournamentMatchResultMaster(TournamentMatchMaster tournamentMatchMaster,
-			TournamentParticipantTeamMaster tournamentParticipantTeamMaster, long wonByPoints, Date wonByTime,
+	public TournamentMatchResultMaster(TournamentMatchDetails tournamentMatchMaster,
+			TournamentParticipantTeam tournamentParticipantTeamMaster, long wonByPoints, Date wonByTime,
 			String resultDetails) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 		this.tournamentParticipantTeamMaster = tournamentParticipantTeamMaster;
@@ -38,9 +40,9 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 		this.resultDetails = resultDetails;
 	}
 
-	public TournamentMatchResultMaster(TournamentMatchMaster tournamentMatchMaster,
+	public TournamentMatchResultMaster(TournamentMatchDetails tournamentMatchMaster,
 			TournamentParticipant tournamentParticipantMaster,
-			TournamentParticipantTeamMaster tournamentParticipantTeamMaster, long wonByPoints, Date wonByTime,
+			TournamentParticipantTeam tournamentParticipantTeamMaster, long wonByPoints, Date wonByTime,
 			String resultDetails) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 		this.tournamentParticipantMaster = tournamentParticipantMaster;
@@ -63,11 +65,11 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "tournament_match_id")
-	public TournamentMatchMaster getTournamentMatchMaster() {
+	public TournamentMatchDetails getTournamentMatchMaster() {
 		return this.tournamentMatchMaster;
 	}
 
-	public void setTournamentMatchMaster(TournamentMatchMaster tournamentMatchMaster) {
+	public void setTournamentMatchMaster(TournamentMatchDetails tournamentMatchMaster) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 	}
 
@@ -83,11 +85,11 @@ public class TournamentMatchResultMaster implements java.io.Serializable {
 
 	@ManyToOne
     @JoinColumn(name = "tour_p_t_id")
-	public TournamentParticipantTeamMaster getTournamentParticipantTeamMaster() {
+	public TournamentParticipantTeam getTournamentParticipantTeamMaster() {
 		return this.tournamentParticipantTeamMaster;
 	}
 
-	public void setTournamentParticipantTeamMaster(TournamentParticipantTeamMaster tournamentParticipantTeamMaster) {
+	public void setTournamentParticipantTeamMaster(TournamentParticipantTeam tournamentParticipantTeamMaster) {
 		this.tournamentParticipantTeamMaster = tournamentParticipantTeamMaster;
 	}
 

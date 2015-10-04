@@ -1,20 +1,8 @@
 package com.digitour.app.dao;
 
-import java.util.List;
-
-import com.digitour.app.model.TournamentMatchMaster;
+import com.digitour.app.db.model.TournamentMatchDetails;
 
 public interface TournamentMatchMasterDAO {
 
-    public void persist(TournamentMatchMaster transientInstance);
-    public void attachDirty(TournamentMatchMaster instance);
-
-    public void attachClean(TournamentMatchMaster instance);
-
-    public void delete(TournamentMatchMaster persistentInstance);
-    public TournamentMatchMaster merge(TournamentMatchMaster detachedInstance);
-
-    public TournamentMatchMaster findById(java.lang.Long id);
-
-    public List<TournamentMatchMaster> findByExample(TournamentMatchMaster instance);
+    public void save(TournamentMatchDetails tourMatchDetails);
 }

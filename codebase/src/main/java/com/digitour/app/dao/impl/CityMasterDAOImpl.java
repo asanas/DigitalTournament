@@ -28,12 +28,12 @@ public class CityMasterDAOImpl implements CityMasterDAO{
 
     @Override
     public void save(City cityMaster) {
-        
+        hibernateTemplate.saveOrUpdate(cityMaster);
     }
 
     @Override
     public City getById(Long id) {
-        City cityMaster = hibernateTemplate.load(City.class, id);
+        City cityMaster = hibernateTemplate.get(City.class, id);
         return cityMaster;
     }
 

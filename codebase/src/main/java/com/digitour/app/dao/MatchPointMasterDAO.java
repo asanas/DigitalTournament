@@ -2,20 +2,20 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
-import com.digitour.app.model.MatchPointMaster;
+import com.digitour.app.db.model.MatchPointDetails;
 
 public interface MatchPointMasterDAO {
 
-    public void persist(MatchPointMaster transientInstance);
-    public void attachDirty(MatchPointMaster instance);
+    public void persist(MatchPointDetails transientInstance);
+    public void attachDirty(MatchPointDetails instance);
 
-    public void attachClean(MatchPointMaster instance);
+    public void attachClean(MatchPointDetails instance);
 
-    public void delete(MatchPointMaster persistentInstance);
+    public void delete(MatchPointDetails persistentInstance);
 
-    public MatchPointMaster merge(MatchPointMaster detachedInstance);
+    public MatchPointDetails merge(MatchPointDetails detachedInstance);
 
-    public MatchPointMaster findById(java.lang.Long id);
+    public MatchPointDetails findById(java.lang.Long id);
 
-    public List<MatchPointMaster> findByExample(MatchPointMaster instance);
+    public List<MatchPointDetails> findByExample(MatchPointDetails instance);
 }

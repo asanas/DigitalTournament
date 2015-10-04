@@ -3,12 +3,16 @@ package com.digitour.app.db.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,141 +22,132 @@ import com.digitour.app.db.model.support.enums.AgeGroup;
 @Table(name = "tournament")
 public class Tournament implements java.io.Serializable {
 
-	private Long tournamentId;
-	private String tournamentName;
-	private String description;
-	private String location;
-	private double prize;
-	private String otherDetails;
-	private String tourType;
-	private String tourStatus;
-	private Date tournamentStartDate;
-	private Date tournamentEndDate;
-	private Date createdDate;
-	private AgeGroup ageGroup;
-	private List<TournamentParticipant> tournamentParticipantList;
-	
-	public Tournament() {
-	}
+    private Long tournamentId;
+    private String tournamentName;
+    private String description;
+    private String location;
+    private double prize;
+    private String otherDetails;
+    private String tourType;
+    private String tourStatus;
+    private Date tournamentStartDate;
+    private Date tournamentEndDate;
+    private Date createdDate;
+    private AgeGroup ageGroup;
+    private List<Team> participatingTeamList;
+    
+    public Tournament() {
+    }
 
-	@Id
+    @Id
     @GeneratedValue
     @Column(name = "tournament_id", unique = true, nullable = false)
-	public Long getTournamentId() {
-		return this.tournamentId;
-	}
+    public Long getTournamentId() {
+        return this.tournamentId;
+    }
 
-	public void setTournamentId(Long tournamentId) {
-		this.tournamentId = tournamentId;
-	}
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
+    }
 
-	@Column(name = "tournament_name", nullable = false)
-	public String getTournamentName() {
-		return this.tournamentName;
-	}
+    @Column(name = "tournament_name", nullable = false)
+    public String getTournamentName() {
+        return this.tournamentName;
+    }
 
-	public void setTournamentName(String tournamentName) {
-		this.tournamentName = tournamentName;
-	}
+    public void setTournamentName(String tournamentName) {
+        this.tournamentName = tournamentName;
+    }
 
-	@Column(name = "description", nullable = false)
-	public String getDescription() {
-		return this.description;
-	}
+    @Column(name = "description", nullable = false)
+    public String getDescription() {
+        return this.description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	@Column(name = "location", nullable = false)
-	public String getLocation() {
-		return this.location;
-	}
+    @Column(name = "location", nullable = false)
+    public String getLocation() {
+        return this.location;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	@Column(name = "prize", nullable = false)
-	public double getPrize() {
-		return this.prize;
-	}
+    @Column(name = "prize", nullable = false)
+    public double getPrize() {
+        return this.prize;
+    }
 
-	public void setPrize(double prize) {
-		this.prize = prize;
-	}
+    public void setPrize(double prize) {
+        this.prize = prize;
+    }
 
-	@Column(name = "other_details", nullable = false)
-	public String getOtherDetails() {
-		return this.otherDetails;
-	}
+    @Column(name = "other_details", nullable = false)
+    public String getOtherDetails() {
+        return this.otherDetails;
+    }
 
-	public void setOtherDetails(String otherDetails) {
-		this.otherDetails = otherDetails;
-	}
+    public void setOtherDetails(String otherDetails) {
+        this.otherDetails = otherDetails;
+    }
 
-	@Column(name = "tour_type", nullable = false)
-	public String getTourType() {
-		return this.tourType;
-	}
+    @Column(name = "tour_type", nullable = false)
+    public String getTourType() {
+        return this.tourType;
+    }
 
-	public void setTourType(String tourType) {
-		this.tourType = tourType;
-	}
+    public void setTourType(String tourType) {
+        this.tourType = tourType;
+    }
 
-	@Column(name = "tour_status", nullable = false)
-	public String getTourStatus() {
-		return this.tourStatus;
-	}
+    @Column(name = "tour_status", nullable = false)
+    public String getTourStatus() {
+        return this.tourStatus;
+    }
 
-	public void setTourStatus(String tourStatus) {
-		this.tourStatus = tourStatus;
-	}
+    public void setTourStatus(String tourStatus) {
+        this.tourStatus = tourStatus;
+    }
 
-	@Column(name = "tournament_start_date", nullable = false)
-	public Date getTournamentStartDate() {
-		return this.tournamentStartDate;
-	}
+    @Column(name = "tournament_start_date", nullable = false)
+    public Date getTournamentStartDate() {
+        return this.tournamentStartDate;
+    }
 
-	public void setTournamentStartDate(Date tournamentStartDate) {
-		this.tournamentStartDate = tournamentStartDate;
-	}
+    public void setTournamentStartDate(Date tournamentStartDate) {
+        this.tournamentStartDate = tournamentStartDate;
+    }
 
     @Column(name = "tournament_end_date", nullable = false)
-	public Date getTournamentEndDate() {
-		return this.tournamentEndDate;
-	}
+    public Date getTournamentEndDate() {
+        return this.tournamentEndDate;
+    }
 
-	public void setTournamentEndDate(Date tournamentEndDate) {
-		this.tournamentEndDate = tournamentEndDate;
-	}
+    public void setTournamentEndDate(Date tournamentEndDate) {
+        this.tournamentEndDate = tournamentEndDate;
+    }
 
-	@Column(name = "created_date", nullable = false)
-	public Date getCreatedDate() {
-		return this.createdDate;
-	}
+    @Column(name = "created_date", nullable = false)
+    public Date getCreatedDate() {
+        return this.createdDate;
+    }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "age_group", nullable = false)
-	public AgeGroup getAgeGroup() {
-		return this.ageGroup;
-	}
+    @Enumerated(EnumType.STRING)
+    @Column(name = "age_group", nullable = false)
+    public AgeGroup getAgeGroup() {
+        return this.ageGroup;
+    }
 
-	public void setAgeGroup(AgeGroup ageGroup) {
-		this.ageGroup = ageGroup;
-	}
-
-	@OneToMany(mappedBy = "tournament")
-	public List<TournamentParticipant> getTournamentParticipantList() {
-		return tournamentParticipantList;
-	}
-
-	public void setTournamentParticipantList(List<TournamentParticipant> tournamentParticipantList) {
-		this.tournamentParticipantList = tournamentParticipantList;
-	}
+    public void setAgeGroup(AgeGroup ageGroup) {
+        this.ageGroup = ageGroup;
+    }
 
 }

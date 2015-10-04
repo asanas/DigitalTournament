@@ -6,14 +6,9 @@ import com.digitour.app.db.model.Team;
 
 public interface TeamMasterDAO {
 
-    public void persist(Team transientInstance);
+    public Team save(Team transientInstance);
 
-    public void attachDirty(Team instance);
+    public List<Team> getAll();
 
-    public void attachClean(Team instance);
-    public void delete(Team persistentInstance);
-    public Team merge(Team detachedInstance);
-
-    public Team findById(java.lang.Long id);
-    public List<Team> findByExample(Team instance);
+	public Team getById(Long teamId);
 }

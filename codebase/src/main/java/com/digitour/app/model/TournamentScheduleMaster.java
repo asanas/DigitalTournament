@@ -11,27 +11,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.TournamentMatchDetails;
+
 @Entity
 @Table(name = "tournament_schedule_master")
 public class TournamentScheduleMaster implements java.io.Serializable {
 
 	private Long tournamentScheduleId;
-	private TournamentMatchMaster tournamentMatchMaster;
+	private TournamentMatchDetails tournamentMatchMaster;
 	private TournamentScheduleDateMaster tournamentScheduleDateMaster;
-	private Set<TournamentMatchMaster> tournamentMatchMasters = new HashSet<TournamentMatchMaster>(0);
+	private Set<TournamentMatchDetails> tournamentMatchMasters = new HashSet<TournamentMatchDetails>(0);
 
 	public TournamentScheduleMaster() {
 	}
 
-	public TournamentScheduleMaster(TournamentMatchMaster tournamentMatchMaster,
+	public TournamentScheduleMaster(TournamentMatchDetails tournamentMatchMaster,
 			TournamentScheduleDateMaster tournamentScheduleDateMaster) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 		this.tournamentScheduleDateMaster = tournamentScheduleDateMaster;
 	}
 
-	public TournamentScheduleMaster(TournamentMatchMaster tournamentMatchMaster,
+	public TournamentScheduleMaster(TournamentMatchDetails tournamentMatchMaster,
 			TournamentScheduleDateMaster tournamentScheduleDateMaster,
-			Set<TournamentMatchMaster> tournamentMatchMasters) {
+			Set<TournamentMatchDetails> tournamentMatchMasters) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 		this.tournamentScheduleDateMaster = tournamentScheduleDateMaster;
 		this.tournamentMatchMasters = tournamentMatchMasters;
@@ -50,11 +52,11 @@ public class TournamentScheduleMaster implements java.io.Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "tournament_match_id")
-	public TournamentMatchMaster getTournamentMatchMaster() {
+	public TournamentMatchDetails getTournamentMatchMaster() {
 		return this.tournamentMatchMaster;
 	}
 
-	public void setTournamentMatchMaster(TournamentMatchMaster tournamentMatchMaster) {
+	public void setTournamentMatchMaster(TournamentMatchDetails tournamentMatchMaster) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 	}
 
@@ -70,11 +72,11 @@ public class TournamentScheduleMaster implements java.io.Serializable {
 
 	@ManyToOne
     @JoinColumn(name = "tournament_match_id")
-	public Set<TournamentMatchMaster> getTournamentMatchMasters() {
+	public Set<TournamentMatchDetails> getTournamentMatchMasters() {
 		return this.tournamentMatchMasters;
 	}
 
-	public void setTournamentMatchMasters(Set<TournamentMatchMaster> tournamentMatchMasters) {
+	public void setTournamentMatchMasters(Set<TournamentMatchDetails> tournamentMatchMasters) {
 		this.tournamentMatchMasters = tournamentMatchMasters;
 	}
 

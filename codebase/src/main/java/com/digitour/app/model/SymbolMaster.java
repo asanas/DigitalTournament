@@ -11,13 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.MatchPointDetails;
+
 @Entity
 @Table(name = "country_master")
 public class SymbolMaster implements java.io.Serializable {
 
 	private Long symbolId;
 	private String description;
-	private Set<MatchPointMaster> matchPointMasters = new HashSet<MatchPointMaster>(0);
+	private Set<MatchPointDetails> matchPointMasters = new HashSet<MatchPointDetails>(0);
 
 	public SymbolMaster() {
 	}
@@ -26,7 +28,7 @@ public class SymbolMaster implements java.io.Serializable {
 		this.description = description;
 	}
 
-	public SymbolMaster(String description, Set<MatchPointMaster> matchPointMasters) {
+	public SymbolMaster(String description, Set<MatchPointDetails> matchPointMasters) {
 		this.description = description;
 		this.matchPointMasters = matchPointMasters;
 	}
@@ -52,11 +54,11 @@ public class SymbolMaster implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "symbol_master")
-	public Set<MatchPointMaster> getMatchPointMasters() {
+	public Set<MatchPointDetails> getMatchPointMasters() {
 		return this.matchPointMasters;
 	}
 
-	public void setMatchPointMasters(Set<MatchPointMaster> matchPointMasters) {
+	public void setMatchPointMasters(Set<MatchPointDetails> matchPointMasters) {
 		this.matchPointMasters = matchPointMasters;
 	}
 

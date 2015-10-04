@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
 
-import com.digitour.app.model.MatchPointMaster;
+import com.digitour.app.db.model.MatchPointDetails;
 
 import static org.hibernate.criterion.Example.create;
 
@@ -34,7 +34,7 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public void persist(MatchPointMaster transientInstance) {
+    public void persist(MatchPointDetails transientInstance) {
         log.debug("persisting MatchPointMaster instance");
         try {
             sessionFactory.getCurrentSession().persist(transientInstance);
@@ -45,7 +45,7 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public void attachDirty(MatchPointMaster instance) {
+    public void attachDirty(MatchPointDetails instance) {
         log.debug("attaching dirty MatchPointMaster instance");
         try {
             sessionFactory.getCurrentSession().saveOrUpdate(instance);
@@ -56,7 +56,7 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public void attachClean(MatchPointMaster instance) {
+    public void attachClean(MatchPointDetails instance) {
         log.debug("attaching clean MatchPointMaster instance");
         try {
             sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
@@ -67,7 +67,7 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public void delete(MatchPointMaster persistentInstance) {
+    public void delete(MatchPointDetails persistentInstance) {
         log.debug("deleting MatchPointMaster instance");
         try {
             sessionFactory.getCurrentSession().delete(persistentInstance);
@@ -78,10 +78,10 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public MatchPointMaster merge(MatchPointMaster detachedInstance) {
+    public MatchPointDetails merge(MatchPointDetails detachedInstance) {
         log.debug("merging MatchPointMaster instance");
         try {
-            MatchPointMaster result = (MatchPointMaster) sessionFactory.getCurrentSession().merge(detachedInstance);
+            MatchPointDetails result = (MatchPointDetails) sessionFactory.getCurrentSession().merge(detachedInstance);
             log.debug("merge successful");
             return result;
         } catch (RuntimeException re) {
@@ -90,10 +90,10 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public MatchPointMaster findById(java.lang.Long id) {
+    public MatchPointDetails findById(java.lang.Long id) {
         log.debug("getting MatchPointMaster instance with id: " + id);
         try {
-            MatchPointMaster instance = (MatchPointMaster) sessionFactory.getCurrentSession().get("MatchPointMaster",
+            MatchPointDetails instance = (MatchPointDetails) sessionFactory.getCurrentSession().get("MatchPointMaster",
                     id);
             if (instance == null) {
                 log.debug("get successful, no instance found");
@@ -107,10 +107,10 @@ public class MatchPointMasterDAOImpl {
         }
     }
 
-    public List<MatchPointMaster> findByExample(MatchPointMaster instance) {
+    public List<MatchPointDetails> findByExample(MatchPointDetails instance) {
         log.debug("finding MatchPointMaster instance by example");
         try {
-            List<MatchPointMaster> results = (List<MatchPointMaster>) sessionFactory.getCurrentSession()
+            List<MatchPointDetails> results = (List<MatchPointDetails>) sessionFactory.getCurrentSession()
                     .createCriteria("MatchPointMaster").add(create(instance)).list();
             log.debug("find by example successful, result size: " + results.size());
             return results;

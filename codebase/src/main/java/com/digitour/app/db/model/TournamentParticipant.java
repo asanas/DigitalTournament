@@ -5,61 +5,57 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tournamentparticipant")
 public class TournamentParticipant implements java.io.Serializable {
 
-	private Long tourParticipantId;
-	private Team team;
-	private Tournament tournament;
-	private Group group;
-	
-	public TournamentParticipant() {
-	}
+    private Long tourParticipantId;
+    private Long teamId;
+    private Long tournamentId;
+    private Long grouId;
+    
+    public TournamentParticipant() {
+    }
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "tournament_participant_id", unique = true, nullable = false)
-	public Long getTourParticipantId() {
-		return this.tourParticipantId;
+    public Long getTourParticipantId() {
+        return this.tourParticipantId;
+    }
+
+    public void setTourParticipantId(Long tourParticipantId) {
+        this.tourParticipantId = tourParticipantId;
+    }
+
+    @Column(name = "team_id", nullable = false)
+	public Long getTeamId() {
+		return teamId;
 	}
 
-	public void setTourParticipantId(Long tourParticipantId) {
-		this.tourParticipantId = tourParticipantId;
+    @Column(name = "tournament_id", nullable = false)
+    public Long getTournamentId() {
+		return tournamentId;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "team_id")
-	public Team getTeam() {
-		return this.team;
+    @Column(name = "group_id", nullable = false)
+	public Long getGrouId() {
+		return grouId;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
 	}
 
-	@ManyToOne
-    @JoinColumn(name = "tournament_id")
-	public Tournament getTournament() {
-		return this.tournament;
+	public void setTournamentId(Long tournamentId) {
+		this.tournamentId = tournamentId;
 	}
 
-	public void setTournament(Tournament tournamentMaster) {
-		this.tournament = tournamentMaster;
+	public void setGrouId(Long grouId) {
+		this.grouId = grouId;
 	}
 
-	@ManyToOne
-    @JoinColumn(name = "group_id")
-	public Group getGroup() {
-		return group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
 
 }

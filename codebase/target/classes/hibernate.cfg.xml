@@ -21,7 +21,6 @@
         <mapping class="com.digitour.app.model.TournamentMatchMaster"/>
         <mapping class="com.digitour.app.model.TournamentMatchResultMaster"/>
         <mapping class="com.digitour.app.model.TournamentParticipantPointsMaster"/>
-        <mapping class="com.digitour.app.model.TournamentParticipantTeamMaster"/>
         <mapping class="com.digitour.app.model.TournamentScheduleDateMaster"/>
         <mapping class="com.digitour.app.model.TournamentScheduleMaster"/> -->
 
@@ -32,6 +31,10 @@
         <mapping class="com.digitour.app.db.model.TournamentOfficial"/>
         <mapping class="com.digitour.app.db.model.Tournament"/>
         <mapping class="com.digitour.app.db.model.Group"/>
+        <mapping class="com.digitour.app.db.model.TournamentParticipant"/>
+        <mapping class="com.digitour.app.db.model.TournamentOfficial"/>
+        <mapping class="com.digitour.app.db.model.MatchTossDetails"/>
+        <mapping class="com.digitour.app.db.model.TournamentMatchDetails"/>
         <mapping class="com.digitour.app.db.model.TournamentParticipant"/>
         
     </session-factory>

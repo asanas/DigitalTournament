@@ -16,7 +16,6 @@ public class Group implements java.io.Serializable {
 
     private Long groupId;
     private String groupName;
-    private List<TournamentParticipant> tournamentParticipantList;
         
     public Group() {
     }
@@ -44,13 +43,4 @@ public class Group implements java.io.Serializable {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-
-    @OneToMany(mappedBy = "group")
-	public List<TournamentParticipant> getTournamentParticipantList() {
-		return tournamentParticipantList;
-	}
-
-	public void setTournamentParticipantList(List<TournamentParticipant> tournamentParticipantList) {
-		this.tournamentParticipantList = tournamentParticipantList;
-	}
 }

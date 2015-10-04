@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 
 @Entity
@@ -16,14 +17,14 @@ public class TournamentMatchFoulMaster implements java.io.Serializable {
 
 	private Long matchFoulId;
 	private FoulMaster foulMaster;
-	private TournamentMatchMaster tournamentMatchMaster;
+	private TournamentMatchDetails tournamentMatchMaster;
 	private TournamentParticipant tournamentParticipantMaster;
 	private long turnNumber;
 
 	public TournamentMatchFoulMaster() {
 	}
 
-	public TournamentMatchFoulMaster(FoulMaster foulMaster, TournamentMatchMaster tournamentMatchMaster,
+	public TournamentMatchFoulMaster(FoulMaster foulMaster, TournamentMatchDetails tournamentMatchMaster,
 			TournamentParticipant tournamentParticipantMaster, long turnNumber) {
 		this.foulMaster = foulMaster;
 		this.tournamentMatchMaster = tournamentMatchMaster;
@@ -54,11 +55,11 @@ public class TournamentMatchFoulMaster implements java.io.Serializable {
 	
 	@ManyToOne
     @JoinColumn(name = "tournament_match_id")
-	public TournamentMatchMaster getTournamentMatchMaster() {
+	public TournamentMatchDetails getTournamentMatchMaster() {
 		return this.tournamentMatchMaster;
 	}
 
-	public void setTournamentMatchMaster(TournamentMatchMaster tournamentMatchMaster) {
+	public void setTournamentMatchMaster(TournamentMatchDetails tournamentMatchMaster) {
 		this.tournamentMatchMaster = tournamentMatchMaster;
 	}
 	
