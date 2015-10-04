@@ -3,13 +3,15 @@ package com.digitour.app.controller.homepage;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.digitour.app.dao.TeamMasterDAO;
+import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.manager.DummyManager;
@@ -24,7 +26,7 @@ public class HomePageController {
     private DummyManager dummyManager;
     
     @Autowired
-    private TeamMasterDAO teamMasterDAO;
+    private TeamDAO teamMasterDAO;
 
     @Autowired
     TournamentManager tournamentManager;
@@ -37,14 +39,12 @@ public class HomePageController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/startQuickMatch", method=RequestMethod.GET)
-    public ModelAndView startQuickMatch(@RequestParam Long team1Id, @RequestParam  Long team2Id, @RequestParam Long tossWonBy,
+    @RequestMapping(value="/startQuickMatch", method=RequestMethod.POST)
+    @ResponseBody
+    public String startQuickMatch(@RequestParam Long team1Id, @RequestParam  Long team2Id, @RequestParam Long tossWonBy,
             @RequestParam  String electedTo) {
-        ModelAndView modelAndView = new ModelAndView("dummyPage");
         TournamentMatchDetails tourMatchDetails = tournamentManager.startQuickMatch(team1Id, team2Id, tossWonBy, electedTo);
-        
-        modelAndView.addObject("message", "Match created successfully.");
-        return modelAndView;
+        return "success";
     }
     
     @RequestMapping(value="/beginQuickMatch", method=RequestMethod.GET)

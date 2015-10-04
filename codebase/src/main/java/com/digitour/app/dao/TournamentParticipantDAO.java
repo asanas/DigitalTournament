@@ -2,7 +2,7 @@ package com.digitour.app.dao;
 
 import com.digitour.app.db.model.TournamentParticipant;
 
-public interface TournamentParticipantMasterDAO {
+public interface TournamentParticipantDAO {
 
 	public void save(TournamentParticipant tourPartipant);
 }

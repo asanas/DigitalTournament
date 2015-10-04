@@ -9,11 +9,11 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.digitour.app.dao.TeamMasterDAO;
+import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.db.model.Team;
 
 @Repository
-public class TeamDAOImpl implements TeamMasterDAO {
+public class TeamDAOImpl implements TeamDAO {
 
     private static final Log log = LogFactory.getLog(TeamDAOImpl.class);
 

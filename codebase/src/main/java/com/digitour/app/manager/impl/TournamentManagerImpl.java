@@ -5,12 +5,12 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.digitour.app.dao.TeamMasterDAO;
-import com.digitour.app.dao.TossDetailsMasterDAO;
-import com.digitour.app.dao.TournamentMasterDAO;
-import com.digitour.app.dao.TournamentMatchMasterDAO;
-import com.digitour.app.dao.TournamentParticipantMasterDAO;
-import com.digitour.app.dao.TournamentParticipantTeamMasterDAO;
+import com.digitour.app.dao.TeamDAO;
+import com.digitour.app.dao.TossDetailsDAO;
+import com.digitour.app.dao.TournamentDAO;
+import com.digitour.app.dao.TournamentMatchDAO;
+import com.digitour.app.dao.TournamentParticipantDAO;
+import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
@@ -25,22 +25,22 @@ import com.digitour.app.manager.TournamentManager;
 public class TournamentManagerImpl implements TournamentManager {
 
     @Autowired
-    TournamentMasterDAO tournamentMasterDAO;
+    TournamentDAO tournamentDAO;
     
     @Autowired
-    TournamentParticipantMasterDAO tournamentParticipantDAO;
+    TournamentParticipantDAO tournamentParticipantDAO;
     
     @Autowired
-    TeamMasterDAO teamMasterDao;
+    TeamDAO teamDAO;
     
     @Autowired
-    TournamentMatchMasterDAO tournamentMatchDAO;
+    TournamentMatchDAO tournamentMatchDAO;
     
     @Autowired
-    TossDetailsMasterDAO tossDetailsDAO;
+    TossDetailsDAO tossDetailsDAO;
     
     @Autowired
-    TournamentParticipantTeamMasterDAO tourParticipantTeamDAO;
+    TournamentParticipantTeamDAO tourParticipantTeamDAO;
     
     @Override
     public TournamentMatchDetails startQuickMatch(Long team1Id, Long team2Id, Long tossWonTeamId, String electedTo) {
@@ -63,7 +63,7 @@ public class TournamentManagerImpl implements TournamentManager {
     }
 
     private void createTournamentPartipantTeam(TournamentParticipant tourParticipant, Long team1Id) {
-        Team team = teamMasterDao.getById(team1Id);
+        Team team = teamDAO.getById(team1Id);
         Long playerChaseNumber = 1L;
         for(PlayerProfile playerProfile : team.getPlayersList()) {
             TournamentParticipantTeam tourTeam = new TournamentParticipantTeam();
@@ -101,7 +101,7 @@ public class TournamentManagerImpl implements TournamentManager {
         tournament.setTourStatus("QUICKMATCH");
         tournament.setCreatedDate(new Date());
         tournament.setAgeGroup(AgeGroup.OPEN);
-        tournamentMasterDAO.save(tournament);
+        tournamentDAO.save(tournament);
         return tournament;
     }
 }

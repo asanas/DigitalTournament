@@ -7,13 +7,13 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.digitour.app.dao.TournamentMasterDAO;
+import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.db.model.Tournament;
 
 @Repository
-public class TournamentMasterDAOImpl implements TournamentMasterDAO{
+public class TournamentDAOImpl implements TournamentDAO {
 
-    private static final Log log = LogFactory.getLog(TournamentMasterDAOImpl.class);
+    private static final Log log = LogFactory.getLog(TournamentDAOImpl.class);
 
     @Autowired
     private HibernateTemplate hibernateTemplate;

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.CityMasterDAO;
 import com.digitour.app.dao.PlayerProfileMasterDAO;
-import com.digitour.app.dao.TeamMasterDAO;
-import com.digitour.app.dao.TournamentMasterDAO;
+import com.digitour.app.dao.TeamDAO;
+import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.db.model.City;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
@@ -29,13 +29,13 @@ public class DummyManagerImpl implements DummyManager
     CityMasterDAO cityMasterDAO;
     
     @Autowired
-    TeamMasterDAO teamMasterDAO;
+    TeamDAO teamMasterDAO;
     
     @Autowired
     PlayerProfileMasterDAO playerProfileMasterDAO;
     
     @Autowired
-    TournamentMasterDAO tournamentDAO;
+    TournamentDAO tournamentDAO;
     
     @Override
     public List<City> getAllCities() {

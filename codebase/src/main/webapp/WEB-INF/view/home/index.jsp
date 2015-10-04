@@ -186,10 +186,16 @@
             if($('input[name=tossWonTeam]:checked') && $('input[name=electedTo]:checked')) {
             	var team1Id = $("#team1").find(":selected").attr("id");
                 var team2Id = $("#team2").find(":selected").attr("id");
-                var startQuickMatchURL = 'startQuickMatch?team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
+                var queryParam = 'team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
                 +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();
-                
-            	window.location = startQuickMatchURL;
+                $.ajax({
+                    url: '${pageContext.request.contextPath}/startQuickMatch',
+                    data: queryParam,
+                    type: "POST",
+                    success: function(data) {
+                        alert('Data: ' + data);
+                    }
+                });
             }
         });
     });

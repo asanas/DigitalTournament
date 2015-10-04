@@ -7,22 +7,21 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.digitour.app.dao.TossDetailsMasterDAO;
-import com.digitour.app.db.model.MatchTossDetails;
+import com.digitour.app.dao.TournamentMatchDAO;
+import com.digitour.app.db.model.TournamentMatchDetails;
 
 @Repository
-public class TossDetailsMasterDAOImpl implements TossDetailsMasterDAO {
+public class TournamentMatchDAOImpl implements TournamentMatchDAO{
 
-    private static final Log log = LogFactory.getLog(TossDetailsMasterDAOImpl.class);
+    private static final Log log = LogFactory.getLog(TournamentMatchDAOImpl.class);
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
+    HibernateTemplate hibernateTemplate;
+    
 	@Override
 	@Transactional
-	public void save(MatchTossDetails matchToss) {
-		this.hibernateTemplate.saveOrUpdate(matchToss);
+	public void save(TournamentMatchDetails tourMatchDetails) {
+		this.hibernateTemplate.saveOrUpdate(tourMatchDetails);
 	}
-    
-    
+
 }

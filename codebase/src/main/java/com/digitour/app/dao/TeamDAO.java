@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.digitour.app.db.model.Team;
 
-public interface TeamMasterDAO {
+public interface TeamDAO {
 
     public Team save(Team transientInstance);
 
