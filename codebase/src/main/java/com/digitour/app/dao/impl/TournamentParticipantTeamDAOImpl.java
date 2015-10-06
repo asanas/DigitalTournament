@@ -1,5 +1,7 @@
 package com.digitour.app.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
+import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
 @Repository
@@ -24,6 +27,12 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
 	public void save(TournamentParticipantTeam tourTeam) {
 		this.hibernateTemplate.saveOrUpdate(tourTeam);
 	}
+
+
+    @Override
+    public List<TournamentParticipantTeam> getByTournamentParticipantByChaseNumber(TournamentParticipant tournamentParticipant1) {
+        return null;
+    }
 
     
 }

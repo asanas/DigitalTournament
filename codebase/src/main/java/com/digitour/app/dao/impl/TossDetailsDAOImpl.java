@@ -1,5 +1,7 @@
 package com.digitour.app.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,13 @@ public class TossDetailsDAOImpl implements TossDetailsDAO {
 	public void save(MatchTossDetails matchToss) {
 		this.hibernateTemplate.saveOrUpdate(matchToss);
 	}
+
+    @Override
+    public MatchTossDetails getTossDetailsByMatchId(Long tournamentMatchId) {
+        MatchTossDetails tossDetails  = new MatchTossDetails();
+        tossDetails.setMatchId(tournamentMatchId);
+        return ((List<MatchTossDetails>)(this.hibernateTemplate.findByExample(tossDetails))).get(0);
+    }
     
     
 }

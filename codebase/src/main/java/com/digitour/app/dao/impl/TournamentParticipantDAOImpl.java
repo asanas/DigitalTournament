@@ -24,4 +24,10 @@ public class TournamentParticipantDAOImpl implements TournamentParticipantDAO {
         this.hibernateTemplate.saveOrUpdate(tourPartipant);
     }
 
+    @Override
+    public TournamentParticipant getById(Long teamParticipantId)
+    {
+        return this.hibernateTemplate.load(TournamentParticipant.class, teamParticipantId);
+    }
+
 }

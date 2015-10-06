@@ -24,4 +24,10 @@ public class TournamentMatchDAOImpl implements TournamentMatchDAO{
 		this.hibernateTemplate.saveOrUpdate(tourMatchDetails);
 	}
 
+    @Override
+    public TournamentMatchDetails getMatchDetailsById(Long matchId)
+    {
+        return this.hibernateTemplate.load(TournamentMatchDetails.class, matchId);
+    }
+
 }

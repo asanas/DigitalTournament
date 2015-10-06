@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.CityMasterDAO;
-import com.digitour.app.dao.PlayerProfileMasterDAO;
+import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.db.model.City;
@@ -32,7 +32,7 @@ public class DummyManagerImpl implements DummyManager
     TeamDAO teamMasterDAO;
     
     @Autowired
-    PlayerProfileMasterDAO playerProfileMasterDAO;
+    PlayerProfileDAO playerProfileMasterDAO;
     
     @Autowired
     TournamentDAO tournamentDAO;

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.MajorSkill;
@@ -36,6 +37,7 @@ public class PlayerProfile implements java.io.Serializable {
     private String achievements;
     private String contact;
     private Team team;
+    private Long tournamentChaseNumber;
     
     public PlayerProfile() {
     }
@@ -179,4 +181,15 @@ public class PlayerProfile implements java.io.Serializable {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
+
+	@Transient
+    public Long getTournamentChaseNumber()
+    {
+        return tournamentChaseNumber;
+    }
+
+    public void setTournamentChaseNumber(Long tournamentChaseNumber)
+    {
+        this.tournamentChaseNumber = tournamentChaseNumber;
+    }
 }

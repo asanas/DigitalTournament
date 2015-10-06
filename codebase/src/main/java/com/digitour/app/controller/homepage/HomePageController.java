@@ -33,7 +33,7 @@ public class HomePageController {
     
     @RequestMapping(value="/home", method=RequestMethod.GET)
     public ModelAndView showHomepage() {
-        ModelAndView modelAndView = new ModelAndView("home/index");
+        ModelAndView modelAndView = new ModelAndView("home/startquickmatch");
         List<Team> teamList = teamMasterDAO.getAll();
         modelAndView.addObject("teamList", teamList);
         return modelAndView;
@@ -44,12 +44,12 @@ public class HomePageController {
     public String startQuickMatch(@RequestParam Long team1Id, @RequestParam  Long team2Id, @RequestParam Long tossWonBy,
             @RequestParam  String electedTo) {
         TournamentMatchDetails tourMatchDetails = tournamentManager.startQuickMatch(team1Id, team2Id, tossWonBy, electedTo);
-        return "success";
+        return tourMatchDetails.getTournamentMatchId().toString();
     }
     
     @RequestMapping(value="/beginQuickMatch", method=RequestMethod.GET)
     public ModelAndView fillDetailsToStratQuickMatch() {
-        ModelAndView modelAndView = new ModelAndView("home/quickMatchForm");
+        ModelAndView modelAndView = new ModelAndView("home/quickmatchform");
 //        modelAndView.addObject("categoryList", categoryList);
         return modelAndView;
     }

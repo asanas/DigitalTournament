@@ -6,4 +6,6 @@ public interface TossDetailsDAO {
 
 
 	public void save(MatchTossDetails matchToss);
+
+    public MatchTossDetails getTossDetailsByMatchId(Long tournamentMatchId);
 }
