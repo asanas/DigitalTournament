@@ -8,12 +8,12 @@
 </div>
 <div class="row">
     <div class="col-lg-4 text-center">
-        <h1 id="team1Score">0</h1>
+        <h1 id="team1Score" class="teamscore">0</h1>
     </div>
     <div class="col-lg-4 text-center">
         <div class="clock clearfix"></div>
     </div>
     <div class="col-lg-4 text-center">
-        <h1 id="team2Score">0</h1>
+        <h1 id="team2Score" class="teamscore">0</h1>
     </div>
 </div>

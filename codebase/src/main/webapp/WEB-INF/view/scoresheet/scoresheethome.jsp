@@ -5,7 +5,7 @@
         <%@include file="fill-wicket-details-modal.jsp"%>
 		<div class="row">
 			<div class="col-lg-3 text-left">
-				<h2>${defendingTeamName}</h2>
+				<h3>${defendingTeamName}</h3>
 			</div>
 			<div class="col-lg-1 text-center">&nbsp;</div>
 			<div class="col-lg-3 text-center">Wicket Taken By</div>
@@ -17,9 +17,15 @@
 		<c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
 			<div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
 				<div class="col-lg-3 text-left">
-					<h4>${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.name }</h4>
+					<h4>
+					${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.name }
+					<c:if test="${lpHandle.count > 9}">
+                        <a href="#teamrow-${defendingPlayer.playerProfileId }" onclick="loadSubstituteModal();"><span class="glyphicon glyphicon-random icon-small"></span></a>
+                     </c:if>
+                     </h4>
 				</div>
-				<div class="col-lg-1 text-center">&nbsp;</div>
+				<div class="col-lg-1 text-center" id="wicket-icon-row-${defendingPlayer.playerProfileId }">
+                </div>
 				<div class="col-lg-3 text-center">&nbsp;</div>
 				<div class="col-lg-2 text-center">&nbsp;</div>
 				<div class="col-lg-1 text-center">&nbsp;</div>
@@ -42,9 +48,20 @@
 		}*/
 		
 		.teamrow {
-		  border-bottom: 1px solid lightgray;
+		    border-bottom: 1px solid lightgray;
 		}
-
+        .icon-small {
+            font-size: 10px;
+            color:black;
+        }
+        .icon-big {
+            font-size: 20px;
+            color:black;
+            padding-top: 10px;
+        }
+        .teamscore {
+            font-size: 60px;
+        }
 </style>
 <script type="text/javascript">
     var teamNameClicked = 'team1Name';
@@ -59,6 +76,15 @@
         } else {
             clock.start();
         }
-        
     });
+    
+    
+	$(".row.teamrow").hover(function() {
+		var rowId = $(this).attr('id');
+		var hoverRowId = rowId.substr(8);
+		var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" onclick="loadWicketModal();" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
+		$("#wicket-icon-row-"+hoverRowId).append($(loadWicketIconHTML));
+	}, function() {
+		$(this).find("a:last").remove();
+	});
 </script>
