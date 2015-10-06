@@ -5,31 +5,29 @@
         <%@include file="fill-wicket-details-modal.jsp"%>
 		<div class="row">
 			<div class="col-lg-3 text-left">
-				<h3>${defendingTeamName}</h3>
+				<h4>${defendingTeamName}</h4>
 			</div>
-			<div class="col-lg-1 text-center">&nbsp;</div>
-			<div class="col-lg-3 text-center">Wicket Taken By</div>
-			<div class="col-lg-2 text-center">How</div>
-			<div class="col-lg-1 text-center">Assist</div>
-			<div class="col-lg-1 text-center">Time</div>
+			<div class="col-lg-1 text-center" style="width:50px;">&nbsp;</div>
+			<div class="col-lg-3 text-center"><h5>Wicket Taken By</h5></div>
+			<div class="col-lg-2 text-center"><h5>How</h5></div>
+			<div class="col-lg-1 text-center"><h5>Time</h5></div>
 		</div>
 
 		<c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
 			<div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
 				<div class="col-lg-3 text-left">
 					<h4>
-					${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.name }
+					<span id="scoresheetDefender-${defendingPlayer.playerProfileId }">${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.name }</span>
 					<c:if test="${lpHandle.count > 9}">
                         <a href="#teamrow-${defendingPlayer.playerProfileId }" onclick="loadSubstituteModal();"><span class="glyphicon glyphicon-random icon-small"></span></a>
                      </c:if>
                      </h4>
 				</div>
-				<div class="col-lg-1 text-center" id="wicket-icon-row-${defendingPlayer.playerProfileId }">
+				<div class="col-lg-1 text-left" id="wicket-icon-row-${defendingPlayer.playerProfileId }" style="width:50px;padding:0px;">
                 </div>
-				<div class="col-lg-3 text-center">&nbsp;</div>
-				<div class="col-lg-2 text-center">&nbsp;</div>
-				<div class="col-lg-1 text-center">&nbsp;</div>
-				<div class="col-lg-1 text-center">&nbsp;</div>
+				<div class="col-lg-3 text-center" id="scoresheetChaser-${defendingPlayer.playerProfileId }"></div>
+				<div class="col-lg-2 text-center" id="scoresheetSymbol-${defendingPlayer.playerProfileId }"></div>
+				<div class="col-lg-1 text-center" id="scoresheetTime-${defendingPlayer.playerProfileId }"></div>
 			</div>
 		</c:forEach>
 	</div>
@@ -62,6 +60,8 @@
         .teamscore {
             font-size: 60px;
         }
+        .modal-dialog {
+        color:black;}
 </style>
 <script type="text/javascript">
     var teamNameClicked = 'team1Name';
@@ -82,9 +82,27 @@
 	$(".row.teamrow").hover(function() {
 		var rowId = $(this).attr('id');
 		var hoverRowId = rowId.substr(8);
-		var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" onclick="loadWicketModal();" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
+		var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
 		$("#wicket-icon-row-"+hoverRowId).append($(loadWicketIconHTML));
+		
+		$(".wicketIcon").click(function() {
+	        var rowId = $(this).attr('href');
+	        var hoverRowId = rowId.substr(9);
+	        $('#defender').html($("#scoresheetDefender-"+ hoverRowId).html().split('.')[1]);
+	        $('#selectedTeamRow').val(hoverRowId);
+	        $("#fillWicketDetailsModal").modal();
+	    });
 	}, function() {
 		$(this).find("a:last").remove();
 	});
+	
+	$("#btnSubmit").click(function() {
+		$("#scoresheetChaser-"+$('#selectedTeamRow').val()).html("<h5>"+$("#chaser").val()+"</h5>");
+		$("#scoresheetSymbol-"+$('#selectedTeamRow').val()).html("<h5>"+$("#symbol").val()+"</h5>");
+		$("#scoresheetTime-"+$('#selectedTeamRow').val()).html("<h5>"+$("#timePlayed").html()+"</h5>");
+        
+		$("#fillWicketDetailsModal").modal("hide");
+    });
+	
+	
 </script>
