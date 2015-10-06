@@ -62,6 +62,11 @@ public class HomePageController {
         return modelAndView;
     }
     
+    @RequestMapping(value="/loadDemoScoreSheet", method=RequestMethod.GET)
+    public ModelAndView showDemoScoreSheet() {
+        ModelAndView modelAndView = new ModelAndView("scoresheet/demoscoresheet");
+        return modelAndView;
+    }
     /*private List<Menu> createHomepageMenus() {
         List<Menu> lstMenu = new ArrayList<Menu>();
         Menu createTour = new Menu();
