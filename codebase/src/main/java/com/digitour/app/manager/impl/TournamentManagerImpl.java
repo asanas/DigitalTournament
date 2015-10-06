@@ -49,7 +49,12 @@ public class TournamentManagerImpl implements TournamentManager {
         TournamentParticipant tourparti2 = createTourPartipant(tournament, team2Id);
         createTournamentPartipantTeam(tourparti1, team1Id);
         createTournamentPartipantTeam(tourparti2, team2Id);
-        TournamentMatchDetails tournamentMatch = createTournamentMatch(tournament, team1Id, team2Id);
+        TournamentMatchDetails tournamentMatch = createTournamentMatch(tournament, tourparti1.getTourParticipantId(), tourparti2.getTourParticipantId());
+        if(tossWonTeamId.equals(team1Id)) {
+            tossWonTeamId = tourparti1.getTourParticipantId();
+        } else {
+            tossWonTeamId = tourparti2.getTourParticipantId();
+        }
         saveMatchTossDetails(tournamentMatch, tossWonTeamId, electedTo);
         return tournamentMatch;
     }
@@ -74,10 +79,10 @@ public class TournamentManagerImpl implements TournamentManager {
         }
     }
 
-    private TournamentMatchDetails createTournamentMatch(Tournament tournament, Long team1Id, Long team2Id) {
+    private TournamentMatchDetails createTournamentMatch(Tournament tournament, Long team1ParticipantId, Long team2ParticipantId) {
         TournamentMatchDetails tourMatchDetails = new TournamentMatchDetails();
-        tourMatchDetails.setTeamParticipant1Id(team1Id);
-        tourMatchDetails.setTeamParticipant2Id(team2Id);
+        tourMatchDetails.setTeamParticipant1Id(team1ParticipantId);
+        tourMatchDetails.setTeamParticipant2Id(team2ParticipantId);
         tourMatchDetails.setTournamentId(tournament.getTournamentId());
         tournamentMatchDAO.save(tourMatchDetails);
     	return tourMatchDetails;

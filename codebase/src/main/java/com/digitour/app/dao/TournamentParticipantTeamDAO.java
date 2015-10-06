@@ -8,5 +8,5 @@ import com.digitour.app.db.model.TournamentParticipantTeam;
 public interface TournamentParticipantTeamDAO {
 	public void save(TournamentParticipantTeam tourTeam);
 
-    public List<TournamentParticipantTeam> getByTournamentParticipantByChaseNumber(TournamentParticipant tournamentParticipant1);
+    public List<TournamentParticipantTeam> getByTournamentParticipantOrderByChaseNumber(TournamentParticipant tournamentParticipant1);
 }

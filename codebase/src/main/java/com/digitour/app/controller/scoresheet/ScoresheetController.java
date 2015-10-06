@@ -66,27 +66,37 @@ public class ScoresheetController {
 
     private void populateParticipatingTeams(TournamentMatchDetails tournamentMatchDetails, TournamentParticipant tournamentParticipant1,
             TournamentParticipant tournamentParticipant2, MatchTossDetails tossDetails, ModelAndView modelAndView) {
-        List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantByChaseNumber(tournamentParticipant1);
-        List<TournamentParticipantTeam> tournamentParticipantTeam2 = tournamentParticipantTeamDAO.getByTournamentParticipantByChaseNumber(tournamentParticipant2);
+        List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant1);
+        List<TournamentParticipantTeam> tournamentParticipantTeam2 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant2);
         
         List<PlayerProfile> participatingTeam1 = getTeamPlayers(tournamentParticipantTeam1);
         List<PlayerProfile> participatingTeam2 = getTeamPlayers(tournamentParticipantTeam2);
+        
+        Team team1 = teamDAO.getById(tournamentParticipant1.getTeamId());
+        Team team2 = teamDAO.getById(tournamentParticipant2.getTeamId());
+        
+        modelAndView.addObject("team1Name", team1.getName());
+        modelAndView.addObject("team2Name", team2.getName());
         
         if("DEFENCE".equalsIgnoreCase(tossDetails.getElectedTo())) {
             if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId())) {
                 modelAndView.addObject("defendingTeam", participatingTeam1);
                 modelAndView.addObject("chasingTeam", participatingTeam2);
+                modelAndView.addObject("defendingTeamName", team1.getName());
             } else {
                 modelAndView.addObject("defendingTeam", participatingTeam2);
                 modelAndView.addObject("chasingTeam", participatingTeam1);
+                modelAndView.addObject("defendingTeamName", team2.getName());
             }
         } else {
             if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId())) {
                 modelAndView.addObject("defendingTeam", participatingTeam2);
                 modelAndView.addObject("chasingTeam", participatingTeam1);
+                modelAndView.addObject("defendingTeamName", team2.getName());
             } else {
                 modelAndView.addObject("defendingTeam", participatingTeam1);
                 modelAndView.addObject("chasingTeam", participatingTeam2);
+                modelAndView.addObject("defendingTeamName", team1.getName());
             }
         }
     }

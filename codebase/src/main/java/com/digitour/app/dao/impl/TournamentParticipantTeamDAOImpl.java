@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
+import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
@@ -30,8 +34,11 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
 
 
     @Override
-    public List<TournamentParticipantTeam> getByTournamentParticipantByChaseNumber(TournamentParticipant tournamentParticipant1) {
-        return null;
+    public List<TournamentParticipantTeam> getByTournamentParticipantOrderByChaseNumber(TournamentParticipant tournamentParticipant1) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(TournamentParticipantTeam.class);
+        criteria.add(Restrictions.eq("tournamentPartipantId", tournamentParticipant1.getTourParticipantId()))
+                .addOrder(Order.asc("playerChaseNumber"));
+        return (List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria);
     }
 
     

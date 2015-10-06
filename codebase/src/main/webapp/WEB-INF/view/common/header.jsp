@@ -21,6 +21,8 @@
 
     <!-- Custom Fonts -->
     <link href="${pageContext.request.contextPath}/static_content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    
+    <link href="${pageContext.request.contextPath}/static_content/css/flipclock.css" rel="stylesheet" type="text/css">
     <!--<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> -->
 
@@ -49,6 +51,8 @@
 	
 	<!-- Custom Theme JavaScript -->
 	<script src="${pageContext.request.contextPath}/static_content/js/freelancer.js"></script>
+	
+    <script src="${pageContext.request.contextPath}/static_content/js/flipclock.js"></script>
 </head>
 
 <body id="page-top" class="index">

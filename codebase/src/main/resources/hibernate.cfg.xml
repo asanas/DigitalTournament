@@ -10,7 +10,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.default_schema">digitourapp</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
         <!-- Mapping annoted classes -->
         <!--  
         <mapping class="com.digitour.app.model.FoulMaster"/>

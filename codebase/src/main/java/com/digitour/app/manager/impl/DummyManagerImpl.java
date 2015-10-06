@@ -57,7 +57,7 @@ public class DummyManagerImpl implements DummyManager
         City city = cityMasterDAO.getById(2L);
         for(int i = 1; i<=numberOfTeams;i++) {
             Team dummyTeam = new Team();
-            dummyTeam.setName("Dream Test team"+i);
+            dummyTeam.setName("Dream Test Team"+i);
             dummyTeam.setFounderName("Dream Test Founder");
             dummyTeam.setClubAddressLine1("Dream Test address line - test" + i);
             dummyTeam.setDescription("Dream Test description" + i);
