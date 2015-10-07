@@ -69,7 +69,8 @@ public class DummyManagerImpl implements DummyManager
             
             for(int j =1;j<= numberOfPlayers; j++) {
                 PlayerProfile dummyProfile = new PlayerProfile();
-                dummyProfile.setName("Dream Team Player" + j);
+                dummyProfile.setFirstName("DFNAME" + j);
+                dummyProfile.setLastName("DLNAME" + j);
                 dummyProfile.setDateOfBirth(new Date());
                 dummyProfile.setAchievements("Dream Test achievements" + j);
                 dummyProfile.setCity(city);

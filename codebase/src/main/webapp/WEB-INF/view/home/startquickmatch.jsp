@@ -7,9 +7,7 @@
                     <select id="team1" class="teamList">
                         <option id="">Select Team1</option>
                         <c:forEach items="${teamList}" var="team">
-                            <li>
-                                <option id="${team.teamId }">${team.name }</option>
-                            </li>
+                            <option id="${team.teamId }">${team.name }</option>
                         </c:forEach>
                     </select>
                     <div class="">
@@ -20,9 +18,7 @@
                     <select id="team2" class="teamList">
                         <option id="">Select Team2</option>
                         <c:forEach items="${teamList}" var="team">
-                            <li>
-                                <option id="${team.teamId }">${team.name }</option>
-                            </li>
+                            <option id="${team.teamId }">${team.name }</option>
                         </c:forEach>
                     </select>
                     <div class="">
@@ -44,7 +40,7 @@
                     <span class="info-text" id="teamSelection">
                         and elected 
                         <label><input type="radio" name="electedTo" value="Defence"/>Defence</label>
-                        <label><input type="radio" name="electedTo" value="Attack"/>Attack</label>
+                        <label><input type="radio" name="electedTo" value="Chase"/>Chase</label>
                     </span>
                 </div>
                 <div class="col-lg-2 col-lg-offset-1 text-right">
@@ -62,48 +58,47 @@ label { padding: 10px;}
 -->
 </style>
 <%@include file="../common/footer.jsp"%>
-    <script type="text/javascript">
-    $(function() {
-        $(".teamList").selectmenu({
-           select: function( event, ui ) {
-                if($("#team1").val() != 'Select Team1' && $("#team2").val() != 'Select Team2') {
-                    if($("#team1").val() === $("#team2").val()) {
-                        alert('Please select two different teams to start match.');
-                        $("#beginMatchRow").hide();
-                    } else {
-                    	var team1Id = $("#team1").find(":selected").attr("id");
-                    	var team2Id = $("#team2").find(":selected").attr("id");
-                        
-                        var radioBtn1 = $('<label><input type="radio" name="tossWonTeam" value="'+team1Id+'"/>'+$("#team1").val()+'</label>');
-                        var radioBtn2 = $('<label><input type="radio" name="tossWonTeam" value="'+team2Id+'"/>'+$("#team2").val()+'</label>');
-                        $('#tossWonByRadioContainer').html('');
-                        radioBtn1.appendTo('#tossWonByRadioContainer');
-                        radioBtn2.appendTo('#tossWonByRadioContainer');
-                        $("#beginMatchRow").show();
-                    }
-                } else {
+<script type="text/javascript">
+$(function() {
+    $(".teamList").selectmenu({
+       select: function( event, ui ) {
+            if($("#team1").val() != 'Select Team1' && $("#team2").val() != 'Select Team2') {
+                if($("#team1").val() === $("#team2").val()) {
+                    alert('Please select two different teams to start match.');
                     $("#beginMatchRow").hide();
+                } else {
+                    var team1Id = $("#team1").find(":selected").attr("id");
+                    var team2Id = $("#team2").find(":selected").attr("id");
+                    var radioBtn1 = $('<label><input type="radio" name="tossWonTeam" value="'+team1Id+'"/>'+$("#team1").val()+'</label>');
+                    var radioBtn2 = $('<label><input type="radio" name="tossWonTeam" value="'+team2Id+'"/>'+$("#team2").val()+'</label>');
+                    $('#tossWonByRadioContainer').html('');
+                    radioBtn1.appendTo('#tossWonByRadioContainer');
+                    radioBtn2.appendTo('#tossWonByRadioContainer');
+                    $("#beginMatchRow").show();
                 }
-           }
-        });
-        
-        $( "#beginMatch" ).click(function() {
-            if($('input[name=tossWonTeam]:checked') && $('input[name=electedTo]:checked')) {
-            	var team1Id = $("#team1").find(":selected").attr("id");
-                var team2Id = $("#team2").find(":selected").attr("id");
-                var queryParam = 'team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
-                +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();
-                $.ajax({
-                    url: '${pageContext.request.contextPath}/startQuickMatch',
-                    data: queryParam,
-                    type: "POST",
-                    success: function(data) {
-                        window.location = '${pageContext.request.contextPath}/loadScoresheet/match/'+data+'/inning/1/turn/1';
-                    }
-                });
+            } else {
+                $("#beginMatchRow").hide();
             }
-        });
+       }
     });
-    </script>
+    
+    $( "#beginMatch" ).click(function() {
+        if($('input[name=tossWonTeam]:checked') && $('input[name=electedTo]:checked')) {
+        	var team1Id = $("#team1").find(":selected").attr("id");
+            var team2Id = $("#team2").find(":selected").attr("id");
+            var queryParam = 'team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
+            +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();
+            $.ajax({
+                url: '${pageContext.request.contextPath}/startQuickMatch',
+                data: queryParam,
+                type: "POST",
+                success: function(data) {
+                    window.location = '${pageContext.request.contextPath}/loadScoresheet/match/'+data+'/inning/1/turn/1';
+                }
+            });
+        }
+    });
+});
+</script>
 </body>
 </html>

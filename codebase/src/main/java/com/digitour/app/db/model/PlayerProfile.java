@@ -1,6 +1,7 @@
 package com.digitour.app.db.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +29,9 @@ public class PlayerProfile implements java.io.Serializable {
     private MajorSkill majorSkill;
     private Role role;
     private Gender gender;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String middleName;
     private Date dateOfBirth;
     private byte[] photo;
     private int height;
@@ -38,6 +41,7 @@ public class PlayerProfile implements java.io.Serializable {
     private String contact;
     private Team team;
     private Long tournamentChaseNumber;
+    private List<MatchPointDetails> matchPointDetailsList;
     
     public PlayerProfile() {
     }
@@ -65,11 +69,6 @@ public class PlayerProfile implements java.io.Serializable {
     @Column(name = "role")
     public Role getRole() {
     	return this.role;
-    }
-
-    @Column(name = "full_name", nullable = false)
-    public String getName() {
-    	return this.name;
     }
 
     @Column(name = "date_of_birth", nullable = false)
@@ -131,11 +130,6 @@ public class PlayerProfile implements java.io.Serializable {
     }
 
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
@@ -144,8 +138,6 @@ public class PlayerProfile implements java.io.Serializable {
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
-
-    
 
     public void setHeight(int height) {
         this.height = height;
@@ -191,5 +183,49 @@ public class PlayerProfile implements java.io.Serializable {
     public void setTournamentChaseNumber(Long tournamentChaseNumber)
     {
         this.tournamentChaseNumber = tournamentChaseNumber;
+    }
+
+    @Column(name = "first_name", nullable = false)
+    public String getFirstName()
+    {
+        return firstName;
+    }
+
+    @Column(name = "last_name", nullable = false)
+    public String getLastName()
+    {
+        return lastName;
+    }
+
+    @Column(name = "middle_name", nullable = false)
+    public String getMiddleName()
+    {
+        return middleName;
+    }
+
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
+
+    public void setMiddleName(String middleName)
+    {
+        this.middleName = middleName;
+    }
+
+    @Transient
+    public List<MatchPointDetails> getMatchPointDetailsList()
+    {
+        return matchPointDetailsList;
+    }
+
+    public void setMatchPointDetailsList(List<MatchPointDetails> matchPointDetailsList)
+    {
+        this.matchPointDetailsList = matchPointDetailsList;
     }
 }

@@ -18,13 +18,23 @@
 					<div class="form-group">
 						<label class="control-label col-lg-4" for="chaser">Chaser Name:</label>
 						<div class="col-lg-6">
-							<input type="text" class="form-control" id="chaser" placeholder="Chaser name">
+							<select id="chaser" class="form-control">
+	                            <option value="NA">None</option>
+								<c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
+	                                <option id="${chasingPlayer.playerProfileId }">${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
+								</c:forEach>
+							</select>
 						</div>
 					</div>
 					<div class="form-group">
-                        <label class="control-label col-lg-4" for="symbol">Symbol:</label>
+                        <label class="control-label col-lg-4" for="symbol">Select How:</label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" id="symbol" placeholder="Symbol">
+                            <select id="symbol" class="form-control">
+                                <option value="1">Simple Touch</option>
+                                <option value="2">Out of field</option>
+                                <option value="3">Dive</option>
+                                <option value="4">Pole Dive</option>
+                            </select>
                         </div>
                     </div>
 					<div class="form-group">

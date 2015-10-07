@@ -1,12 +1,13 @@
 package com.digitour.app.db.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "matchpointdetails")
@@ -18,12 +19,15 @@ public class MatchPointDetails implements java.io.Serializable {
 	private Long defenceParticipantProfileId;
 	private Long attackParticipantProfileId;
 	private Long assistParticipantProfileId;
-	private long inningNumber;
-	private long turnNumber;
-	private Date runTime;
-	private Date perTime;
+	private Long inningNumber;
+	private Long turnNumber;
+	private Long runTime;
+	private Long perTime;
 	private boolean isOut;
 	private boolean turnClosure;
+	private String defenderName;
+	private String chaserName;
+	private String assistName;
 	
 	public MatchPointDetails() {
 	}
@@ -49,38 +53,52 @@ public class MatchPointDetails implements java.io.Serializable {
 	}
 
 	@Column(name = "inning_number", nullable = false)
-    public long getInningNumber() {
+    public Long getInningNumber() {
 		return this.inningNumber;
 	}
 
-	public void setInningNumber(long inningNumber) {
+	public void setInningNumber(Long inningNumber) {
 		this.inningNumber = inningNumber;
 	}
 
 	@Column(name = "turn_number", nullable = false)
-    public long getTurnNumber() {
+    public Long getTurnNumber() {
 		return this.turnNumber;
 	}
 
-	public void setTurnNumber(long turnNumber) {
+	public void setTurnNumber(Long turnNumber) {
 		this.turnNumber = turnNumber;
 	}
 	
 	@Column(name = "run_time", nullable = false)
-    public Date getRunTime() {
+    public Long getRunTime() {
 		return this.runTime;
 	}
 
-	public void setRunTime(Date runTime) {
+	public void setRunTime(Long runTime) {
 		this.runTime = runTime;
 	}
 
 	@Column(name = "per_time", nullable = false)
-	public Date getPerTime() {
+	public Long getPerTime() {
 		return this.perTime;
 	}
 
-	public void setPerTime(Date perTime) {
+	@Transient
+	public String getFormattedPerTime() {
+	    long minutes = this.perTime/60;
+	    long seconds = this.perTime%60;
+	    return "<minute>" + minutes + "</minute>m<second>" + seconds + "</second>s";
+    }
+	
+	@Transient
+    public String getFormattedRunTime() {
+        long minutes = this.runTime/60;
+        long seconds = this.runTime%60;
+        return "<minute>" + minutes + "</minute>m<second>" + seconds + "</second>s";
+    }
+	
+	public void setPerTime(Long perTime) {
 		this.perTime = perTime;
 	}
 
@@ -89,12 +107,12 @@ public class MatchPointDetails implements java.io.Serializable {
 		return matchId;
 	}
 
-	@Column(name = "defence_id")
+	@Column(name = "defender_id")
 	public Long getDefenceParticipantProfileId() {
 		return defenceParticipantProfileId;
 	}
 
-	@Column(name = "attack_id")
+	@Column(name = "attacker_id")
 	public Long getAttackParticipantProfileId() {
 		return attackParticipantProfileId;
 	}
@@ -104,12 +122,14 @@ public class MatchPointDetails implements java.io.Serializable {
 		return assistParticipantProfileId;
 	}
 
-	@Column(name = "out")
+	@Column(name="out", columnDefinition = "TINYINT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isOut() {
 		return isOut;
 	}
 
-	@Column(name = "turn_closure")
+	@Column(name="turn_closure", columnDefinition = "TINYINT")
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isTurnClosure() {
 		return turnClosure;
 	}
@@ -137,5 +157,38 @@ public class MatchPointDetails implements java.io.Serializable {
 	public void setTurnClosure(boolean turnClosure) {
 		this.turnClosure = turnClosure;
 	}
+
+	@Transient
+    public String getDefenderName()
+    {
+        return defenderName;
+    }
+
+	@Transient
+    public String getChaserName()
+    {
+        return chaserName;
+    }
+
+	@Transient
+    public String getAssistName()
+    {
+        return assistName;
+    }
+
+    public void setDefenderName(String defenderName)
+    {
+        this.defenderName = defenderName;
+    }
+
+    public void setChaserName(String chaserName)
+    {
+        this.chaserName = chaserName;
+    }
+
+    public void setAssistName(String assistName)
+    {
+        this.assistName = assistName;
+    }
 
 }

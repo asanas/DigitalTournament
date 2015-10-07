@@ -9,4 +9,6 @@ public interface TournamentParticipantTeamDAO {
 	public void save(TournamentParticipantTeam tourTeam);
 
     public List<TournamentParticipantTeam> getByTournamentParticipantOrderByChaseNumber(TournamentParticipant tournamentParticipant1);
+
+    public TournamentParticipantTeam getById(Long attackParticipantProfileId);
 }

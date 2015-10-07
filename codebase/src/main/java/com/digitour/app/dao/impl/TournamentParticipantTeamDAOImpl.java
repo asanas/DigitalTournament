@@ -41,5 +41,10 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
         return (List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria);
     }
 
-    
+
+    @Override
+    public TournamentParticipantTeam getById(Long tournamentParticipantProfileId) {
+        return this.hibernateTemplate.load(TournamentParticipantTeam.class, tournamentParticipantProfileId);
+    }
+
 }
