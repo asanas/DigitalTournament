@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.MatchTossDetails;
+import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
@@ -46,5 +47,15 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
     public TournamentParticipantTeam getById(Long tournamentParticipantProfileId) {
         return this.hibernateTemplate.load(TournamentParticipantTeam.class, tournamentParticipantProfileId);
     }
+
+
+	@Override
+	public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile playerProfile,
+			TournamentParticipant tournamentParticipant) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(TournamentParticipantTeam.class);
+        criteria.add(Restrictions.eq("playerProfileId", playerProfile.getPlayerProfileId()))
+        		.add(Restrictions.eq("tournamentPartipantId", tournamentParticipant.getTourParticipantId()));
+        return ((List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria)).get(0);
+	}
 
 }

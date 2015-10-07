@@ -30,7 +30,7 @@
 				id="teamrow-${defendingPlayer.playerProfileId }">
 				<div class="col-lg-3 text-left">
 					<h4>
-						<span id="scoresheetDefender-${defendingPlayer.playerProfileId }">${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.firstName }</span>
+						<span id="scoresheetDefender-${defendingPlayer.playerProfileId }">${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.firstName } ${defendingPlayer.lastName }</span>
 						<c:if test="${lpHandle.count > 9}">
 							<a href="#teamrow-${defendingPlayer.playerProfileId }"
 								onclick="loadSubstituteModal();"><span
@@ -147,17 +147,9 @@ $(function() {
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
 
-        var currentURL = window.location.pathname; // /digital-tour/loadScoresheet/match/6/inning/1/turn/1
-        var turn = currentURL.substr(currentURL.indexOf('turn')+5, 1);
-        var inning = currentURL.substr(currentURL.indexOf('inning')+7, 1);
-        
         var queryParam = 'matchId='+$('#matchId').val() +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
-        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").html()+'&inning='+inning+'&turn='+turn;
+        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+currentInning+'&turn='+currentTurn;
 
-        /*$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
-        $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
-        $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
-*/
         $.ajax({
             url: '${pageContext.request.contextPath}/addMatchPoint',
             data: queryParam,

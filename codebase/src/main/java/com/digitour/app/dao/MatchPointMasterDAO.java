@@ -9,4 +9,6 @@ public interface MatchPointMasterDAO {
 
     public List<MatchPointDetails> getMatchPointsByInningTurnAndDefender(TournamentMatchDetails tournamentMatchDetails, Long tournamentParticipantPlayerId,
             Long inning, Long turn);
+
+	public void save(MatchPointDetails matchPoint);
 }

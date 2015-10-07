@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.MatchPointMasterDAO;
 import com.digitour.app.db.model.MatchPointDetails;
@@ -28,4 +29,10 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO{
                 .add(Restrictions.eq("turnNumber", turn));
         return (List<MatchPointDetails>) this.hibernateTemplate.findByCriteria(criteria);
     }
+
+    @Transactional
+	@Override
+	public void save(MatchPointDetails matchPoint) {
+		this.hibernateTemplate.saveOrUpdate(matchPoint);
+	}
 }

@@ -18,7 +18,7 @@
 						<label class="control-label col-lg-4" for="chaser">Chaser Name:</label>
 						<div class="col-lg-6">
 							<select id="chaser" class="form-control">
-	                            <option value="NA">None</option>
+	                            <option value="0">None</option>
 								<c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
 	                                <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
 								</c:forEach>
@@ -29,10 +29,10 @@
                         <label class="control-label col-lg-4" for="symbol">Select How:</label>
                         <div class="col-lg-6">
                             <select id="symbol" class="form-control">
-                                <option value="1">Simple Touch</option>
-                                <option value="2">Out of field</option>
-                                <option value="3">Dive</option>
-                                <option value="4">Pole Dive</option>
+                                <option value="0">None</option>
+                                <c:forEach items="${ symbolList}" var="symbol" varStatus="lpHandle">
+                                    <option value="${symbol.symbolId}">${symbol.description}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>

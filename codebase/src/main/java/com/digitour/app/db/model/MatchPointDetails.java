@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -14,7 +16,7 @@ import org.hibernate.annotations.Type;
 public class MatchPointDetails implements java.io.Serializable {
 
 	private Long matchPointId;
-	private Long symbolId;
+	private Symbol symbol;
 	private Long matchId;
 	private Long defenceParticipantProfileId;
 	private Long attackParticipantProfileId;
@@ -43,13 +45,14 @@ public class MatchPointDetails implements java.io.Serializable {
 		this.matchPointId = matchPointId;
 	}
 	
-	@Column(name="symbol_id", nullable = false)
-	public Long getSymbolId() {
-		return this.symbolId;
+	@ManyToOne
+	@JoinColumn(name = "SYMBOL_ID")
+	public Symbol getSymbol() {
+		return this.symbol;
 	}
 
-	public void setSymbolId(Long symbolId) {
-		this.symbolId = symbolId;
+	public void setSymbol(Symbol symbol) {
+		this.symbol = symbol;
 	}
 
 	@Column(name = "inning_number", nullable = false)
