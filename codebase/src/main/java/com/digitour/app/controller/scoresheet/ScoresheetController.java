@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.digitour.app.dao.MatchPointMasterDAO;
@@ -59,6 +61,13 @@ public class ScoresheetController {
         return modelAndView;
     }
 
+    @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
+    @ResponseBody
+    public String startQuickMatch(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
+            @RequestParam  Long symbolId, @RequestParam  String formattedTimePlayed, Long inning, Long turn) {
+        return "success";
+    }
+    
     private void populateScoresheetData(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
         TournamentParticipant tournamentParticipant1 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant1Id());
         TournamentParticipant tournamentParticipant2 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant2Id());

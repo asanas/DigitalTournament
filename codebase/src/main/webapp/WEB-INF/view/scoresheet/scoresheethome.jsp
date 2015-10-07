@@ -147,28 +147,33 @@ $(function() {
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
 
-        var queryParam = 'matchId='+$('#matchId').val() +'defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+'&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").html();
-        console.log(queryParam);
+        var currentURL = window.location.pathname; // /digital-tour/loadScoresheet/match/6/inning/1/turn/1
+        var turn = currentURL.substr(currentURL.indexOf('turn')+5, 1);
+        var inning = currentURL.substr(currentURL.indexOf('inning')+7, 1);
+        
+        var queryParam = 'matchId='+$('#matchId').val() +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
+        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").html()+'&inning='+inning+'&turn='+turn;
 
-        $("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
+        /*$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
         $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
         $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
-
-        /*$.ajax({
+*/
+        $.ajax({
             url: '${pageContext.request.contextPath}/addMatchPoint',
             data: queryParam,
             type: "POST",
             success: function(data) {
                 if(data == 'success') {
-                	$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").val() + "</h5>");
-                    $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").val() + "</h5>");
+                	$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
+                    $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
                     $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
+                    $("#fillWicketDetailsModal").modal("hide");
                     /*var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
-                    $("#chasingTeamScore").html(chasingTeamScore+1);
+                    $("#chasingTeamScore").html(chasingTeamScore+1);*/
                 }
             }
-        });*/
-        $("#fillWicketDetailsModal").modal("hide");
+        });
+        
     });
 });
 	
