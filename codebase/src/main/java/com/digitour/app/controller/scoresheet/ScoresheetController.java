@@ -65,7 +65,7 @@ public class ScoresheetController {
         MatchTossDetails tossDetails = tossDetailsDAO.getTossDetailsByMatchId(tournamentMatchDetails.getTournamentMatchId());
         String tossWonMsg = createTossWonMessage(tournamentParticipant1, tournamentParticipant2, tossDetails);
         modelAndView.addObject("tossWonMessage", tossWonMsg);
-        
+        modelAndView.addObject("matchId", tournamentMatchDetails.getTournamentMatchId());
         populateParticipatingTeams(tournamentMatchDetails, tournamentParticipant1, tournamentParticipant2, tossDetails, modelAndView, inning, turn);
     }
 

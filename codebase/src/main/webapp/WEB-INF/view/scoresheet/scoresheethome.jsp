@@ -48,6 +48,8 @@
 				</div>
 			</div>
 		</c:forEach>
+		
+		<input type="hidden" id="matchId" value="${matchId }"> 
 	</div>
 </header>
 <%@include file="../common/footer.jsp"%>
@@ -141,18 +143,19 @@ $(function() {
 
     $("#btnSubmit").click(function() {
         // TODO: Ajax call to save wicket details...
-        
+        var defenderProfileId = $("#selectedTeamRow").val();
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
-        var timePlayed = $("#timePlayed").html();
-        
-        // var queryParam = 'defender='+team1Id+'&team2Id='+team2Id+'&tossWonBy='+$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();
-    
+
+        var queryParam = 'matchId='+$('#matchId').val() +'defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+'&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").html();
+        console.log(queryParam);
+
         $("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
         $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
         $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
+
         /*$.ajax({
-            url: '${pageContext.request.contextPath}/startQuickMatch',
+            url: '${pageContext.request.contextPath}/addMatchPoint',
             data: queryParam,
             type: "POST",
             success: function(data) {
