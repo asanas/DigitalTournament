@@ -90,16 +90,24 @@ public class MatchPointDetails implements java.io.Serializable {
 
 	@Transient
 	public String getFormattedPerTime() {
+		String formattedPerTime = "";
 	    long minutes = this.perTime/60;
 	    long seconds = this.perTime%60;
-	    return "<minute>" + minutes + "</minute>m <second>" + seconds + "</second>s";
+	    if(minutes > 0 ) {
+	    	formattedPerTime += "<minute>" + minutes + "</minute>m ";
+	    }
+	    return formattedPerTime + "<second>" + seconds + "</second>s";
     }
 	
 	@Transient
     public String getFormattedRunTime() {
-        long minutes = this.runTime/60;
+		String formattedRunTime = "";
+		long minutes = this.runTime/60;
         long seconds = this.runTime%60;
-        return "<minute>" + minutes + "</minute>m <second>" + seconds + "</second>s";
+        if(minutes > 0 ) {
+        	formattedRunTime += "<minute>" + minutes + "</minute>m ";
+	    }
+	    return formattedRunTime + "<second>" + seconds + "</second>s";
     }
 	
 	public void setPerTime(Long perTime) {

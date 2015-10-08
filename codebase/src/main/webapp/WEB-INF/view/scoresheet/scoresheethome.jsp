@@ -104,6 +104,8 @@
 
 (function(window, document) {
 	window.clock = window.clock || {};
+	window.lastWicketTime = window.lastWicketTime || 0;
+	window.currentStpWtchTime = window.currentStpWtchTime || 0;
 	var currentURL = window.location.pathname; // /digital-tour/loadScoresheet/match/6/inning/1/turn/1
 	var currentTurn = currentURL.substr(currentURL.indexOf('turn')+5, 1);
 	var currentInning = currentURL.substr(currentURL.indexOf('inning')+7, 1);
@@ -127,16 +129,17 @@
     });
     
     if('${timeLapsed}' && '${timeLapsed}' > 0) {
+    	window.lastWicketTime = parseInt('${timeLapsed}');
     	window.clock.setTime(${timeLapsed});
     	window.clock.start();
     } 
 
     $(".clock").click(function() {
         if (window.clock.running) {
-        	window.clock.stop();
-        	window.clock.reset();
+            window.clock.stop();
+            window.clock.reset();
         } else {
-        	window.clock.start();
+            window.clock.start();
         }
     });
 
@@ -147,34 +150,33 @@
          $("#wicket-icon-row-" + hoverRowId).append($(loadWicketIconHTML));
 
          $(".wicketIcon").click(function() {
-        	 if(clock.running) {
+              if(clock.running) {
 	            var rowId = $(this).attr('href');
 	            var hoverRowId = rowId.substr(9);
-	            var currentTime = clock.getTime();
-	            var minutes = Math.floor(currentTime/60);
-	            var seconds = currentTime%60;
+	            window.currentStpWtchTime = clock.getTime().time;
+	            var playerTime  = window.currentStpWtchTime - window.lastWicketTime;
+	            var minutes = Math.floor(playerTime/60);
+	            var seconds = playerTime%60;
 	            $('#defender').html($("#scoresheetDefender-"+ hoverRowId).html().split('.')[1]);
 	            $('#selectedTeamRow').val(hoverRowId);
 	            $("#chaser").val('NA');
 	            $("#symbol").val('1');
 	            $("#timePlayed").html(minutes+'m '+seconds+'s');
 	            $("#fillWicketDetailsModal").modal();
-        	 } else {
-        		 alert('Please start the stopwatch to add wicket details.');
-        	 }
+              } else {
+                alert('Please start the stopwatch to add wicket details.');
+             }
         });
      }, function() {
          $(this).find("a.wicketIcon:last").remove();
      });
 
     $("#btnSubmit").click(function() {
-        // TODO: Ajax call to save wicket details...
         var defenderProfileId = $("#selectedTeamRow").val();
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
-
         var queryParam = 'matchId='+$('#matchId').val() +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
-        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+currentInning+'&turn='+currentTurn;
+        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+currentInning+'&turn='+currentTurn+'&runTime='+window.currentStpWtchTime;
 
         $.ajax({
             url: '${pageContext.request.contextPath}/addMatchPoint',
@@ -182,11 +184,11 @@
             type: "POST",
             success: function(data) {
                 if(data == 'success') {
-                	$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
+                    $("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
                     $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
                     $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
                     $("#fillWicketDetailsModal").modal("hide");
-                    /*var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
+                    /*var chasingTeamScore = parseInt($(".chasingTeamScore").html()) + 1;
                     $("#chasingTeamScore").html(chasingTeamScore+1);*/
                 }
             }

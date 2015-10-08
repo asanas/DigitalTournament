@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.MatchPointMasterDAO;
@@ -78,7 +79,8 @@ public class ScoresheetController {
     @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
     @ResponseBody
     public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
-            @RequestParam  Long symbolId, @RequestParam  String formattedTimePlayed, Long inning, Long turn) {
+            @RequestParam Long symbolId, @RequestParam String formattedTimePlayed, @RequestParam Long inning, @RequestParam Long turn,
+            @RequestParam Long runTime ) {
     	TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
     	PlayerProfile defenderPlayerProfile = playerProfileDAO.getById(defenderProfileId);
     	PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserProfileId);
@@ -102,7 +104,7 @@ public class ScoresheetController {
     	matchPoint.setOut(true);
     	matchPoint.setTurnClosure(false);
     	matchPoint.setPerTime(perTime);
-    	matchPoint.setRunTime(perTime);
+    	matchPoint.setRunTime(runTime);
     	matchPoint.setTurnNumber(turn);
     	matchPoint.setInningNumber(inning);
         matchPointDAO.save(matchPoint);
@@ -153,18 +155,12 @@ public class ScoresheetController {
 
     private void populateParticipatingTeams(TournamentMatchDetails tournamentMatchDetails, TournamentParticipant tournamentParticipant1,
             TournamentParticipant tournamentParticipant2, MatchTossDetails tossDetails, ModelAndView modelAndView, Long inning, Long turn) {
-        List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant1);
+    	List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant1);
         List<TournamentParticipantTeam> tournamentParticipantTeam2 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant2);
         
         List<PlayerProfile> participatingTeam1 = getTeamPlayers(tournamentParticipantTeam1);
         List<PlayerProfile> participatingTeam2 = getTeamPlayers(tournamentParticipantTeam2);
-        
-        Team team1 = teamDAO.getById(tournamentParticipant1.getTeamId());
-        Team team2 = teamDAO.getById(tournamentParticipant2.getTeamId());
-        
-        modelAndView.addObject("team1Name", team1.getName());
-        modelAndView.addObject("team2Name", team2.getName());
-        
+
         List<PlayerProfile> defendingTeam = findTeamForCurrentInningAndTurn(tossDetails, tournamentParticipant1, tournamentParticipant2, participatingTeam1, participatingTeam2, "DEFENCE", turn);
         List<PlayerProfile> chasingTeam = findTeamForCurrentInningAndTurn(tossDetails, tournamentParticipant1, tournamentParticipant2, participatingTeam1, participatingTeam2, "CHASE", turn);
         
@@ -172,19 +168,37 @@ public class ScoresheetController {
         modelAndView.addObject("chasingTeam", chasingTeam);
         
         modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getName());
+        modelAndView.addObject("chasingTeamName", chasingTeam.get(0).getTeam().getName());
+
+        modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getName());
         
         MatchTurnDetails turnDetails = matchInningDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails.getTournamentMatchId(), inning, turn);
         if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus())) {
-            if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
+        	if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
                 populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
-            } else {
+                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2);
+        	} else {
                 populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
-            }
+                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, tournamentParticipantTeam1);
+        	}
             addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
         }
     }
 
-    private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
+    private void addMatchTotalScoreForBothTeams(ModelAndView modelAndView,
+			TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> chasingParticipantTeam,
+			List<TournamentParticipantTeam> defendingParticipatingTeam) {
+        Long defendingParticipantTeamScore = 0L;
+        Long chasingParticipantTeamScore = 0L;
+        
+        defendingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, chasingParticipantTeam);
+        chasingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam);
+	
+        modelAndView.addObject("defendingTeamScore", defendingParticipantTeamScore);
+        modelAndView.addObject("chasingTeamScore", chasingParticipantTeamScore);
+    }
+
+	private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
         Long timeLapsed = matchPointDAO.getMaxRunTimeByMatchInningAndTurn(tournamentMatchDetails, inning, turn);
         modelAndView.addObject("timeLapsed", timeLapsed);
     }
