@@ -3,6 +3,7 @@ package com.digitour.app.dao.impl;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
@@ -35,4 +36,14 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO{
 	public void save(MatchPointDetails matchPoint) {
 		this.hibernateTemplate.saveOrUpdate(matchPoint);
 	}
+
+    @Override
+    public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
+                .add(Restrictions.eq("inningNumber", inning))
+                .add(Restrictions.eq("turnNumber", turn))
+                .setProjection(Projections.max("runTime"));
+        return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
+    }
 }

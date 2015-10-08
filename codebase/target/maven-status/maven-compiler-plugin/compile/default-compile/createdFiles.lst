@@ -9,8 +9,10 @@ com\digitour\app\dao\impl\TournamentScheduleMasterDAOImpl.class
 com\digitour\app\dao\TournamentMatchFoulMasterDAO.class
 com\digitour\app\dao\impl\TournamentParticipantTeamDAOImpl.class
 com\helloworld\app\controller\HelloWorldController.class
+com\digitour\app\dao\impl\MatchTurnDAOImpl.class
 com\digitour\app\dao\FoulMasterDAO.class
 com\digitour\app\dao\RoleMasterDAO.class
+com\digitour\app\dao\SymbolMasterDAO.class
 com\digitour\app\db\model\TournamentOfficial.class
 com\digitour\app\dao\impl\TeamDAOImpl.class
 com\digitour\app\model\TournamentScheduleDateMaster.class
@@ -22,6 +24,7 @@ com\digitour\app\dao\impl\PersonDAOImpl.class
 com\digitour\app\db\model\support\enums\Role.class
 com\digitour\app\db\model\Tournament.class
 com\digitour\app\manager\TournamentManager.class
+com\digitour\app\db\model\MatchTurnDetails.class
 com\digitour\app\dao\impl\PlayerProfileDAOImpl.class
 com\digitour\app\dao\impl\TournamentDAOImpl.class
 com\digitour\app\dao\TournamentMatchDAO.class
@@ -34,6 +37,7 @@ com\digitour\app\db\model\City.class
 com\digitour\app\db\model\Team.class
 com\digitour\app\dao\TournamentDAO.class
 com\digitour\app\dao\impl\TournamentMatchDAOImpl.class
+com\digitour\app\db\model\support\enums\TurnStatus.class
 com\digitour\app\dao\impl\GroupDAOImpl.class
 com\digitour\app\ui\component\menu\Menu.class
 com\digitour\app\dao\TossDetailsDAO.class
@@ -68,6 +72,7 @@ com\digitour\app\model\example\Department.class
 com\digitour\app\dao\PlayerProfileDAO.class
 com\digitour\app\dao\impl\SymbolMasterDAOImpl.class
 com\digitour\app\dao\impl\TournamentScheduleDateMasterDAOImpl.class
+com\digitour\app\dao\MatchTurnDAO.class
 com\digitour\app\dao\impl\TournamentMatchFoulMasterDAOImpl.class
 com\digitour\app\dao\TournamentScheduleMasterDAO.class
 com\digitour\app\db\model\TournamentParticipantTeam.class
@@ -75,6 +80,7 @@ com\digitour\app\db\model\MatchPointDetails.class
 com\digitour\app\controller\homepage\HomePageController.class
 com\digitour\app\db\model\Country.class
 com\digitour\app\dao\CityMasterDAO.class
+com\digitour\app\db\model\Symbol.class
 com\digitour\app\manager\impl\DummyManagerImpl.class
 com\digitour\app\model\TournamentScheduleMaster.class
 com\digitour\app\controller\scoresheet\ScoresheetController.class

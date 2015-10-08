@@ -40,11 +40,24 @@
 				</div>
 				<div class="col-lg-1 text-left" id="wicket-icon-row-${defendingPlayer.playerProfileId }" style="width: 50px; padding: 0px;"></div>
 				<div class="col-lg-8 text-left">
-					<div class="row">
-						<div class="col-lg-4 text-left" id="scoresheetChaser-${defendingPlayer.playerProfileId }"></div>
-						<div class="col-lg-4 text-left" id="scoresheetSymbol-${defendingPlayer.playerProfileId }" style="padding-left:47px;"></div>
-						<div class="col-lg-2 text-left" id="scoresheetTime-${defendingPlayer.playerProfileId }"></div>
-					</div>
+				    <c:choose>
+				        <c:when test="${fn:length(defendingPlayer.matchPointDetailsList) > 0}">
+				            <c:forEach items="${defendingPlayer.matchPointDetailsList}" var="matchPoint" varStatus="lpPointHandle">
+	                            <div class="row">
+	                                <div class="col-lg-4 text-left" id="scoresheetChaser-${defendingPlayer.playerProfileId }-${matchPoint.matchPointId}"><h5>${matchPoint.chaserName}</h5></div>
+	                                <div class="col-lg-4 text-left" id="scoresheetSymbol-${defendingPlayer.playerProfileId }" style="padding-left:47px;"><h5>${matchPoint.symbol.description}</h5></div>
+	                                <div class="col-lg-2 text-left" id="scoresheetTime-${defendingPlayer.playerProfileId }"><h5>${matchPoint.formattedPerTime}</h5></div>
+	                            </div>
+	                        </c:forEach>
+					    </c:when>
+				        <c:otherwise>
+					        <div class="row">
+		                        <div class="col-lg-4 text-left" id="scoresheetChaser-${defendingPlayer.playerProfileId }"></div>
+		                        <div class="col-lg-4 text-left" id="scoresheetSymbol-${defendingPlayer.playerProfileId }" style="padding-left:47px;"></div>
+		                        <div class="col-lg-2 text-left" id="scoresheetTime-${defendingPlayer.playerProfileId }"></div>
+		                       </div>
+				        </c:otherwise>
+			        </c:choose>
 				</div>
 			</div>
 		</c:forEach>
@@ -89,7 +102,8 @@
 </style>
 <script type="text/javascript">
 
-$(function() {
+(function(window, document) {
+	window.clock = window.clock || {};
 	var currentURL = window.location.pathname; // /digital-tour/loadScoresheet/match/6/inning/1/turn/1
 	var currentTurn = currentURL.substr(currentURL.indexOf('turn')+5, 1);
 	var currentInning = currentURL.substr(currentURL.indexOf('inning')+7, 1);
@@ -106,19 +120,23 @@ $(function() {
             $("#turn4").addClass("active");
         }
 	}
-	
 	var teamNameClicked = 'team1Name';
-    var clock = $('.clock').FlipClock({
+	window.clock = $('.clock').FlipClock({
         clockFace : 'MinuteCounter',
         autoStart : false
     });
     
+    if('${timeLapsed}' && '${timeLapsed}' > 0) {
+    	window.clock.setTime(${timeLapsed});
+    	window.clock.start();
+    } 
+
     $(".clock").click(function() {
-        if (clock.running) {
-            clock.stop();
-            clock.reset();
+        if (window.clock.running) {
+        	window.clock.stop();
+        	window.clock.reset();
         } else {
-            clock.start();
+        	window.clock.start();
         }
     });
 
@@ -129,13 +147,21 @@ $(function() {
          $("#wicket-icon-row-" + hoverRowId).append($(loadWicketIconHTML));
 
          $(".wicketIcon").click(function() {
-            var rowId = $(this).attr('href');
-            var hoverRowId = rowId.substr(9);
-            $('#defender').html($("#scoresheetDefender-"+ hoverRowId).html().split('.')[1]);
-            $('#selectedTeamRow').val(hoverRowId);
-            $("#chaser").val('NA');
-            $("#symbol").val('1');
-            $("#fillWicketDetailsModal").modal();
+        	 if(clock.running) {
+	            var rowId = $(this).attr('href');
+	            var hoverRowId = rowId.substr(9);
+	            var currentTime = clock.getTime();
+	            var minutes = Math.floor(currentTime/60);
+	            var seconds = currentTime%60;
+	            $('#defender').html($("#scoresheetDefender-"+ hoverRowId).html().split('.')[1]);
+	            $('#selectedTeamRow').val(hoverRowId);
+	            $("#chaser").val('NA');
+	            $("#symbol").val('1');
+	            $("#timePlayed").html(minutes+'m '+seconds+'s');
+	            $("#fillWicketDetailsModal").modal();
+        	 } else {
+        		 alert('Please start the stopwatch to add wicket details.');
+        	 }
         });
      }, function() {
          $(this).find("a.wicketIcon:last").remove();
@@ -167,6 +193,6 @@ $(function() {
         });
         
     });
-});
+})(window, window.document);
 	
 </script>

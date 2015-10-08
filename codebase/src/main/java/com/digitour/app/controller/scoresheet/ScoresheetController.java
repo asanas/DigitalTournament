@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.MatchPointMasterDAO;
 import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.dao.SymbolMasterDAO;
@@ -20,6 +21,7 @@ import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
+import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.PlayerProfile;
@@ -28,6 +30,7 @@ import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
+import com.digitour.app.db.model.support.enums.TurnStatus;
 
 @Controller
 public class ScoresheetController {
@@ -58,6 +61,9 @@ public class ScoresheetController {
     
     @Autowired
     SymbolMasterDAO symbolDAO;
+    
+    @Autowired
+    MatchTurnDAO matchInningDAO;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -90,13 +96,15 @@ public class ScoresheetController {
     	MatchPointDetails matchPoint = new MatchPointDetails();
     	matchPoint.setDefenceParticipantProfileId(defenderProfileTourTeam.getTournamentParticipantPlayerId());
     	matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-    	matchPoint.setInningNumber(inning);
-    	matchPoint.setTurnNumber(turn);
+    	matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
     	matchPoint.setMatchId(matchDetails.getTournamentMatchId());
     	matchPoint.setSymbol(symbol);
     	matchPoint.setOut(true);
     	matchPoint.setTurnClosure(false);
     	matchPoint.setPerTime(perTime);
+    	matchPoint.setRunTime(perTime);
+    	matchPoint.setTurnNumber(turn);
+    	matchPoint.setInningNumber(inning);
         matchPointDAO.save(matchPoint);
     	return "success";
     }
@@ -117,9 +125,9 @@ public class ScoresheetController {
     	modelAndView.addObject("symbolList", symbolList);
 	}
 
-	private void populateMatchPointDetails(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
+	private void populateMatchPointDetails(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
             List<PlayerProfile> defendingTeamList) {
-        for(TournamentParticipantTeam defendingPlayer: defendingParticipatingTeam) {
+	    for(TournamentParticipantTeam defendingPlayer: defendingParticipatingTeam) {
             List<MatchPointDetails> matchPointList = matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, defendingPlayer.getTournamentParticipantPlayerId(), inning, turn);
             if(matchPointList != null && matchPointList.size() > 0) {
                 PlayerProfile playerProfile = playerProfileDAO.getById(defendingPlayer.getPlayerProfileId());
@@ -165,11 +173,20 @@ public class ScoresheetController {
         
         modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getName());
         
-        if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
-            populateMatchPointDetails(modelAndView, tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
-        } else {
-            populateMatchPointDetails(modelAndView, tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
+        MatchTurnDetails turnDetails = matchInningDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails.getTournamentMatchId(), inning, turn);
+        if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus())) {
+            if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
+                populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
+            } else {
+                populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
+            }
+            addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
         }
+    }
+
+    private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
+        Long timeLapsed = matchPointDAO.getMaxRunTimeByMatchInningAndTurn(tournamentMatchDetails, inning, turn);
+        modelAndView.addObject("timeLapsed", timeLapsed);
     }
 
     private List<PlayerProfile> findTeamForCurrentInningAndTurn(MatchTossDetails tossDetails, TournamentParticipant tournamentParticipant1,

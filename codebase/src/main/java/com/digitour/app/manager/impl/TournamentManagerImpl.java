@@ -5,12 +5,14 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
+import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
@@ -19,6 +21,7 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.AgeGroup;
+import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.TournamentManager;
 
 @Service
@@ -42,6 +45,9 @@ public class TournamentManagerImpl implements TournamentManager {
     @Autowired
     TournamentParticipantTeamDAO tourParticipantTeamDAO;
     
+    @Autowired
+    MatchTurnDAO matchInningDAO;
+    
     @Override
     public TournamentMatchDetails startQuickMatch(Long team1Id, Long team2Id, Long tossWonTeamId, String electedTo) {
         Tournament tournament = createTestTour();
@@ -50,6 +56,7 @@ public class TournamentManagerImpl implements TournamentManager {
         createTournamentPartipantTeam(tourparti1, team1Id);
         createTournamentPartipantTeam(tourparti2, team2Id);
         TournamentMatchDetails tournamentMatch = createTournamentMatch(tournament, tourparti1.getTourParticipantId(), tourparti2.getTourParticipantId());
+        createTournamentTurnDetails(tournamentMatch);
         if(tossWonTeamId.equals(team1Id)) {
             tossWonTeamId = tourparti1.getTourParticipantId();
         } else {
@@ -57,6 +64,19 @@ public class TournamentManagerImpl implements TournamentManager {
         }
         saveMatchTossDetails(tournamentMatch, tossWonTeamId, electedTo);
         return tournamentMatch;
+    }
+
+    private void createTournamentTurnDetails(TournamentMatchDetails tournamentMatch) {
+        for(long i=1; i<=2;i++) {
+            for(long j=1;j<=2;j++) {
+                MatchTurnDetails matchTurn = new MatchTurnDetails();
+                matchTurn.setMatchId(tournamentMatch.getTournamentMatchId());
+                matchTurn.setInningNumber(i);
+                matchTurn.setTurnNumber(j);
+                matchTurn.setStatus(TurnStatus.NOTSTARTED);
+                matchInningDAO.save(matchTurn);
+            }
+        }
     }
 
     private void saveMatchTossDetails(TournamentMatchDetails tourMatchDetails, Long tossWonTeamId, String electedTo) {

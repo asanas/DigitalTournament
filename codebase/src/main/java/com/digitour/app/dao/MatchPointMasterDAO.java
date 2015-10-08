@@ -11,4 +11,6 @@ public interface MatchPointMasterDAO {
             Long inning, Long turn);
 
 	public void save(MatchPointDetails matchPoint);
+
+    public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn);
 }

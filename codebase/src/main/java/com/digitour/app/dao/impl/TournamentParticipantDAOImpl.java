@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TournamentParticipantDAO;
-import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.TournamentParticipant;
 
@@ -41,7 +40,6 @@ public class TournamentParticipantDAOImpl implements TournamentParticipantDAO {
         criteria.add(Restrictions.eq("teamId", team.getTeamId()))
                 .add(Restrictions.eq("tournamentId", tournamentId));
         return ((List<TournamentParticipant>) this.hibernateTemplate.findByCriteria(criteria)).get(0);
-
 	}
 
 }

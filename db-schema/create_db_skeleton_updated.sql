@@ -50,23 +50,6 @@ INSERT IGNORE INTO `group` (`group_id`, `group_name`) VALUES
 /*!40000 ALTER TABLE `group` ENABLE KEYS */;
 
 
--- Dumping structure for table digitourapp.matchinningdetails
-CREATE TABLE IF NOT EXISTS `matchinningdetails` (
-  `match_inning_id` bigint(20) NOT NULL,
-  `inning_number` bigint(20) NOT NULL,
-  `turn_number` bigint(20) NOT NULL,
-  `status` varchar(10) NOT NULL,
-  `match_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`match_inning_id`),
-  KEY `fk_mid_mtch_id` (`match_id`),
-  CONSTRAINT `fk_mid_mtch_id` FOREIGN KEY (`match_id`) REFERENCES `tournamentmatchdetails` (`tournament_match_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table digitourapp.matchinningdetails: ~0 rows (approximately)
-/*!40000 ALTER TABLE `matchinningdetails` DISABLE KEYS */;
-/*!40000 ALTER TABLE `matchinningdetails` ENABLE KEYS */;
-
-
 -- Dumping structure for table digitourapp.matchpointdetails
 CREATE TABLE IF NOT EXISTS `matchpointdetails` (
   `match_point_id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -76,24 +59,26 @@ CREATE TABLE IF NOT EXISTS `matchpointdetails` (
   `defender_id` bigint(20) NOT NULL,
   `attacker_id` bigint(20) NOT NULL,
   `assist_id` bigint(20) DEFAULT NULL,
-  `out` tinyint(4) DEFAULT NULL,
-  `turn_closure` tinyint(4) DEFAULT NULL,
-  `run_time` int(11) NOT NULL,
-  `per_time` int(11) NOT NULL,
+  `wicket_status` char(1) DEFAULT NULL,
+  `turn_closure` char(1) DEFAULT NULL,
+  `run_time` bigint(20) NOT NULL,
+  `per_time` bigint(20) NOT NULL,
   `symbol_id` bigint(20) NOT NULL,
   PRIMARY KEY (`match_point_id`),
   KEY `fk_mpd_assist` (`assist_id`),
   KEY `fk_mpd_attack` (`attacker_id`),
   KEY `fk_mpd_defence` (`defender_id`),
+  KEY `fk_mpd_symbol` (`symbol_id`),
   CONSTRAINT `fk_mpd_assist` FOREIGN KEY (`assist_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mpd_attack` FOREIGN KEY (`attacker_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_mpd_defence` FOREIGN KEY (`defender_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_mpd_defence` FOREIGN KEY (`defender_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_mpd_symbol` FOREIGN KEY (`symbol_id`) REFERENCES `symbol` (`symbol_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table digitourapp.matchpointdetails: ~1 rows (approximately)
 /*!40000 ALTER TABLE `matchpointdetails` DISABLE KEYS */;
-INSERT IGNORE INTO `matchpointdetails` (`match_point_id`, `tournament_match_id`, `inning_number`, `turn_number`, `defender_id`, `attacker_id`, `assist_id`, `out`, `turn_closure`, `run_time`, `per_time`, `symbol_id`) VALUES
-	(1, 6, 1, 1, 82, 74, NULL, 1, 0, 80, 80, 5);
+INSERT IGNORE INTO `matchpointdetails` (`match_point_id`, `tournament_match_id`, `inning_number`, `turn_number`, `defender_id`, `attacker_id`, `assist_id`, `wicket_status`, `turn_closure`, `run_time`, `per_time`, `symbol_id`) VALUES
+	(2, 6, 1, 1, 82, 76, 76, '1', '0', 130, 130, 5);
 /*!40000 ALTER TABLE `matchpointdetails` ENABLE KEYS */;
 
 
@@ -110,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `matchtossdetails` (
   CONSTRAINT `fk_mtd_tour_mtch` FOREIGN KEY (`tournament_match_id`) REFERENCES `tournamentmatchdetails` (`tournament_match_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.matchtossdetails: ~6 rows (approximately)
+-- Dumping data for table digitourapp.matchtossdetails: ~5 rows (approximately)
 /*!40000 ALTER TABLE `matchtossdetails` DISABLE KEYS */;
 INSERT IGNORE INTO `matchtossdetails` (`toss_details_id`, `tournament_match_id`, `toss_won_by`, `elected_to`) VALUES
 	(1, 1, 1, 'DEFENCE'),
@@ -120,6 +105,28 @@ INSERT IGNORE INTO `matchtossdetails` (`toss_details_id`, `tournament_match_id`,
 	(5, 5, 3, 'CHASE'),
 	(6, 6, 12, 'DEFENCE');
 /*!40000 ALTER TABLE `matchtossdetails` ENABLE KEYS */;
+
+
+-- Dumping structure for table digitourapp.matchturndetails
+CREATE TABLE IF NOT EXISTS `matchturndetails` (
+  `match_turn_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `inning_number` bigint(20) NOT NULL,
+  `turn_number` bigint(20) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `match_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`match_turn_id`),
+  KEY `fk_mid_mtch_id` (`match_id`),
+  CONSTRAINT `fk_mid_mtch_id` FOREIGN KEY (`match_id`) REFERENCES `tournamentmatchdetails` (`tournament_match_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table digitourapp.matchturndetails: ~4 rows (approximately)
+/*!40000 ALTER TABLE `matchturndetails` DISABLE KEYS */;
+INSERT IGNORE INTO `matchturndetails` (`match_turn_id`, `inning_number`, `turn_number`, `status`, `match_id`) VALUES
+	(1, 1, 1, 'INPROGRESS', 6),
+	(2, 1, 2, 'NOTSTARTED', 6),
+	(3, 2, 1, 'NOTSTARTED', 6),
+	(4, 2, 2, 'NOTSTARTED', 6);
+/*!40000 ALTER TABLE `matchturndetails` ENABLE KEYS */;
 
 
 -- Dumping structure for table digitourapp.playerprofile
@@ -197,6 +204,24 @@ INSERT IGNORE INTO `statecountry` (`state_id`, `state_name`, `country_name`) VAL
 /*!40000 ALTER TABLE `statecountry` ENABLE KEYS */;
 
 
+-- Dumping structure for table digitourapp.symbol
+CREATE TABLE IF NOT EXISTS `symbol` (
+  `symbol_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Description` varchar(500) NOT NULL,
+  PRIMARY KEY (`symbol_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table digitourapp.symbol: ~5 rows (approximately)
+/*!40000 ALTER TABLE `symbol` DISABLE KEYS */;
+INSERT IGNORE INTO `symbol` (`symbol_id`, `Description`) VALUES
+	(1, 'Pole'),
+	(2, 'Dive'),
+	(3, 'Out Of Field'),
+	(4, 'Late Entry'),
+	(5, 'Simple Touch');
+/*!40000 ALTER TABLE `symbol` ENABLE KEYS */;
+
+
 -- Dumping structure for table digitourapp.team
 CREATE TABLE IF NOT EXISTS `team` (
   `team_id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -242,7 +267,7 @@ CREATE TABLE IF NOT EXISTS `tournament` (
   PRIMARY KEY (`tournament_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournament: ~7 rows (approximately)
+-- Dumping data for table digitourapp.tournament: ~6 rows (approximately)
 /*!40000 ALTER TABLE `tournament` DISABLE KEYS */;
 INSERT IGNORE INTO `tournament` (`tournament_id`, `tournament_name`, `description`, `location`, `prize`, `other_details`, `tour_type`, `tour_status`, `tournament_start_date`, `tournament_end_date`, `created_date`, `age_group`) VALUES
 	(1, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-04 00:58:00', 'OPEN'),
@@ -268,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `tournamentmatchdetails` (
   CONSTRAINT `fk_tmd_parti2` FOREIGN KEY (`team_participant2_id`) REFERENCES `tournamentparticipant` (`tournament_participant_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournamentmatchdetails: ~6 rows (approximately)
+-- Dumping data for table digitourapp.tournamentmatchdetails: ~5 rows (approximately)
 /*!40000 ALTER TABLE `tournamentmatchdetails` DISABLE KEYS */;
 INSERT IGNORE INTO `tournamentmatchdetails` (`tournament_match_id`, `team_participant1_id`, `team_participant2_id`, `tournament_id`) VALUES
 	(1, 1, 2, 2),
@@ -315,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `tournamentparticipant` (
   CONSTRAINT `tp_tournament` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournamentparticipant: ~10 rows (approximately)
+-- Dumping data for table digitourapp.tournamentparticipant: ~8 rows (approximately)
 /*!40000 ALTER TABLE `tournamentparticipant` DISABLE KEYS */;
 INSERT IGNORE INTO `tournamentparticipant` (`tournament_participant_id`, `tournament_id`, `team_id`, `group_id`) VALUES
 	(1, 2, 1, 1),

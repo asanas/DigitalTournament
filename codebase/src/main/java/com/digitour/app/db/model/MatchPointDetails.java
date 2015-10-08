@@ -11,6 +11,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
+
 @Entity
 @Table(name = "matchpointdetails")
 public class MatchPointDetails implements java.io.Serializable {
@@ -91,14 +92,14 @@ public class MatchPointDetails implements java.io.Serializable {
 	public String getFormattedPerTime() {
 	    long minutes = this.perTime/60;
 	    long seconds = this.perTime%60;
-	    return "<minute>" + minutes + "</minute>m<second>" + seconds + "</second>s";
+	    return "<minute>" + minutes + "</minute>m <second>" + seconds + "</second>s";
     }
 	
 	@Transient
     public String getFormattedRunTime() {
         long minutes = this.runTime/60;
         long seconds = this.runTime%60;
-        return "<minute>" + minutes + "</minute>m<second>" + seconds + "</second>s";
+        return "<minute>" + minutes + "</minute>m <second>" + seconds + "</second>s";
     }
 	
 	public void setPerTime(Long perTime) {
@@ -125,13 +126,13 @@ public class MatchPointDetails implements java.io.Serializable {
 		return assistParticipantProfileId;
 	}
 
-	@Column(name="out", columnDefinition = "TINYINT")
+	@Column(name="wicket_status", columnDefinition = "CHAR")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isOut() {
 		return isOut;
 	}
 
-	@Column(name="turn_closure", columnDefinition = "TINYINT")
+	@Column(name="turn_closure", columnDefinition = "CHAR")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isTurnClosure() {
 		return turnClosure;

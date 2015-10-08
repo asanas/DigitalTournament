@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tournamentmatchdetails")
@@ -15,7 +16,8 @@ public class TournamentMatchDetails implements java.io.Serializable {
     private Long teamParticipant1Id;
     private Long teamParticipant2Id;
     private Long tournamentId;
-    
+    private Long timeLapsed;
+
     public TournamentMatchDetails() {
         
     }
@@ -56,6 +58,16 @@ public class TournamentMatchDetails implements java.io.Serializable {
 
     public void setTournamentId(Long tournamentId) {
         this.tournamentId = tournamentId;
+    }
+
+    @Transient
+    public Long getTimeLapsed() {
+        return timeLapsed;
+    }
+
+    public void setTimeLapsed(Long timeLapsed)
+    {
+        this.timeLapsed = timeLapsed;
     }
 
 }
