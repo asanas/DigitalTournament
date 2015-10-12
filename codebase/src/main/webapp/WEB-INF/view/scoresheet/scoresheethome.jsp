@@ -5,10 +5,10 @@
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
         <ul class="nav nav-tabs nav-justified">
-          <li id="turn1"><a href="#turn1">Turn 1</a></li>
-          <li id="turn2"><a href="#turn2">Turn 2</a></li>
-          <li id="turn3"><a href="#turn3">Turn 3</a></li>
-          <li id="turn4"><a href="#turn4">Turn 4</a></li>
+          <li id="turn1"><a href="#turn1" class="turnTab">Turn 1</a></li>
+          <li id="turn2"><a href="#turn2" class="turnTab">Turn 2</a></li>
+          <li id="turn3"><a href="#turn3" class="turnTab">Turn 3</a></li>
+          <li id="turn4"><a href="#turn4" class="turnTab">Turn 4</a></li>
         </ul>
         <div class="row">
             <div class="col-lg-3 text-left">
@@ -119,7 +119,11 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
 <script src="${pageContext.request.contextPath}/static_content/js/common/scoresheethelper.js"></script>
 
 <script type="text/javascript">
-(function(window, document) {
+
+
+// Run code
+
+$( window ).load(function() {
     window.clock = window.clock || {};
     window.lastWicketTime = window.lastWicketTime || 0;
     window.currentStpWtchTime = window.currentStpWtchTime || 0;
@@ -133,30 +137,6 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         "timeLapsed": ${timeLapsed},
         "currentInningScore": ${currentInningScore}
     }
-    
-    var windowLoadActions = function() {
-        console.log('Started executing window load actions.');
-        if(window.tournamentMatchDetails.currentInning == 1) {
-            if(window.tournamentMatchDetails.currentTurn == 1) {
-                $("#turn1").addClass("active");
-            } else {
-                $("#turn2").addClass("active");
-            }
-        } else {
-            if(window.tournamentMatchDetails.currentTurn == 1) {
-                $("#turn3").addClass("active");
-            } else {
-                $("#turn4").addClass("active");
-            }
-        }
-        if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' && window.tournamentMatchDetails.timeLapsed 
-                && window.tournamentMatchDetails.timeLapsed > 0) {
-            window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
-            window.clock.setTime(window.tournamentMatchDetails.timeLapsed);
-            window.clock.start();
-            checkClockStatus();
-        }
-    }
-    windowLoadActions();
-})(window, window.document);
+    window.initiateWindowLoadActions();
+});
 </script>

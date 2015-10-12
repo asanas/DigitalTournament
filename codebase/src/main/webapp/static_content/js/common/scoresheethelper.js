@@ -10,6 +10,30 @@
         autoStart : false
     });
     
+    window.initiateWindowLoadActions = function() {
+        console.log('Started executing window load actions.');
+        if(window.tournamentMatchDetails.currentInning == 1) {
+            if(window.tournamentMatchDetails.currentTurn == 1) {
+                $("#turn1").addClass("active");
+            } else {
+                $("#turn2").addClass("active");
+            }
+        } else {
+            if(window.tournamentMatchDetails.currentTurn == 1) {
+                $("#turn3").addClass("active");
+            } else {
+                $("#turn4").addClass("active");
+            }
+        }
+        if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' && window.tournamentMatchDetails.timeLapsed 
+                && window.tournamentMatchDetails.timeLapsed > 0) {
+            window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
+            window.clock.setTime(window.tournamentMatchDetails.timeLapsed);
+            window.clock.start();
+            checkClockStatus();
+        }
+    }
+    
     var checkClockStatus = function() {
         if(window.clock.running && window.clock.getTime().time > 180) {
             // alert('Turn closure occured.');
@@ -33,21 +57,39 @@
                     if(data == 'success') {
                         if(turnStatus == 'COMPLETED') {
                             window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
+                            alert('Reached turn closure. Please mark player who remained not out.');
                         }
                     }
                 }
         });
     }
     
-    $(".clock").click(function() {
-        if (window.clock.running) {
-            window.clock.stop();
-            window.clock.reset();
-            markTurnStatus('ABORTED');
-        } else {
-            window.clock.start();
-            markTurnStatus('INPROGRESS');
+    
+    $(".turnTab").click(function() {
+        // http://localhost:4141/digital-tour/loadScoresheet/match/7/inning/1/turn/1
+        var turnHref = $(this).attr('href');
+        var gotoTurn = turnHref.substr(turnHref.length- 1), gotoInning = 1;
+        if(gotoTurn > 2) {
+        	gotoInning = 2;
+        	gotoTurn = Math.floor(gotoTurn/2);
         }
+    	window.location = window.pageURL + '/loadScoresheet/match/'+window.tournamentMatchDetails.matchId+'/inning/'+ gotoInning +'/turn/'+gotoTurn;
+    });
+    
+    $(".clock").click(function() {
+    	if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
+    		alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
+    	} else {
+    		if (window.clock.running) {
+                window.clock.stop();
+                window.clock.reset();
+                markTurnStatus('ABORTED');
+            } else {
+                window.clock.start();
+                markTurnStatus('INPROGRESS');
+            }
+    	}
+        
     });
 
     var validateShowWicketIcon = function(hoverRowId) {
@@ -112,7 +154,8 @@
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
         var queryParam = 'matchId='+window.tournamentMatchDetails.matchId +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
-        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+window.tournamentMatchDetails.currentInning+'&turn='+window.tournamentMatchDetails.currentTurn+'&runTime='+window.currentStpWtchTime;
+        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+window.tournamentMatchDetails.currentInning+'&turn='+
+        window.tournamentMatchDetails.currentTurn+'&runTime='+window.currentStpWtchTime;
 
         $.ajax({
             url: window.pageURL + '/addMatchPoint',
@@ -120,6 +163,7 @@
             type: "POST",
             success: function(data) {
                 if(data == 'success') {
+                    window.lastWicketTime = window.currentStpWtchTime;
                     if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
                         window.tournamentMatchDetails.turnStatus = 'COMPLETE';
                     }
@@ -129,7 +173,7 @@
                                           '<div class="col-lg-1 text-center" style="width: 25px; padding:0px;">&nbsp;</div>' +
                                           '<div class="col-lg-4 text-left"><h5>'+ $("#chaser").find(":selected").text()+ '</h5></div>' +
                                           '<div class="col-lg-4 text-left" style="padding-left:47px;"><h5>'+ $("#symbol").find(":selected").text()+ '</h5></div>' +
-                                          '<div class="col-lg-2 text-left"><h5>'+ $("#timePlayed").html() +'</h5></div></div>';
+                                          '<div class="col-lg-2 text-left"><h5><kbd>'+ $("#timePlayed").html() +'</kbd></h5></div></div>';
                         $("#teamrow-"+defenderProfileId).children(".col-lg-8").append($(newRowScore));
                         $("#teamrow-"+defenderProfileId).find("a.expandTime").css("display", "block");
                         $(".showWicketIcn").html("true");
