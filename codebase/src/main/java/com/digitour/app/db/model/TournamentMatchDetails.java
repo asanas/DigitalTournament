@@ -1,10 +1,15 @@
 package com.digitour.app.db.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -17,7 +22,9 @@ public class TournamentMatchDetails implements java.io.Serializable {
     private Long teamParticipant2Id;
     private Long tournamentId;
     private Long timeLapsed;
-
+    private List<MatchTurnDetails> matchTurnsList;
+    private MatchTossDetails matchTossDetails;
+    
     public TournamentMatchDetails() {
         
     }
@@ -69,5 +76,23 @@ public class TournamentMatchDetails implements java.io.Serializable {
     {
         this.timeLapsed = timeLapsed;
     }
+
+    @OneToMany(mappedBy = "tournamentMatchDetails")
+	public List<MatchTurnDetails> getMatchTurnsList() {
+		return matchTurnsList;
+	}
+
+	public void setMatchTurnsList(List<MatchTurnDetails> matchTurnsList) {
+		this.matchTurnsList = matchTurnsList;
+	}
+
+	@OneToOne(mappedBy="tournamentMatchDetails", cascade=CascadeType.ALL)
+	public MatchTossDetails getMatchTossDetails() {
+		return matchTossDetails;
+	}
+
+	public void setMatchTossDetails(MatchTossDetails matchTossDetails) {
+		this.matchTossDetails = matchTossDetails;
+	}
 
 }

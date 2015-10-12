@@ -12,8 +12,8 @@ import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
-import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.MatchTossDetails;
+import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.Tournament;
@@ -70,7 +70,7 @@ public class TournamentManagerImpl implements TournamentManager {
         for(long i=1; i<=2;i++) {
             for(long j=1;j<=2;j++) {
                 MatchTurnDetails matchTurn = new MatchTurnDetails();
-                matchTurn.setMatchId(tournamentMatch.getTournamentMatchId());
+                matchTurn.setTournamentMatchDetails(tournamentMatch);
                 matchTurn.setInningNumber(i);
                 matchTurn.setTurnNumber(j);
                 matchTurn.setStatus(TurnStatus.NOTSTARTED);
@@ -81,7 +81,7 @@ public class TournamentManagerImpl implements TournamentManager {
 
     private void saveMatchTossDetails(TournamentMatchDetails tourMatchDetails, Long tossWonTeamId, String electedTo) {
         MatchTossDetails matchToss = new MatchTossDetails();
-        matchToss.setMatchId(tourMatchDetails.getTournamentMatchId());
+        matchToss.setTournamentMatchDetails(tourMatchDetails);
         matchToss.setTossWonByTeamId(tossWonTeamId);
         matchToss.setElectedTo(electedTo.toUpperCase());
         tossDetailsDAO.save(matchToss);

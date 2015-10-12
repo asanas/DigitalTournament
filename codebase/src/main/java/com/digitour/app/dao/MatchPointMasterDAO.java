@@ -17,4 +17,7 @@ public interface MatchPointMasterDAO {
 
 	public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
 			List<TournamentParticipantTeam> chasingParticipantTeam);
+
+	public Long getCurrentInningPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
+			List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn);
 }

@@ -17,7 +17,7 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
 @Repository
-public class MatchPointMasterDAOImpl implements MatchPointMasterDAO{
+public class MatchPointMasterDAOImpl implements MatchPointMasterDAO {
 
     @Autowired
     HibernateTemplate hibernateTemplate;
@@ -34,10 +34,10 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO{
     }
 
     @Transactional
-	@Override
-	public void save(MatchPointDetails matchPoint) {
-		this.hibernateTemplate.saveOrUpdate(matchPoint);
-	}
+    @Override
+    public void save(MatchPointDetails matchPoint) {
+        this.hibernateTemplate.saveOrUpdate(matchPoint);
+    }
 
     @Override
     public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
@@ -49,17 +49,33 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO{
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
     }
 
-	@Override
-	public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
-			List<TournamentParticipantTeam> chasingParticipantTeam) {
-		List<Long> chasingParticipantIds = new ArrayList<>();
-		for(TournamentParticipantTeam participantTeam: chasingParticipantTeam) {
-			chasingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
-		}
-		DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+    @Override
+    public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> chasingParticipantTeam) {
+        List<Long> chasingParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam participantTeam: chasingParticipantTeam) {
+            chasingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
         criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
                 .add(Restrictions.in("attackParticipantProfileId", chasingParticipantIds))
                 .setProjection(Projections.rowCount());
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
-	}
+    }
+
+    @Override
+    public Long getCurrentInningPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn) {
+        List<Long> chasingParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam participantTeam: defendingParticipatingTeam) {
+            chasingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
+                .add(Restrictions.in("attackParticipantProfileId", chasingParticipantIds))
+                .add(Restrictions.eq("inningNumber", inning))
+                .add(Restrictions.eq("turnNumber", turn))
+                .setProjection(Projections.rowCount());
+        return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
+    }
 }

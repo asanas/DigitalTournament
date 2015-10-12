@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 
-import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.MatchPointMasterDAO;
+import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.dao.SymbolMasterDAO;
 import com.digitour.app.dao.TeamDAO;
@@ -22,9 +21,9 @@ import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
-import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.MatchTossDetails;
+import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Symbol;
 import com.digitour.app.db.model.Team;
@@ -64,7 +63,7 @@ public class ScoresheetController {
     SymbolMasterDAO symbolDAO;
     
     @Autowired
-    MatchTurnDAO matchInningDAO;
+    MatchTurnDAO matchTurnDAO;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -76,60 +75,78 @@ public class ScoresheetController {
         return modelAndView;
     }
 
+    @RequestMapping(path ="/markTurnStatus", method=RequestMethod.POST)
+    @ResponseBody
+    public String saveTurnClosure(@RequestParam Long matchId, @RequestParam Long inning, @RequestParam Long turn, @RequestParam String turnStatus) {
+    	TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
+        MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(matchDetails, inning, turn);
+        turnDetails.setStatus(TurnStatus.COMPLETED);
+        
+        if(turnStatus.equals(TurnStatus.COMPLETED.toString())) {
+            turnDetails.setStatus(TurnStatus.COMPLETED);
+        } else if(turnStatus.equals(TurnStatus.INPROGRESS.toString())) {
+            turnDetails.setStatus(TurnStatus.INPROGRESS);
+        }
+        matchTurnDAO.save(turnDetails);
+    	return "success";
+    }
+    
     @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
     @ResponseBody
     public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
             @RequestParam Long symbolId, @RequestParam String formattedTimePlayed, @RequestParam Long inning, @RequestParam Long turn,
             @RequestParam Long runTime ) {
-    	TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
-    	PlayerProfile defenderPlayerProfile = playerProfileDAO.getById(defenderProfileId);
-    	PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserProfileId);
-    	TournamentParticipant defenderParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(defenderPlayerProfile.getTeam(), 
-    			matchDetails.getTournamentId());
-    	TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
-    			matchDetails.getTournamentId());
-    	TournamentParticipantTeam defenderProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(defenderPlayerProfile, defenderParticipant);
-    	TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
-    	String[] perTimeSplit = formattedTimePlayed.split(" ");
-    	Long minutes = Long.parseLong(perTimeSplit[0].substring(0, 1));
-    	Long seconds = Long.parseLong(perTimeSplit[1].substring(0, perTimeSplit[1].length()-1));
-    	Long perTime = minutes * 60 + seconds;
-    	Symbol symbol = symbolDAO.getById(symbolId);
-    	MatchPointDetails matchPoint = new MatchPointDetails();
-    	matchPoint.setDefenceParticipantProfileId(defenderProfileTourTeam.getTournamentParticipantPlayerId());
-    	matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-    	matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-    	matchPoint.setMatchId(matchDetails.getTournamentMatchId());
-    	matchPoint.setSymbol(symbol);
-    	matchPoint.setOut(true);
-    	matchPoint.setTurnClosure(false);
-    	matchPoint.setPerTime(perTime);
-    	matchPoint.setRunTime(runTime);
-    	matchPoint.setTurnNumber(turn);
-    	matchPoint.setInningNumber(inning);
+        TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
+        PlayerProfile defenderPlayerProfile = playerProfileDAO.getById(defenderProfileId);
+        PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserProfileId);
+        TournamentParticipant defenderParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(defenderPlayerProfile.getTeam(), 
+                matchDetails.getTournamentId());
+        TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
+                matchDetails.getTournamentId());
+        TournamentParticipantTeam defenderProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(defenderPlayerProfile, defenderParticipant);
+        TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
+        String[] perTimeSplit = formattedTimePlayed.split(" ");
+        Long minutes = Long.parseLong(perTimeSplit[0].substring(0, 1));
+        Long seconds = Long.parseLong(perTimeSplit[1].substring(0, perTimeSplit[1].length()-1));
+        Long perTime = minutes * 60 + seconds;
+        Symbol symbol = symbolDAO.getById(symbolId);
+        MatchPointDetails matchPoint = new MatchPointDetails();
+        matchPoint.setDefenceParticipantProfileId(defenderProfileTourTeam.getTournamentParticipantPlayerId());
+        matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
+        matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
+        matchPoint.setMatchId(matchDetails.getTournamentMatchId());
+        matchPoint.setSymbol(symbol);
+        matchPoint.setOut(true);
+        matchPoint.setTurnClosure(false);
+        matchPoint.setPerTime(perTime);
+        matchPoint.setRunTime(runTime);
+        matchPoint.setTurnNumber(turn);
+        matchPoint.setInningNumber(inning);
         matchPointDAO.save(matchPoint);
-    	return "success";
+        return "success";
     }
     
     private void populateScoresheetData(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
         TournamentParticipant tournamentParticipant1 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant1Id());
         TournamentParticipant tournamentParticipant2 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant2Id());
-        MatchTossDetails tossDetails = tossDetailsDAO.getTossDetailsByMatchId(tournamentMatchDetails.getTournamentMatchId());
+        MatchTossDetails tossDetails = tournamentMatchDetails.getMatchTossDetails();
         String tossWonMsg = createTossWonMessage(tournamentParticipant1, tournamentParticipant2, tossDetails);
+        MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails, inning, turn);
         modelAndView.addObject("tossWonMessage", tossWonMsg);
-        modelAndView.addObject("matchId", tournamentMatchDetails.getTournamentMatchId());
+        modelAndView.addObject("matchDetails", tournamentMatchDetails);
+        modelAndView.addObject("turnDetails", turnDetails);
         populateSymbols(modelAndView);
         populateParticipatingTeams(tournamentMatchDetails, tournamentParticipant1, tournamentParticipant2, tossDetails, modelAndView, inning, turn);
     }
 
     private void populateSymbols(ModelAndView modelAndView) {
-    	List<Symbol> symbolList = symbolDAO.getAllSymbols();
-    	modelAndView.addObject("symbolList", symbolList);
-	}
+        List<Symbol> symbolList = symbolDAO.getAllSymbols();
+        modelAndView.addObject("symbolList", symbolList);
+    }
 
-	private void populateMatchPointDetails(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
+    private void populateMatchPointDetails(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
             List<PlayerProfile> defendingTeamList) {
-	    for(TournamentParticipantTeam defendingPlayer: defendingParticipatingTeam) {
+        for(TournamentParticipantTeam defendingPlayer: defendingParticipatingTeam) {
             List<MatchPointDetails> matchPointList = matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, defendingPlayer.getTournamentParticipantPlayerId(), inning, turn);
             if(matchPointList != null && matchPointList.size() > 0) {
                 PlayerProfile playerProfile = playerProfileDAO.getById(defendingPlayer.getPlayerProfileId());
@@ -155,7 +172,7 @@ public class ScoresheetController {
 
     private void populateParticipatingTeams(TournamentMatchDetails tournamentMatchDetails, TournamentParticipant tournamentParticipant1,
             TournamentParticipant tournamentParticipant2, MatchTossDetails tossDetails, ModelAndView modelAndView, Long inning, Long turn) {
-    	List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant1);
+        List<TournamentParticipantTeam> tournamentParticipantTeam1 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant1);
         List<TournamentParticipantTeam> tournamentParticipantTeam2 = tournamentParticipantTeamDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant2);
         
         List<PlayerProfile> participatingTeam1 = getTeamPlayers(tournamentParticipantTeam1);
@@ -172,33 +189,42 @@ public class ScoresheetController {
 
         modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getName());
         
-        MatchTurnDetails turnDetails = matchInningDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails.getTournamentMatchId(), inning, turn);
+        MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails, inning, turn);
         if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus())) {
-        	if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
+            if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
                 populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
-                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2);
-        	} else {
+                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2, inning, turn);
+            } else {
                 populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
-                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, tournamentParticipantTeam1);
-        	}
+                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, tournamentParticipantTeam1, inning, turn);
+            }
             addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
+        } else {
+            modelAndView.addObject("defendingTeamScore", 0);
+            modelAndView.addObject("chasingTeamScore", 0);
+            modelAndView.addObject("currentInningScore", 0);
+            modelAndView.addObject("timeLapsed", 0);
         }
     }
 
     private void addMatchTotalScoreForBothTeams(ModelAndView modelAndView,
-			TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> chasingParticipantTeam,
-			List<TournamentParticipantTeam> defendingParticipatingTeam) {
+            TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> chasingParticipantTeam,
+            List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn) {
         Long defendingParticipantTeamScore = 0L;
         Long chasingParticipantTeamScore = 0L;
+        Long currentInningScore = 0L;
         
         defendingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, chasingParticipantTeam);
         chasingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam);
-	
+
+        currentInningScore = matchPointDAO.getCurrentInningPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam, inning, turn);
+        
         modelAndView.addObject("defendingTeamScore", defendingParticipantTeamScore);
         modelAndView.addObject("chasingTeamScore", chasingParticipantTeamScore);
+        modelAndView.addObject("currentInningScore", currentInningScore);
     }
 
-	private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
+    private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
         Long timeLapsed = matchPointDAO.getMaxRunTimeByMatchInningAndTurn(tournamentMatchDetails, inning, turn);
         modelAndView.addObject("timeLapsed", timeLapsed);
     }

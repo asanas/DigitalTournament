@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.db.model.MatchTossDetails;
+import com.digitour.app.db.model.TournamentMatchDetails;
 
 @Repository
 public class TossDetailsDAOImpl implements TossDetailsDAO {
@@ -27,9 +28,9 @@ public class TossDetailsDAOImpl implements TossDetailsDAO {
 	}
 
     @Override
-    public MatchTossDetails getTossDetailsByMatchId(Long tournamentMatchId) {
+    public MatchTossDetails getTossDetailsByMatch(TournamentMatchDetails tournamentMatchDetails) {
         MatchTossDetails tossDetails  = new MatchTossDetails();
-        tossDetails.setMatchId(tournamentMatchId);
+        tossDetails.setTournamentMatchDetails(tournamentMatchDetails);
         return ((List<MatchTossDetails>)(this.hibernateTemplate.findByExample(tossDetails))).get(0);
     }
     

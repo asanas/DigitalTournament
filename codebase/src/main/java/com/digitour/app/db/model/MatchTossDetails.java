@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -11,10 +13,10 @@ import javax.persistence.Table;
 public class MatchTossDetails implements java.io.Serializable {
 
 	private Long tossDetailsId;
-	private Long matchId;
 	private Long tossWonByTeamId;
 	private String electedTo;
-
+	private TournamentMatchDetails tournamentMatchDetails;
+	
 	public MatchTossDetails() {
 	}
 
@@ -37,22 +39,24 @@ public class MatchTossDetails implements java.io.Serializable {
 	public void setElectedTo(String electedTo) {
 		this.electedTo = electedTo;
 	}
-	@Column(name = "tournament_match_id", nullable = false)
-	public Long getMatchId() {
-		return matchId;
-	}
 
 	@Column(name = "toss_won_by", nullable = false)
 	public Long getTossWonByTeamId() {
 		return tossWonByTeamId;
 	}
 
-	public void setMatchId(Long matchId) {
-		this.matchId = matchId;
-	}
-
 	public void setTossWonByTeamId(Long tossWonByTeamId) {
 		this.tossWonByTeamId = tossWonByTeamId;
+	}
+
+	@OneToOne
+    @PrimaryKeyJoinColumn
+	public TournamentMatchDetails getTournamentMatchDetails() {
+		return tournamentMatchDetails;
+	}
+
+	public void setTournamentMatchDetails(TournamentMatchDetails tournamentMatchDetails) {
+		this.tournamentMatchDetails = tournamentMatchDetails;
 	}
 
 }

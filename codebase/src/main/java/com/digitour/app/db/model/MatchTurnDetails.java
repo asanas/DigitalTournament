@@ -6,6 +6,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.digitour.app.db.model.support.enums.TurnStatus;
@@ -16,11 +18,10 @@ import com.digitour.app.db.model.support.enums.TurnStatus;
 public class MatchTurnDetails implements java.io.Serializable {
 
 	private Long matchTurnId;
-	private Long matchId;
 	private Long inningNumber;
 	private Long turnNumber;
 	private TurnStatus status;
-	
+	private TournamentMatchDetails tournamentMatchDetails;
 	
 	public MatchTurnDetails() {
 	}
@@ -54,15 +55,6 @@ public class MatchTurnDetails implements java.io.Serializable {
 		this.turnNumber = turnNumber;
 	}
 	
-	@Column(name = "match_id", nullable = false)
-	public Long getMatchId() {
-		return matchId;
-	}
-
-	public void setMatchId(Long matchId) {
-		this.matchId = matchId;
-	}
-
 	@Enumerated(EnumType.STRING)
     @Column(name = "status")
     public TurnStatus getStatus() {
@@ -72,5 +64,15 @@ public class MatchTurnDetails implements java.io.Serializable {
     public void setStatus(TurnStatus status) {
         this.status = status;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "MATCH_ID")
+	public TournamentMatchDetails getTournamentMatchDetails() {
+		return tournamentMatchDetails;
+	}
+
+	public void setTournamentMatchDetails(TournamentMatchDetails tournamentMatchDetails) {
+		this.tournamentMatchDetails = tournamentMatchDetails;
+	}
 
 }
