@@ -226,6 +226,7 @@ public class ScoresheetController {
 
     private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
         Long timeLapsed = matchPointDAO.getMaxRunTimeByMatchInningAndTurn(tournamentMatchDetails, inning, turn);
+        timeLapsed = timeLapsed == null ? 0L : timeLapsed;
         modelAndView.addObject("timeLapsed", timeLapsed);
     }
 

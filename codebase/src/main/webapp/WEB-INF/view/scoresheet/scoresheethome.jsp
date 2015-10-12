@@ -57,7 +57,7 @@
                                 </c:choose>
                                     <div class="col-lg-4 text-left"><h5>${matchPoint.chaserName}</h5></div>
                                     <div class="col-lg-4 text-left" style="padding-left:47px;"><h5>${matchPoint.symbol.description}</h5></div>
-                                    <div class="col-lg-2 text-left"><h5>${matchPoint.formattedPerTime}</h5></div>
+                                    <div class="col-lg-2 text-left timePlayed"><h5><kbd>${matchPoint.formattedPerTime}</kbd></h5></div>
                                 </div>
                             </c:forEach>
                         </c:when>
@@ -67,7 +67,7 @@
                                 <div class="col-lg-1 text-center" style="width: 25px; padding:0px;"><a href="javascript:void(0);" class="expandTime" style="display:none;"><span class="glyphicon glyphicon-minus"></span></a></div>
                                 <div class="col-lg-4 text-left" id="scoresheetChaser-${defendingPlayer.playerProfileId }"></div>
                                 <div class="col-lg-4 text-left" id="scoresheetSymbol-${defendingPlayer.playerProfileId }" style="padding-left:47px;"></div>
-                                <div class="col-lg-2 text-left" id="scoresheetTime-${defendingPlayer.playerProfileId }"></div>
+                                <div class="col-lg-2 text-left timePlayed" id="scoresheetTime-${defendingPlayer.playerProfileId }"></div>
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -160,8 +160,9 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             type: "POST",
             success: function(data) {
                     if(data == 'success') {
-                        /* window.tournamentMatchDetails.turnStatus = 'COMPLETED';
-                        alert('Mark player who played not out.'); */
+                        if(turnStatus == 'COMPLETED') {
+                            window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
+                        }
                     }
                 }
         });
@@ -206,25 +207,35 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
 
     var validateShowWicketIcon = function(hoverRowId) {
         var resultFlag = false;
-        if(window.clock.running) {
-            resultFlag = true;
+        // check if clock is running
+        if(window.clock.running || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
+            // And team row does not have details for the performance and current turn total wickets are less than 9
+            if($("#teamrow-"+hoverRowId).find('.timePlayed').html() == '' && window.tournamentMatchDetails.currentInningScore < 9) {
+                resultFlag = true;
+            // And team row does have details for the performance but current turn total wickets are more than 8
+            } else if($("#teamrow-"+hoverRowId).find('.timePlayed').html() != '' && window.tournamentMatchDetails.currentInningScore >= 9) {
+                resultFlag = true;
+            }
         }
         return resultFlag;
     }
     
     $(".row.teamrow").hover(function() {
-        if(window.clock.running) {
+        // if(window.clock.running) {
             var rowId = $(this).attr('id');
             var hoverRowId = rowId.substr(8);
             
-            if($("#substitute-row-"+ hoverRowId).length == 0) {
-                 var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
-                 if(validateShowWicketIcon(hoverRowId)) {
+            // check if player is not a substitute and turn status is either NOTSTARTED/INPROGRESS.
+            if($("#substitute-row-"+ hoverRowId).length == 0 && 
+            		(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'NOTSTARTED' || 
+            				window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG')) {
+                var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
+                if(validateShowWicketIcon(hoverRowId)) {
                      $("#wicket-icon-row-" + hoverRowId).append($(loadWicketIconHTML));
                      $(".wicketIcon").click(function() {
                          var rowId = $(this).attr('href');
                          var hoverRowId = rowId.substr(9);
-                         window.currentStpWtchTime = clock.getTime().time;
+                         window.currentStpWtchTime = clock.getTime().time -1;
                          var playerTime  = window.currentStpWtchTime - window.lastWicketTime;
                          var minutes = Math.floor(playerTime/60);
                          var seconds = playerTime%60;
@@ -237,7 +248,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                     }); 
                  }
              }
-        }
+        // }
      }, function() {
          $(this).find("a.wicketIcon:last").remove();
      });
@@ -264,8 +275,8 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             type: "POST",
             success: function(data) {
                 if(data == 'success') {
-                    if(window.tournamentMatchDetails.turnStatus == 'COMPLETED') {
-                        window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
+                    if(turnStatus == 'COMPLETEDANDLOG') {
+                        window.tournamentMatchDetails.turnStatus = 'COMPLETE';
                     }
                     window.tournamentMatchDetails.currentInningScore = window.tournamentMatchDetails.currentInningScore + 1;
                     if(window.tournamentMatchDetails.currentInningScore > 9) {
@@ -280,7 +291,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                     } else {
                         $("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + $("#chaser").find(":selected").text() + "</h5>");
                         $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
-                        $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5>" + $("#timePlayed").html() + "</h5>");
+                        $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5><kbd>" + $("#timePlayed").html() + "</kbd></h5>");
                         $("#teamrow-"+defenderProfileId).find(".showWicketIcn").html("false");
                     }
                     $("#fillWicketDetailsModal").modal("hide");

@@ -8,6 +8,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name = "matchtossdetails")
 public class MatchTossDetails implements java.io.Serializable {
@@ -21,9 +24,10 @@ public class MatchTossDetails implements java.io.Serializable {
 	}
 
 	@Id
-    @GeneratedValue
-    @Column(name = "toss_details_id", unique = true, nullable = false)
-	public Long getTossDetailsId() {
+    @Column(name="tournament_match_id", unique=true, nullable=false)
+    @GeneratedValue(generator="gen")
+    @GenericGenerator(name="gen", strategy="foreign", parameters=@Parameter(name="property", value="tournamentMatchDetails"))
+    public Long getTossDetailsId() {
 		return this.tossDetailsId;
 	}
 

@@ -73,37 +73,35 @@ CREATE TABLE IF NOT EXISTS `matchpointdetails` (
   CONSTRAINT `fk_mpd_attack` FOREIGN KEY (`attacker_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mpd_defence` FOREIGN KEY (`defender_id`) REFERENCES `tournamentparticipantteam` (`tour_p_t_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mpd_symbol` FOREIGN KEY (`symbol_id`) REFERENCES `symbol` (`symbol_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table digitourapp.matchpointdetails: ~1 rows (approximately)
 /*!40000 ALTER TABLE `matchpointdetails` DISABLE KEYS */;
 INSERT IGNORE INTO `matchpointdetails` (`match_point_id`, `tournament_match_id`, `inning_number`, `turn_number`, `defender_id`, `attacker_id`, `assist_id`, `wicket_status`, `turn_closure`, `run_time`, `per_time`, `symbol_id`) VALUES
-	(2, 6, 1, 1, 82, 76, 76, '1', '0', 130, 130, 5);
+	(2, 6, 1, 1, 82, 76, 76, '1', '0', 130, 130, 5),
+	(12, 9, 1, 1, 142, 159, 159, '1', '0', 203, 203, 2),
+	(13, 9, 1, 1, 143, 163, 163, '1', '0', 456, 456, 1),
+	(14, 9, 1, 1, 144, 156, 156, '1', '0', 464, 8, 1),
+	(15, 9, 1, 1, 145, 164, 164, '1', '0', 481, 25, 1);
 /*!40000 ALTER TABLE `matchpointdetails` ENABLE KEYS */;
 
 
 -- Dumping structure for table digitourapp.matchtossdetails
 CREATE TABLE IF NOT EXISTS `matchtossdetails` (
-  `toss_details_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `tournament_match_id` bigint(20) NOT NULL,
   `toss_won_by` bigint(20) NOT NULL,
   `elected_to` varchar(10) NOT NULL,
-  PRIMARY KEY (`toss_details_id`),
-  KEY `fk_mtd_tour_mtch` (`tournament_match_id`),
+  PRIMARY KEY (`tournament_match_id`),
   KEY `fk_mtd_toss_won` (`toss_won_by`),
   CONSTRAINT `fk_mtd_toss_won` FOREIGN KEY (`toss_won_by`) REFERENCES `tournamentparticipant` (`tournament_participant_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mtd_tour_mtch` FOREIGN KEY (`tournament_match_id`) REFERENCES `tournamentmatchdetails` (`tournament_match_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.matchtossdetails: ~5 rows (approximately)
+-- Dumping data for table digitourapp.matchtossdetails: ~7 rows (approximately)
 /*!40000 ALTER TABLE `matchtossdetails` DISABLE KEYS */;
-INSERT IGNORE INTO `matchtossdetails` (`toss_details_id`, `tournament_match_id`, `toss_won_by`, `elected_to`) VALUES
-	(1, 1, 1, 'DEFENCE'),
-	(2, 2, 1, 'DEFENCE'),
-	(3, 3, 3, 'CHASE'),
-	(4, 4, 4, 'DEFENCE'),
-	(5, 5, 3, 'CHASE'),
-	(6, 6, 12, 'DEFENCE');
+INSERT IGNORE INTO `matchtossdetails` (`tournament_match_id`, `toss_won_by`, `elected_to`) VALUES
+	(9, 18, 'CHASE'),
+	(10, 20, 'CHASE');
 /*!40000 ALTER TABLE `matchtossdetails` ENABLE KEYS */;
 
 
@@ -117,15 +115,19 @@ CREATE TABLE IF NOT EXISTS `matchturndetails` (
   PRIMARY KEY (`match_turn_id`),
   KEY `fk_mid_mtch_id` (`match_id`),
   CONSTRAINT `fk_mid_mtch_id` FOREIGN KEY (`match_id`) REFERENCES `tournamentmatchdetails` (`tournament_match_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.matchturndetails: ~4 rows (approximately)
+-- Dumping data for table digitourapp.matchturndetails: ~8 rows (approximately)
 /*!40000 ALTER TABLE `matchturndetails` DISABLE KEYS */;
 INSERT IGNORE INTO `matchturndetails` (`match_turn_id`, `inning_number`, `turn_number`, `status`, `match_id`) VALUES
-	(1, 1, 1, 'INPROGRESS', 6),
-	(2, 1, 2, 'NOTSTARTED', 6),
-	(3, 2, 1, 'NOTSTARTED', 6),
-	(4, 2, 2, 'NOTSTARTED', 6);
+	(13, 1, 1, 'COMPLETED', 9),
+	(14, 1, 2, 'NOTSTARTED', 9),
+	(15, 2, 1, 'NOTSTARTED', 9),
+	(16, 2, 2, 'NOTSTARTED', 9),
+	(17, 1, 1, 'NOTSTARTED', 10),
+	(18, 1, 2, 'NOTSTARTED', 10),
+	(19, 2, 1, 'NOTSTARTED', 10),
+	(20, 2, 2, 'NOTSTARTED', 10);
 /*!40000 ALTER TABLE `matchturndetails` ENABLE KEYS */;
 
 
@@ -211,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `symbol` (
   PRIMARY KEY (`symbol_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.symbol: ~5 rows (approximately)
+-- Dumping data for table digitourapp.symbol: ~4 rows (approximately)
 /*!40000 ALTER TABLE `symbol` DISABLE KEYS */;
 INSERT IGNORE INTO `symbol` (`symbol_id`, `Description`) VALUES
 	(1, 'Pole'),
@@ -265,9 +267,9 @@ CREATE TABLE IF NOT EXISTS `tournament` (
   `created_date` datetime NOT NULL,
   `age_group` varchar(10) NOT NULL,
   PRIMARY KEY (`tournament_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournament: ~6 rows (approximately)
+-- Dumping data for table digitourapp.tournament: ~8 rows (approximately)
 /*!40000 ALTER TABLE `tournament` DISABLE KEYS */;
 INSERT IGNORE INTO `tournament` (`tournament_id`, `tournament_name`, `description`, `location`, `prize`, `other_details`, `tour_type`, `tour_status`, `tournament_start_date`, `tournament_end_date`, `created_date`, `age_group`) VALUES
 	(1, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-04 00:58:00', 'OPEN'),
@@ -276,7 +278,8 @@ INSERT IGNORE INTO `tournament` (`tournament_id`, `tournament_name`, `descriptio
 	(4, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-05 14:45:12', 'OPEN'),
 	(5, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-06 13:56:34', 'OPEN'),
 	(6, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-06 16:32:43', 'OPEN'),
-	(7, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-07 12:02:39', 'OPEN');
+	(10, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-12 16:50:53', 'OPEN'),
+	(11, 'Test Tournament', 'Tournament description', 'SP College', 0, NULL, 'ALLINDIA', 'QUICKMATCH', NULL, NULL, '2015-10-12 16:56:05', 'OPEN');
 /*!40000 ALTER TABLE `tournament` ENABLE KEYS */;
 
 
@@ -291,17 +294,13 @@ CREATE TABLE IF NOT EXISTS `tournamentmatchdetails` (
   KEY `fk_tmd_parti2` (`team_participant2_id`),
   CONSTRAINT `fk_tmd_parti1` FOREIGN KEY (`team_participant1_id`) REFERENCES `tournamentparticipant` (`tournament_participant_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_tmd_parti2` FOREIGN KEY (`team_participant2_id`) REFERENCES `tournamentparticipant` (`tournament_participant_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournamentmatchdetails: ~5 rows (approximately)
+-- Dumping data for table digitourapp.tournamentmatchdetails: ~7 rows (approximately)
 /*!40000 ALTER TABLE `tournamentmatchdetails` DISABLE KEYS */;
 INSERT IGNORE INTO `tournamentmatchdetails` (`tournament_match_id`, `team_participant1_id`, `team_participant2_id`, `tournament_id`) VALUES
-	(1, 1, 2, 2),
-	(2, 1, 2, 3),
-	(3, 1, 3, 4),
-	(4, 7, 8, 5),
-	(5, 9, 10, 6),
-	(6, 11, 12, 7);
+	(9, 17, 18, 10),
+	(10, 19, 20, 11);
 /*!40000 ALTER TABLE `tournamentmatchdetails` ENABLE KEYS */;
 
 
@@ -338,23 +337,15 @@ CREATE TABLE IF NOT EXISTS `tournamentparticipant` (
   CONSTRAINT `tp_group` FOREIGN KEY (`group_id`) REFERENCES `group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tp_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tp_tournament` FOREIGN KEY (`tournament_id`) REFERENCES `tournament` (`tournament_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournamentparticipant: ~8 rows (approximately)
+-- Dumping data for table digitourapp.tournamentparticipant: ~14 rows (approximately)
 /*!40000 ALTER TABLE `tournamentparticipant` DISABLE KEYS */;
 INSERT IGNORE INTO `tournamentparticipant` (`tournament_participant_id`, `tournament_id`, `team_id`, `group_id`) VALUES
-	(1, 2, 1, 1),
-	(2, 2, 1, 1),
-	(3, 3, 1, 1),
-	(4, 3, 2, 1),
-	(5, 4, 1, 1),
-	(6, 4, 3, 1),
-	(7, 5, 3, 1),
-	(8, 5, 4, 1),
-	(9, 6, 3, 1),
-	(10, 6, 4, 1),
-	(11, 7, 3, 1),
-	(12, 7, 4, 1);
+	(17, 10, 3, 1),
+	(18, 10, 4, 1),
+	(19, 11, 3, 1),
+	(20, 11, 4, 1);
 /*!40000 ALTER TABLE `tournamentparticipant` ENABLE KEYS */;
 
 
@@ -384,9 +375,9 @@ CREATE TABLE IF NOT EXISTS `tournamentparticipantteam` (
   `player_profile_id` bigint(20) NOT NULL,
   `player_chase_number` bigint(20) NOT NULL,
   PRIMARY KEY (`tour_p_t_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
 
--- Dumping data for table digitourapp.tournamentparticipantteam: ~93 rows (approximately)
+-- Dumping data for table digitourapp.tournamentparticipantteam: ~189 rows (approximately)
 /*!40000 ALTER TABLE `tournamentparticipantteam` DISABLE KEYS */;
 INSERT IGNORE INTO `tournamentparticipantteam` (`tour_p_t_id`, `tournament_participant_id`, `player_profile_id`, `player_chase_number`) VALUES
 	(1, 3, 1, 1),
@@ -481,7 +472,103 @@ INSERT IGNORE INTO `tournamentparticipantteam` (`tour_p_t_id`, `tournament_parti
 	(90, 12, 26, 9),
 	(91, 12, 27, 10),
 	(92, 12, 28, 11),
-	(93, 12, 29, 12);
+	(93, 12, 29, 12),
+	(94, 13, 6, 1),
+	(95, 13, 7, 2),
+	(96, 13, 8, 3),
+	(97, 13, 9, 4),
+	(98, 13, 10, 5),
+	(99, 13, 11, 6),
+	(100, 13, 12, 7),
+	(101, 13, 13, 8),
+	(102, 13, 14, 9),
+	(103, 13, 15, 10),
+	(104, 13, 16, 11),
+	(105, 13, 17, 12),
+	(106, 14, 18, 1),
+	(107, 14, 19, 2),
+	(108, 14, 20, 3),
+	(109, 14, 21, 4),
+	(110, 14, 22, 5),
+	(111, 14, 23, 6),
+	(112, 14, 24, 7),
+	(113, 14, 25, 8),
+	(114, 14, 26, 9),
+	(115, 14, 27, 10),
+	(116, 14, 28, 11),
+	(117, 14, 29, 12),
+	(118, 15, 6, 1),
+	(119, 15, 7, 2),
+	(120, 15, 8, 3),
+	(121, 15, 9, 4),
+	(122, 15, 10, 5),
+	(123, 15, 11, 6),
+	(124, 15, 12, 7),
+	(125, 15, 13, 8),
+	(126, 15, 14, 9),
+	(127, 15, 15, 10),
+	(128, 15, 16, 11),
+	(129, 15, 17, 12),
+	(130, 16, 18, 1),
+	(131, 16, 19, 2),
+	(132, 16, 20, 3),
+	(133, 16, 21, 4),
+	(134, 16, 22, 5),
+	(135, 16, 23, 6),
+	(136, 16, 24, 7),
+	(137, 16, 25, 8),
+	(138, 16, 26, 9),
+	(139, 16, 27, 10),
+	(140, 16, 28, 11),
+	(141, 16, 29, 12),
+	(142, 17, 6, 1),
+	(143, 17, 7, 2),
+	(144, 17, 8, 3),
+	(145, 17, 9, 4),
+	(146, 17, 10, 5),
+	(147, 17, 11, 6),
+	(148, 17, 12, 7),
+	(149, 17, 13, 8),
+	(150, 17, 14, 9),
+	(151, 17, 15, 10),
+	(152, 17, 16, 11),
+	(153, 17, 17, 12),
+	(154, 18, 18, 1),
+	(155, 18, 19, 2),
+	(156, 18, 20, 3),
+	(157, 18, 21, 4),
+	(158, 18, 22, 5),
+	(159, 18, 23, 6),
+	(160, 18, 24, 7),
+	(161, 18, 25, 8),
+	(162, 18, 26, 9),
+	(163, 18, 27, 10),
+	(164, 18, 28, 11),
+	(165, 18, 29, 12),
+	(166, 19, 6, 1),
+	(167, 19, 7, 2),
+	(168, 19, 8, 3),
+	(169, 19, 9, 4),
+	(170, 19, 10, 5),
+	(171, 19, 11, 6),
+	(172, 19, 12, 7),
+	(173, 19, 13, 8),
+	(174, 19, 14, 9),
+	(175, 19, 15, 10),
+	(176, 19, 16, 11),
+	(177, 19, 17, 12),
+	(178, 20, 18, 1),
+	(179, 20, 19, 2),
+	(180, 20, 20, 3),
+	(181, 20, 21, 4),
+	(182, 20, 22, 5),
+	(183, 20, 23, 6),
+	(184, 20, 24, 7),
+	(185, 20, 25, 8),
+	(186, 20, 26, 9),
+	(187, 20, 27, 10),
+	(188, 20, 28, 11),
+	(189, 20, 29, 12);
 /*!40000 ALTER TABLE `tournamentparticipantteam` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
