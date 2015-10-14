@@ -27,10 +27,17 @@
         </div>
 
         <c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
-            <div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
+            <c:choose>
+               <c:when test="${ defendingPlayer.out}">
+		            <div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
+               </c:when>
+               <c:otherwise>
+                   <div class="row teamrow notout" id="teamrow-${defendingPlayer.playerProfileId }">
+               </c:otherwise>
+            </c:choose>
                 <div class="col-lg-3 text-left">
                     <h4>
-                        <span id="scoresheetDefender-${defendingPlayer.playerProfileId }">${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.firstName } ${defendingPlayer.lastName }</span>
+                        <span id="scoresheetDefender-${defendingPlayer.playerProfileId }">${defendingPlayer.tournamentChaseNumber }.${defendingPlayer.firstName } ${defendingPlayer.lastName } ${ defendingPlayer.out}</span>
                         <c:if test="${lpHandle.count > 9}">
                             <a id="substitute-row-${defendingPlayer.playerProfileId }" href="#teamrow-${defendingPlayer.playerProfileId }" class="substitute"><span class="glyphicon glyphicon-random icon-small"></span></a>
                         </c:if>
@@ -92,6 +99,9 @@
     border-bottom: 1px solid lightgray;
 }
 
+.notout {
+    border-bottom: 1px solid lightgray;
+}
 .icon-small {
     font-size: 10px;
     color: black;
