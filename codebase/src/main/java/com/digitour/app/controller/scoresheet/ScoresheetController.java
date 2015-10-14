@@ -190,38 +190,37 @@ public class ScoresheetController {
         modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getName());
         
         MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails, inning, turn);
-        if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus())) {
-            if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
-                populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
-                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2, inning, turn);
-            } else {
-                populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
-                addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, tournamentParticipantTeam1, inning, turn);
-            }
-            addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
-        } else {
-            modelAndView.addObject("defendingTeamScore", 0);
-            modelAndView.addObject("chasingTeamScore", 0);
-            modelAndView.addObject("currentInningScore", 0);
-            modelAndView.addObject("timeLapsed", 0);
+        
+        if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus()) 
+                && defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId()) ) {
+            populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam1, defendingTeam);
+        } else if(turnDetails != null && !TurnStatus.NOTSTARTED.equals(turnDetails.getStatus()) 
+                && chasingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant2.getTeamId()) ) {
+            populateMatchPointDetails(tournamentMatchDetails, inning, turn, tournamentParticipantTeam2, defendingTeam);
         }
+        addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
+        addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2, defendingTeam, chasingTeam, tournamentParticipant1, tournamentParticipant2, inning, turn);
     }
 
     private void addMatchTotalScoreForBothTeams(ModelAndView modelAndView,
-            TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> chasingParticipantTeam,
-            List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn) {
+            TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> participantTeam1,
+            List<TournamentParticipantTeam> participatingTeam2, List<PlayerProfile> defendingTeam, List<PlayerProfile> chasingTeam, TournamentParticipant tournamentParticipant1, TournamentParticipant tournamentParticipant2, Long inning, Long turn) {
         Long defendingParticipantTeamScore = 0L;
         Long chasingParticipantTeamScore = 0L;
-        Long currentInningScore = 0L;
-        
-        defendingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, chasingParticipantTeam);
-        chasingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam);
+//        Long currentInningScore = 0L;
+        if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId()) ) {
+            defendingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participantTeam1);
+            chasingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam2);
+        } else {
+            defendingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam2);
+            chasingParticipantTeamScore = matchPointDAO.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participantTeam1);
+        }
 
-        currentInningScore = matchPointDAO.getCurrentInningPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam, inning, turn);
+//        currentInningScore = matchPointDAO.getCurrentInningPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam, inning, turn);
         
         modelAndView.addObject("defendingTeamScore", defendingParticipantTeamScore);
         modelAndView.addObject("chasingTeamScore", chasingParticipantTeamScore);
-        modelAndView.addObject("currentInningScore", currentInningScore);
+        modelAndView.addObject("currentInningScore", 0);
     }
 
     private void addLapsedTimeTillNow(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
@@ -233,15 +232,29 @@ public class ScoresheetController {
     private List<PlayerProfile> findTeamForCurrentInningAndTurn(MatchTossDetails tossDetails, TournamentParticipant tournamentParticipant1,
             TournamentParticipant tournamentParticipant2, List<PlayerProfile> participatingTeam1, List<PlayerProfile> participatingTeam2, String teamSelection, Long turn) {
         List<PlayerProfile> returnPlayersList = participatingTeam1;
-        if(teamSelection.equalsIgnoreCase(tossDetails.getElectedTo())) {
-            if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant2.getTourParticipantId()) && turn == 1) {
+        
+        if("DEFENCE".equals(teamSelection)) {
+            if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId()) && tossDetails.getElectedTo().equals("DEFENCE") && turn % 2 == 0) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId()) && tossDetails.getElectedTo().equals("CHASE") && turn % 2 == 1) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant2.getTourParticipantId()) && tossDetails.getElectedTo().equals("DEFENCE") && turn % 2 == 1) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant2.getTourParticipantId()) && tossDetails.getElectedTo().equals("CHASE") && turn % 2 == 0) {
                 returnPlayersList = participatingTeam2;
             }
         } else {
-            if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId()) && turn == 1) {
+            if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId()) && tossDetails.getElectedTo().equals("DEFENCE") && turn % 2 == 1) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId()) && tossDetails.getElectedTo().equals("CHASE") && turn % 2 == 0) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant2.getTourParticipantId()) && tossDetails.getElectedTo().equals("DEFENCE") && turn % 2 == 0) {
+                returnPlayersList = participatingTeam2;
+            } else if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant2.getTourParticipantId()) && tossDetails.getElectedTo().equals("CHASE") && turn % 2 == 1) {
                 returnPlayersList = participatingTeam2;
             }
         }
+
         return returnPlayersList;
     }
 
