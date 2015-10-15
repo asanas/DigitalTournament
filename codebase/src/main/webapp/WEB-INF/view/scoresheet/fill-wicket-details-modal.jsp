@@ -15,23 +15,23 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-lg-4" for="chaser">Chaser Name:</label>
+                        <label class="control-label col-lg-4" for="symbol">Select How:</label>
                         <div class="col-lg-6">
-                            <select id="chaser" class="form-control">
-                                <option value="0">None</option>
-                                <c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
-                                    <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
+                            <select id="symbol" class="form-control">
+                                <option value="not out">Not out</option>
+                                <c:forEach items="${ symbolList}" var="symbol" varStatus="lpHandle">
+                                    <option value="${symbol.symbolId}">${symbol.description}</option>
                                 </c:forEach>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-lg-4" for="symbol">Select How:</label>
+                        <label class="control-label col-lg-4" for="chaser">Chaser Name:</label>
                         <div class="col-lg-6">
-                            <select id="symbol" class="form-control">
-                                <option value="0">None</option>
-                                <c:forEach items="${ symbolList}" var="symbol" varStatus="lpHandle">
-                                    <option value="${symbol.symbolId}">${symbol.description}</option>
+                            <select id="chaser" class="form-control">
+                                <option value="NA">None</option>
+                                <c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
+                                    <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
                                 </c:forEach>
                             </select>
                         </div>

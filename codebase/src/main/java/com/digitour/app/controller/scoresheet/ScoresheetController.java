@@ -86,7 +86,7 @@ public class ScoresheetController {
     @RequestMapping(path ="/markTurnStatus", method=RequestMethod.POST)
     @ResponseBody
     public String saveTurnClosure(@RequestParam Long matchId, @RequestParam Long inning, @RequestParam Long turn, @RequestParam String turnStatus) {
-    	TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
+        TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
         MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(matchDetails, inning, turn);
         turnDetails.setStatus(TurnStatus.COMPLETED);
         
@@ -96,7 +96,7 @@ public class ScoresheetController {
             turnDetails.setStatus(TurnStatus.INPROGRESS);
         }
         matchTurnDAO.save(turnDetails);
-    	return "success";
+        return "success";
     }
 
     @RequestMapping(value="/addInning", method=RequestMethod.POST)
@@ -109,12 +109,15 @@ public class ScoresheetController {
 
     @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
     @ResponseBody
-    public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
+    public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam String chaserProfileId,
             @RequestParam Long symbolId, @RequestParam Long timePlayed, @RequestParam Long inning, @RequestParam Long turn,
             @RequestParam Long runTime, @RequestParam Boolean out) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
         PlayerProfile defenderPlayerProfile = playerProfileDAO.getById(defenderProfileId);
-        PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserProfileId);
+        PlayerProfile chaserPlayerProfile = null;
+        if(!"NA".equals(chaserProfileId)) {
+            chaserPlayerProfile = playerProfileDAO.getById(Long.parseLong(chaserProfileId));
+        }
         matchPointManager.addMatchPointDetails(matchDetails, defenderPlayerProfile, chaserPlayerProfile, timePlayed, runTime, inning, turn, symbolId, out);
         return "success";
     }
@@ -145,31 +148,26 @@ public class ScoresheetController {
 
     private void populateMatchPointDetails(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
             List<PlayerProfile> defendingTeamList) {
-        for(TournamentParticipantTeam defendingPlayer: defendingParticipatingTeam) {
-            List<MatchPointDetails> matchPointList = matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, defendingPlayer.getTournamentParticipantPlayerId(), inning, turn);
+        Long tourParticipantId = defendingParticipatingTeam.get(0).getTournamentPartipantId();
+        TournamentParticipant tournamentParticipant = tournamentParticipantDAO.getById(tourParticipantId);
+        for(PlayerProfile playerProfile : defendingTeamList) {
+            TournamentParticipantTeam defendingPlayerTeamProfile = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(playerProfile, tournamentParticipant);
+            List<MatchPointDetails> matchPointList = matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, defendingPlayerTeamProfile.getTournamentParticipantPlayerId(), inning, turn);
             if(matchPointList != null && matchPointList.size() > 0) {
-                PlayerProfile playerProfile = playerProfileDAO.getById(defendingPlayer.getPlayerProfileId());
-                boolean out = true;
                 for(MatchPointDetails matchPoint: matchPointList) {
                     matchPoint.setDefenderName(playerProfile.getFirstName() + " " + playerProfile.getLastName());
-                    TournamentParticipantTeam chaserParticipatingProfile = tournamentParticipantTeamDAO.getById(matchPoint.getAttackParticipantProfileId());
-                    PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserParticipatingProfile.getPlayerProfileId());
-                    matchPoint.setChaserName(chaserPlayerProfile.getFirstName() + " " + chaserPlayerProfile.getLastName());
-                    if(!matchPoint.isOut() && !matchPoint.isTurnClosure()) {
-                        out = matchPoint.isOut();
+                    if(matchPoint.getAttackParticipantProfileId() != null) {
+                    	TournamentParticipantTeam chaserParticipatingProfile = tournamentParticipantTeamDAO.getById(matchPoint.getAttackParticipantProfileId());
+                    	PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserParticipatingProfile.getPlayerProfileId());
+                    	matchPoint.setChaserName(chaserPlayerProfile.getFirstName() + " " + chaserPlayerProfile.getLastName());
+                    } else {
+                    	matchPoint.setChaserName("--");
+                    }
+                    if(!matchPoint.isOut() && matchPoint.isTurnClosure()) {
+                        playerProfile.setWicketStatus("notout");
                     }
                 }
-                playerProfile.setOut(out);
-                attachMatchPointListToPlayerProfile(defendingTeamList, matchPointList, playerProfile);
-            }
-        }
-    }
-
-    private void attachMatchPointListToPlayerProfile(List<PlayerProfile> defendingTeamList, List<MatchPointDetails> matchPointList, PlayerProfile playerProfileToCompare) {
-        for(PlayerProfile playerProfile : defendingTeamList) {
-            if(playerProfile.getPlayerProfileId().equals(playerProfileToCompare.getPlayerProfileId())) {
                 playerProfile.setMatchPointDetailsList(matchPointList);
-                break;
             }
         }
     }

@@ -42,7 +42,7 @@ public class PlayerProfile implements java.io.Serializable {
     private Team team;
     private Long tournamentChaseNumber;
     private List<MatchPointDetails> matchPointDetailsList;
-    private boolean out;
+    private String wicketStatus;
     
     public PlayerProfile() {
     }
@@ -231,11 +231,11 @@ public class PlayerProfile implements java.io.Serializable {
     }
 
     @Transient
-    public boolean isOut() {
-        return out;
+    public String getWicketStatus() {
+        return wicketStatus;
     }
 
-    public void setOut(boolean out) {
-        this.out = out;
+    public void setWicketStatus(String wicketStatus) {
+        this.wicketStatus = wicketStatus;
     }
 }

@@ -35,15 +35,10 @@ public class MatchPointManagerImpl implements MatchPointManager {
             Long runTime, Long inning, Long turn, Long symbolId, Boolean out) {
         TournamentParticipant defenderParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(defenderPlayerProfile.getTeam(), 
                 matchDetails.getTournamentId());
-        TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
-                matchDetails.getTournamentId());
         TournamentParticipantTeam defenderProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(defenderPlayerProfile, defenderParticipant);
-        TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
         Symbol symbol = symbolDAO.getById(symbolId);
         MatchPointDetails matchPoint = new MatchPointDetails();
         matchPoint.setDefenceParticipantProfileId(defenderProfileTourTeam.getTournamentParticipantPlayerId());
-        matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-        matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
         matchPoint.setMatchId(matchDetails.getTournamentMatchId());
         matchPoint.setSymbol(symbol);
         matchPoint.setOut(out);
@@ -52,6 +47,14 @@ public class MatchPointManagerImpl implements MatchPointManager {
         matchPoint.setRunTime(runTime);
         matchPoint.setTurnNumber(turn);
         matchPoint.setInningNumber(inning);
+
+        if(chaserPlayerProfile != null) {
+            TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
+                    matchDetails.getTournamentId());
+            TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
+            matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
+            matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
+        }
         matchPointDAO.save(matchPoint);
     }
 
