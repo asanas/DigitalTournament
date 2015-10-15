@@ -77,13 +77,13 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#StartMatch">Start Match</a>
+                        <a href="#StartMatch">&nbsp;</a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#scoresheet">Scoresheet</a>
+                        <a href="#scoresheet">&nbsp;</a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#result">Result</a>
+                        <a href="#result">&nbsp;</a>
                     </li>
                 </ul>
             </div>

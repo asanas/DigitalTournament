@@ -1,4 +1,5 @@
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Tournament.java
+D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\MatchTurnManagerImpl.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\AgeGroup.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\scoresheet\ScoresheetController.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\PersonDAO.java
@@ -36,6 +37,7 @@ D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\mod
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentScheduleDateMasterDAO.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\MajorSkill.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentDAO.java
+D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchTurnManager.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\DummyManagerImpl.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Team.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\example\Product.java
@@ -56,12 +58,14 @@ D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\TournamentScheduleMaster.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\TurnStatus.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Symbol.java
+D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchPointManager.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MatchPointMasterDAO.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\OfficialMasterDAO.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MatchTurnDAO.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentParticipantDAOImpl.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\TournamentMatchFoulMaster.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\MatchTurnDAOImpl.java
+D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\MatchPointManagerImpl.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\StateMasterDAO.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\DummyManager.java
 D:\projects\Git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\example\Person.java

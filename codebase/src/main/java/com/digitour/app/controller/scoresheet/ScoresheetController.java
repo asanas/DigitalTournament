@@ -32,6 +32,7 @@ import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchPointManager;
+import com.digitour.app.manager.MatchTurnManager;
 
 @Controller
 public class ScoresheetController {
@@ -69,6 +70,9 @@ public class ScoresheetController {
     @Autowired
     MatchPointManager matchPointManager;
     
+    @Autowired
+    MatchTurnManager turnManager;
+    
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
         ModelAndView modelAndView = new ModelAndView("scoresheet/scoresheethome");
@@ -94,7 +98,15 @@ public class ScoresheetController {
         matchTurnDAO.save(turnDetails);
     	return "success";
     }
-    
+
+    @RequestMapping(value="/addInning", method=RequestMethod.POST)
+    @ResponseBody
+    public String addInning(@RequestParam Long matchId) {
+        TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
+        turnManager.addInning(matchDetails);
+        return "success";
+    }
+
     @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
     @ResponseBody
     public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
@@ -117,7 +129,13 @@ public class ScoresheetController {
         modelAndView.addObject("matchDetails", tournamentMatchDetails);
         modelAndView.addObject("turnDetails", turnDetails);
         populateSymbols(modelAndView);
+        populateTurns(modelAndView, tournamentMatchDetails);
         populateParticipatingTeams(tournamentMatchDetails, tournamentParticipant1, tournamentParticipant2, tossDetails, modelAndView, inning, turn);
+    }
+
+    private void populateTurns(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails) {
+        List<MatchTurnDetails> matchTurnList = turnManager.getTurnsByMatch(tournamentMatchDetails);
+        modelAndView.addObject("matchTurnList", matchTurnList);
     }
 
     private void populateSymbols(ModelAndView modelAndView) {

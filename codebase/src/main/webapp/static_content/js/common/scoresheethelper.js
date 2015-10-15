@@ -18,13 +18,20 @@
             } else {
                 $("#turn2").addClass("active");
             }
-        } else {
+        } else if(window.tournamentMatchDetails.currentInning == 2) {
             if(window.tournamentMatchDetails.currentTurn == 1) {
                 $("#turn3").addClass("active");
             } else {
                 $("#turn4").addClass("active");
             }
+        } else {
+            if(window.tournamentMatchDetails.currentTurn == 1) {
+                $("#turn5").addClass("active");
+            } else {
+                $("#turn6").addClass("active");
+            }
         }
+
         if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' && window.tournamentMatchDetails.timeLapsed 
                 && window.tournamentMatchDetails.timeLapsed > 0) {
             window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
@@ -70,7 +77,7 @@
         var turnHref = $(this).attr('href');
         var gotoTurn = turnHref.substr(turnHref.length- 1), gotoInning = 1;
         if(gotoTurn > 2) {
-            gotoInning = 2;
+            gotoInning = Math.floor(gotoTurn/2) + gotoTurn % 2;
             gotoTurn = Math.floor(gotoTurn/2);
         }
         
@@ -236,5 +243,25 @@
         } else {
             $(".alert-warning").removeClass("hide").addClass("show");
         }
+    });
+    
+    $("#addInning").click(function() {
+        if($("#turn6").length) {
+            alert('Cannot add more than three innings.');
+            return;
+        }
+        
+        $.ajax({
+            url: window.pageURL + '/addInning',
+            data: "matchId="+ window.tournamentMatchDetails.matchId,
+            type: "POST",
+            success: function(data) {
+                    if(data == 'success') {
+                    	var turnTabs = '<li id="turn5"><a href="#turn5" class="turnTab">Turn 5</a></li>' + 
+                    				   '<li id="turn6"><a href="#turn6" class="turnTab">Turn 6</a></li>';
+                    	$(".turnsContainer").append($(turnTabs));
+                    }
+                }
+        });
     });
 })(window, window.document);

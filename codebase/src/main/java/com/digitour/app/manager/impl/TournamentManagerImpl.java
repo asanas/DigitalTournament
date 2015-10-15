@@ -22,6 +22,7 @@ import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.AgeGroup;
 import com.digitour.app.db.model.support.enums.TurnStatus;
+import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.TournamentManager;
 
 @Service
@@ -48,6 +49,9 @@ public class TournamentManagerImpl implements TournamentManager {
     @Autowired
     MatchTurnDAO matchInningDAO;
     
+    @Autowired
+    MatchTurnManager turnManager;
+    
     @Override
     public TournamentMatchDetails startQuickMatch(Long team1Id, Long team2Id, Long tossWonTeamId, String electedTo) {
         Tournament tournament = createTestTour();
@@ -56,7 +60,7 @@ public class TournamentManagerImpl implements TournamentManager {
         createTournamentPartipantTeam(tourparti1, team1Id);
         createTournamentPartipantTeam(tourparti2, team2Id);
         TournamentMatchDetails tournamentMatch = createTournamentMatch(tournament, tourparti1.getTourParticipantId(), tourparti2.getTourParticipantId());
-        createTournamentTurnDetails(tournamentMatch);
+        turnManager.createMatchTurns(tournamentMatch);
         if(tossWonTeamId.equals(team1Id)) {
             tossWonTeamId = tourparti1.getTourParticipantId();
         } else {
@@ -64,19 +68,6 @@ public class TournamentManagerImpl implements TournamentManager {
         }
         saveMatchTossDetails(tournamentMatch, tossWonTeamId, electedTo);
         return tournamentMatch;
-    }
-
-    private void createTournamentTurnDetails(TournamentMatchDetails tournamentMatch) {
-        for(long i=1; i<=2;i++) {
-            for(long j=1;j<=2;j++) {
-                MatchTurnDetails matchTurn = new MatchTurnDetails();
-                matchTurn.setTournamentMatchDetails(tournamentMatch);
-                matchTurn.setInningNumber(i);
-                matchTurn.setTurnNumber(j);
-                matchTurn.setStatus(TurnStatus.NOTSTARTED);
-                matchInningDAO.save(matchTurn);
-            }
-        }
     }
 
     private void saveMatchTossDetails(TournamentMatchDetails tourMatchDetails, Long tossWonTeamId, String electedTo) {

@@ -8,6 +8,7 @@ com\digitour\app\dao\impl\MatchPointMasterDAOImpl.class
 com\digitour\app\dao\impl\TournamentScheduleMasterDAOImpl.class
 com\digitour\app\dao\TournamentMatchFoulMasterDAO.class
 com\digitour\app\dao\impl\TournamentParticipantTeamDAOImpl.class
+com\digitour\app\manager\MatchTurnManager.class
 com\helloworld\app\controller\HelloWorldController.class
 com\digitour\app\dao\impl\MatchTurnDAOImpl.class
 com\digitour\app\dao\FoulMasterDAO.class
@@ -57,7 +58,9 @@ com\digitour\app\dao\TournamentParticipantTeamDAO.class
 com\digitour\app\dao\impl\CityMasterDAOImpl.class
 com\digitour\app\dao\impl\StateMasterDAOImpl.class
 com\digitour\app\db\model\PlayerProfile.class
+com\digitour\app\manager\impl\MatchPointManagerImpl.class
 com\digitour\app\dao\GroupDAO.class
+com\digitour\app\manager\MatchPointManager.class
 com\digitour\app\dao\impl\TournamentParticipantDAOImpl.class
 com\digitour\app\dao\impl\OfficialMasterDAOImpl.class
 com\digitour\app\dao\impl\TournamentMatchResultMasterDAOImpl.class
@@ -85,3 +88,4 @@ com\digitour\app\manager\impl\DummyManagerImpl.class
 com\digitour\app\model\TournamentScheduleMaster.class
 com\digitour\app\controller\scoresheet\ScoresheetController.class
 com\digitour\app\dao\TournamentMatchResultMasterDAO.class
+com\digitour\app\manager\impl\MatchTurnManagerImpl.class

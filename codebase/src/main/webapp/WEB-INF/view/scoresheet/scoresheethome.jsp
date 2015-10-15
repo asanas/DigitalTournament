@@ -4,11 +4,10 @@
         <%@include file="scoreboard-header.jsp"%>
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
-        <ul class="nav nav-tabs nav-justified">
-          <li id="turn1"><a href="#turn1" class="turnTab">Turn 1</a></li>
-          <li id="turn2"><a href="#turn2" class="turnTab">Turn 2</a></li>
-          <li id="turn3"><a href="#turn3" class="turnTab">Turn 3</a></li>
-          <li id="turn4"><a href="#turn4" class="turnTab">Turn 4</a></li>
+        <ul class="nav nav-tabs nav-justified turnsContainer">
+            <c:forEach items="${ matchTurnList}" var="matchTurn" varStatus="lpTurnHandle">
+              <li id="turn${lpTurnHandle.count }"><a href="#turn${lpTurnHandle.count }" class="turnTab">Turn ${lpTurnHandle.count }</a></li>
+            </c:forEach>
         </ul>
         <div class="row">
             <div class="col-lg-3 text-left">
@@ -29,7 +28,7 @@
         <c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
             <c:choose>
                <c:when test="${ defendingPlayer.out}">
-		            <div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
+                    <div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
                </c:when>
                <c:otherwise>
                    <div class="row teamrow notout" id="teamrow-${defendingPlayer.playerProfileId }">
@@ -81,6 +80,21 @@
                 </div>
             </div>
         </c:forEach>
+        <div class="row">
+            &nbsp;
+        </div>
+        <!-- Add menu here -->
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="btn-group">
+              <button type="button" class="btn btn-info">Abort Current Turn</button>
+              <button id="addInning" type="button" class="btn btn-info">Add Inning</button>
+              <button type="button" class="btn btn-info">Top Performers</button>
+              <button type="button" class="btn btn-info">Show Result</button>
+              <button type="button" class="btn btn-info">Play Sudden Death</button>
+            </div>
+          </div>
+        </div>
     </div>
 </header>
 <%@include file="../common/footer.jsp"%>
@@ -95,6 +109,12 @@
 .container .row.teamrow :nth-child(odd){
   background-color: #aaaaaa;
 }*/
+.panel {
+    background-color: #18BC9C
+}
+.panel-body {
+    padding:10px
+}
 .teamrow {
     border-bottom: 1px solid lightgray;
 }

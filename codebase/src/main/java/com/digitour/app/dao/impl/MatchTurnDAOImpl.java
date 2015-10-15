@@ -34,4 +34,11 @@ public class MatchTurnDAOImpl implements MatchTurnDAO {
         this.hibernateTemplate.saveOrUpdate(matchTurn);
     }
 
+    @Override
+    public List<MatchTurnDetails> getTurnsByMatch(TournamentMatchDetails matchDetails) {
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchTurnDetails.class);
+        criteria.add(Restrictions.eq("tournamentMatchDetails", matchDetails));
+        return (List<MatchTurnDetails>) this.hibernateTemplate.findByCriteria(criteria);
+    }
+
 }
