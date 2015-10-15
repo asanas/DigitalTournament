@@ -153,8 +153,12 @@
         var defenderProfileId = $("#selectedTeamRow").val();
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
+        var timePlayedArray = $("#timePlayed").text().split(' ');
+        var timePlayedMinutes = parseInt(timePlayedArray[0].substr(0, 1)), timePlayedSeconds = parseInt(timePlayedArray[1].substr(0, timePlayedArray[1].length()-1));
+        var timePlayed = timePlayedMinutes * 60 + timePlayedSeconds;
+        console.log('Time played ::: ' + timePlayed);
         var queryParam = 'matchId='+window.tournamentMatchDetails.matchId +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
-        '&symbolId='+symbolId+'&formattedTimePlayed='+$("#timePlayed").text().trim()+'&inning='+window.tournamentMatchDetails.currentInning+'&turn='+
+        '&symbolId='+symbolId+'&timePlayed='+timePlayed+'&inning='+window.tournamentMatchDetails.currentInning+'&turn='+
         window.tournamentMatchDetails.currentTurn+'&runTime='+window.currentStpWtchTime;
 
         $.ajax({

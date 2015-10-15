@@ -31,6 +31,7 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.TurnStatus;
+import com.digitour.app.manager.MatchPointManager;
 
 @Controller
 public class ScoresheetController {
@@ -65,6 +66,9 @@ public class ScoresheetController {
     @Autowired
     MatchTurnDAO matchTurnDAO;
     
+    @Autowired
+    MatchPointManager matchPointManager;
+    
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
         ModelAndView modelAndView = new ModelAndView("scoresheet/scoresheethome");
@@ -94,35 +98,12 @@ public class ScoresheetController {
     @RequestMapping(value="/addMatchPoint", method=RequestMethod.POST)
     @ResponseBody
     public String addMatchPoint(@RequestParam Long matchId, @RequestParam  Long defenderProfileId, @RequestParam Long chaserProfileId,
-            @RequestParam Long symbolId, @RequestParam String formattedTimePlayed, @RequestParam Long inning, @RequestParam Long turn,
+            @RequestParam Long symbolId, @RequestParam Long timePlayed, @RequestParam Long inning, @RequestParam Long turn,
             @RequestParam Long runTime ) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
         PlayerProfile defenderPlayerProfile = playerProfileDAO.getById(defenderProfileId);
         PlayerProfile chaserPlayerProfile = playerProfileDAO.getById(chaserProfileId);
-        TournamentParticipant defenderParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(defenderPlayerProfile.getTeam(), 
-                matchDetails.getTournamentId());
-        TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
-                matchDetails.getTournamentId());
-        TournamentParticipantTeam defenderProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(defenderPlayerProfile, defenderParticipant);
-        TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
-        String[] perTimeSplit = formattedTimePlayed.split(" ");
-        Long minutes = Long.parseLong(perTimeSplit[0].substring(0, 1));
-        Long seconds = Long.parseLong(perTimeSplit[1].substring(0, perTimeSplit[1].length()-1));
-        Long perTime = minutes * 60 + seconds;
-        Symbol symbol = symbolDAO.getById(symbolId);
-        MatchPointDetails matchPoint = new MatchPointDetails();
-        matchPoint.setDefenceParticipantProfileId(defenderProfileTourTeam.getTournamentParticipantPlayerId());
-        matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-        matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
-        matchPoint.setMatchId(matchDetails.getTournamentMatchId());
-        matchPoint.setSymbol(symbol);
-        matchPoint.setOut(true);
-        matchPoint.setTurnClosure(false);
-        matchPoint.setPerTime(perTime);
-        matchPoint.setRunTime(runTime);
-        matchPoint.setTurnNumber(turn);
-        matchPoint.setInningNumber(inning);
-        matchPointDAO.save(matchPoint);
+        matchPointManager.addMatchPointDetails(matchDetails, defenderPlayerProfile, chaserPlayerProfile, timePlayed, runTime, inning, turn, symbolId);
         return "success";
     }
     
