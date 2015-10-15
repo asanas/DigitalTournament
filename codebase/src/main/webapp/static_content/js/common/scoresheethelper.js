@@ -35,7 +35,7 @@
     }
     
     var checkClockStatus = function() {
-        if(window.clock.running && window.clock.getTime().time > 180) {
+        if(window.clock.running && window.clock.getTime().time > 540) {
             // alert('Turn closure occured.');
             window.clock.stop();
             // make ajax request to save last players details.
@@ -70,25 +70,31 @@
         var turnHref = $(this).attr('href');
         var gotoTurn = turnHref.substr(turnHref.length- 1), gotoInning = 1;
         if(gotoTurn > 2) {
-        	gotoInning = 2;
-        	gotoTurn = Math.floor(gotoTurn/2);
+            gotoInning = 2;
+            gotoTurn = Math.floor(gotoTurn/2);
         }
-    	window.location = window.pageURL + '/loadScoresheet/match/'+window.tournamentMatchDetails.matchId+'/inning/'+ gotoInning +'/turn/'+gotoTurn;
+        
+        if(window.clock.running) {
+            alert('Turn'+window.tournamentMatchDetails.currentTurn + ' is on progress, could not load scoresheet data of selected turn.');
+            return;
+        }
+        window.location = window.pageURL + '/loadScoresheet/match/'+window.tournamentMatchDetails.matchId+'/inning/'+ gotoInning +'/turn/'+gotoTurn;
     });
     
     $(".clock").click(function() {
-    	if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
-    		alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
-    	} else {
-    		if (window.clock.running) {
+        if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
+            alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
+        } else {
+            if (window.clock.running) {
                 window.clock.stop();
                 window.clock.reset();
                 markTurnStatus('ABORTED');
             } else {
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
+                checkClockStatus();
             }
-    	}
+        }
         
     });
 
@@ -114,8 +120,8 @@
             
             // check if player is not a substitute and turn status is either NOTSTARTED/INPROGRESS.
             if($("#substitute-row-"+ hoverRowId).length == 0 && 
-            		(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'NOTSTARTED' || 
-            				window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG')) {
+                    (window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'NOTSTARTED' || 
+                            window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG')) {
                 var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
                 if(validateShowWicketIcon(hoverRowId)) {
                      $("#wicket-icon-row-" + hoverRowId).append($(loadWicketIconHTML));
@@ -157,10 +163,15 @@
         var timePlayedMinutes = parseInt(timePlayedArray[0].substr(0, 1)), timePlayedSeconds = parseInt(timePlayedArray[1].substr(0, timePlayedArray[1].length()-1));
         var timePlayed = timePlayedMinutes * 60 + timePlayedSeconds;
         console.log('Time played ::: ' + timePlayed);
+        var out = true;
         var queryParam = 'matchId='+window.tournamentMatchDetails.matchId +'&defenderProfileId='+defenderProfileId+'&chaserProfileId='+chaserProfileId+
         '&symbolId='+symbolId+'&timePlayed='+timePlayed+'&inning='+window.tournamentMatchDetails.currentInning+'&turn='+
         window.tournamentMatchDetails.currentTurn+'&runTime='+window.currentStpWtchTime;
-
+        
+        if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
+            out = false;
+        }
+        queryParam = queryParam + '&out=' + out;
         $.ajax({
             url: window.pageURL + '/addMatchPoint',
             data: queryParam,

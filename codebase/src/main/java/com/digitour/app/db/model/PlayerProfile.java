@@ -42,6 +42,7 @@ public class PlayerProfile implements java.io.Serializable {
     private Team team;
     private Long tournamentChaseNumber;
     private List<MatchPointDetails> matchPointDetailsList;
+    private boolean out;
     
     public PlayerProfile() {
     }
@@ -56,30 +57,30 @@ public class PlayerProfile implements java.io.Serializable {
     @ManyToOne
     @JoinColumn(name="city_id")
     public City getCity() {
-    	return this.city;
+        return this.city;
     }
     
     @Enumerated(EnumType.STRING)
     @Column(name = "major_skill")
     public MajorSkill getMajorSkill() {
-    	return this.majorSkill;
+        return this.majorSkill;
     }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     public Role getRole() {
-    	return this.role;
+        return this.role;
     }
 
     @Column(name = "date_of_birth", nullable = false)
     public Date getDateOfBirth() {
-    	return this.dateOfBirth;
+        return this.dateOfBirth;
     }
 
     @Column( name = "photo", nullable = true )
     @Lob
     public byte[] getPhoto() {
-    	return this.photo;
+        return this.photo;
     }
 
     @Column(name = "height", nullable = true)
@@ -166,15 +167,15 @@ public class PlayerProfile implements java.io.Serializable {
 
     @ManyToOne
     @JoinColumn(name = "team_id")
-	public Team getTeam() {
-		return team;
-	}
+    public Team getTeam() {
+        return team;
+    }
 
-	public void setTeam(Team team) {
-		this.team = team;
-	}
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
-	@Transient
+    @Transient
     public Long getTournamentChaseNumber()
     {
         return tournamentChaseNumber;
@@ -227,5 +228,14 @@ public class PlayerProfile implements java.io.Serializable {
     public void setMatchPointDetailsList(List<MatchPointDetails> matchPointDetailsList)
     {
         this.matchPointDetailsList = matchPointDetailsList;
+    }
+
+    @Transient
+    public boolean isOut() {
+        return out;
+    }
+
+    public void setOut(boolean out) {
+        this.out = out;
     }
 }
