@@ -50,7 +50,7 @@
 	
 	<!-- Contact Form JavaScript -->
 	<script src="${pageContext.request.contextPath}/static_content/js/jqBootstrapValidation.js"></script>
-	<script src="${pageContext.request.contextPath}/static_content/js/contact_me.js"></script>
+	<!-- <script src="${pageContext.request.contextPath}/static_content/js/contact_me.js"></script> -->
 	
 	<!-- Custom Theme JavaScript -->
 	<script src="${pageContext.request.contextPath}/static_content/js/freelancer.js"></script>

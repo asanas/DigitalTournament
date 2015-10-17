@@ -15,10 +15,9 @@ com\digitour\app\dao\FoulMasterDAO.class
 com\digitour\app\dao\RoleMasterDAO.class
 com\digitour\app\dao\SymbolMasterDAO.class
 com\digitour\app\db\model\TournamentOfficial.class
-com\digitour\app\dao\impl\TeamDAOImpl.class
 com\digitour\app\model\TournamentScheduleDateMaster.class
+com\digitour\app\dao\impl\TeamDAOImpl.class
 com\digitour\app\dao\TournamentParticipantDAO.class
-com\digitour\app\dao\StateMasterDAO.class
 com\digitour\app\model\TournamentParticipantPoints.class
 com\digitour\app\model\example\Product.class
 com\digitour\app\dao\impl\PersonDAOImpl.class
@@ -56,7 +55,6 @@ com\digitour\app\model\MajorSkill.class
 com\digitour\app\model\TournamentMatchFoulMaster.class
 com\digitour\app\dao\TournamentParticipantTeamDAO.class
 com\digitour\app\dao\impl\CityMasterDAOImpl.class
-com\digitour\app\dao\impl\StateMasterDAOImpl.class
 com\digitour\app\db\model\PlayerProfile.class
 com\digitour\app\manager\impl\MatchPointManagerImpl.class
 com\digitour\app\dao\GroupDAO.class

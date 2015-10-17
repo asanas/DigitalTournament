@@ -21,16 +21,16 @@ public class TeamDAOImpl implements TeamDAO {
     private HibernateTemplate hibernateTemplate;
 
     @Transactional
-    public Team save(Team transientInstance) {
+    public Team save(Team team) {
         log.debug("persisting TeamMaster instance");
         try {
-            hibernateTemplate.save(transientInstance);
+            hibernateTemplate.save(team);
             log.debug("persist successful");
         } catch (RuntimeException re) {
             log.error("persist failed", re);
             throw re;
         }
-        return transientInstance;
+        return team;
     }
 
     @Override

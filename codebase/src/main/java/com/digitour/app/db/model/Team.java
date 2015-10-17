@@ -37,6 +37,20 @@ public class Team implements java.io.Serializable {
     private List<PlayerProfile> playersList;
     
     public Team() {
+        
+    }
+
+    public Team(String teamName, String founderName, String description, String address, String achievements,
+            City teamCity, String establishedIn) {
+        this.name = teamName;
+        this.founderName = founderName;
+        this.description = description;
+        this.clubAddressLine1 = address;
+        this.clubAddressLine1 = address;
+        this.achievements = achievements;
+        this.city = teamCity;
+        this.teamType = TeamType.CLUB;
+        this.establishedIn = new Date();
     }
 
     @Id

@@ -27,13 +27,19 @@ var hasClass, addClass, removeClass;
 
 if ( 'classList' in document.documentElement ) {
   hasClass = function( elem, c ) {
-    return elem.classList.contains( c );
+	  if(elem && elem.classList) {
+		  return elem.classList.contains( c );
+	  }
   };
   addClass = function( elem, c ) {
-    elem.classList.add( c );
+	  if(elem && elem.classList) {
+		  elem.classList.add( c );
+	  }
   };
   removeClass = function( elem, c ) {
-    elem.classList.remove( c );
+	  if(elem && elem.classList) {
+		  elem.classList.remove( c );
+	  }
   };
 }
 else {
