@@ -6,11 +6,11 @@
         <%@include file="substitute-modal.jsp"%>
         <div class="row">
             <div class="col-lg-12">
-		        <ul class="nav nav-tabs nav-justified turnsContainer">
-		            <c:forEach items="${ matchTurnList}" var="matchTurn" varStatus="lpTurnHandle">
-		              <li id="turn${lpTurnHandle.count }"><a href="#turn${lpTurnHandle.count }" class="turnTab">Turn ${lpTurnHandle.count }</a></li>
-		            </c:forEach>
-		        </ul>
+                <ul class="nav nav-tabs nav-justified turnsContainer">
+                    <c:forEach items="${ matchTurnList}" var="matchTurn" varStatus="lpTurnHandle">
+                      <li id="turn${lpTurnHandle.count }"><a href="#turn${lpTurnHandle.count }" class="turnTab">Turn ${lpTurnHandle.count }</a></li>
+                    </c:forEach>
+                </ul>
             </div>
         </div>
         <div class="row">
@@ -163,10 +163,37 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     window.tournamentMatchDetails = window.tournamentMatchDetails || {};
     window.pageURL = window.pageURL || {};
     var teamNameClicked = 'team1Name';
-    window.clock = $('.clock').FlipClock({
-        clockFace : 'MinuteCounter',
-        autoStart : false
+    window.clock = $(".clock").TimeCircles({
+        "start": false,
+        "animation": "smooth",
+        "bg_width": 1,
+        "fg_width": 0.04,
+        "circle_bg_color": "#18BC9C",
+        "time": {
+            "Days": {
+                "text": "Days",
+                "color": "#FFCC66",
+                "show": false
+            },
+            "Hours": {
+                "text": "Hours",
+                "color": "#18BC9C",
+                "show": false
+            },
+            "Minutes": {
+                "text": "Minutes",
+                "color": "#18BC9C",
+                "show": true,
+                "text-size": "68px"
+            },
+            "Seconds": {
+                "text": "Seconds",
+                "color": "#10066b",
+                "show": true
+            }
+        }
     });
+    
     
     window.initiateWindowLoadActions = function() {
         console.log('Started executing window load actions.');
@@ -193,17 +220,17 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' && window.tournamentMatchDetails.timeLapsed 
                 && window.tournamentMatchDetails.timeLapsed > 0) {
             window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
-            window.clock.setTime(window.tournamentMatchDetails.timeLapsed);
-            window.clock.start();
+            window.clock.start().addTime(-window.tournamentMatchDetails.timeLapsed);
             checkClockStatus();
         }
     }
     
     var checkClockStatus = function() {
-        if(window.clock.running && window.clock.getTime().time > 540) {
+        if(window.clock.isRunning() && (-1 * window.clock.getTime()) > 540) {
             // alert('Turn closure occured.');
             window.clock.stop();
             // make ajax request to save last players details.
+            window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
             markTurnStatus('COMPLETED');
             return;
         }
@@ -221,7 +248,6 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             success: function(data) {
                     if(data == 'success') {
                         if(turnStatus == 'COMPLETED') {
-                            window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
                             alert('Reached turn closure. Please mark player who remained not out.');
                         }
                     }
@@ -231,9 +257,9 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     
     $( "#symbol" ).change(function() {
         if('Sudden Attack' == $("#symbol").find(":selected").text() ||
-        		'Late Entry' == $("#symbol").find(":selected").text()) {
-        	$("#timePlayed").html('0m 0s');
-        	return;
+                'Late Entry' == $("#symbol").find(":selected").text()) {
+            $("#timePlayed").html('0m 0s');
+            return;
         }
         var playerTime = window.currentPlayerTime;
         var minutes = Math.floor(playerTime/60);
@@ -254,7 +280,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                 gotoTurn = 2;
             }
         }
-        if(window.clock.running) {
+        if(window.clock.isRunning()) {
             alert('Turn'+window.tournamentMatchDetails.currentTurn + ' is on progress, could not load scoresheet data of selected turn.');
             return;
         }
@@ -265,23 +291,23 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
             alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
         } else {
-            if (window.clock.running) {
+            if (window.clock.isRunning()) {
                 window.clock.stop();
-                window.clock.reset();
+                // window.clock.reset();
                 markTurnStatus('ABORTED');
             } else {
+                window.clock.addTime(-1 * window.clock.getTime());
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
                 checkClockStatus();
             }
         }
-        
     });
 
     var validateShowWicketIcon = function(hoverRowId) {
         var resultFlag = false;
         // check if clock is running
-        if(window.clock.running || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
+        if(window.clock.isRunning() || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
             // And team row does not have details for the performance and current turn total wickets are less than 9
             if($("#teamrow-"+hoverRowId).find('.timePlayed').html() == '' && window.tournamentMatchDetails.currentInningScore < 9) {
                 resultFlag = true;
@@ -308,7 +334,11 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                      $(".wicketIcon").click(function() {
                          var rowId = $(this).attr('href');
                          var hoverRowId = rowId.substr(9);
-                         window.currentStpWtchTime = clock.getTime().time -1;
+                         if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
+                        	 window.currentStpWtchTime = 540;
+                         } else {
+	                         window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+                         }
                          var playerTime  = window.currentStpWtchTime - window.lastWicketTime;
                          var minutes = Math.floor(playerTime/60);
                          var seconds = playerTime%60;
@@ -364,6 +394,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             out = false;
         }
         queryParam = queryParam + '&out=' + out;
+        console.log(queryParam);
         $.ajax({
             url: window.pageURL + '/addMatchPoint',
             data: queryParam,
@@ -371,10 +402,10 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             success: function(data) {
                 if(data == 'success') {
                     
-                	if('Sudden Attack' != symbolDesc && 'Late Entry' != symbolDesc) {
-	                    window.lastWicketTime = window.currentStpWtchTime;
+                    if('Sudden Attack' != symbolDesc && 'Late Entry' != symbolDesc) {
+                        window.lastWicketTime = window.currentStpWtchTime;
                     }
-                	
+                    
                     if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
                         window.tournamentMatchDetails.turnStatus = 'COMPLETE';
                     }
@@ -389,7 +420,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                         $("#teamrow-"+defenderProfileId).find("a.expandTime").css("display", "block");
                         $(".showWicketIcn").html("true");
                     } else {
-                    	$("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + chaserName + "</h5>");
+                        $("#scoresheetChaser-" + $('#selectedTeamRow').val()).html("<h5>" + chaserName + "</h5>");
                         $("#scoresheetSymbol-" + $('#selectedTeamRow').val()).html("<h5>" + $("#symbol").find(":selected").text() + "</h5>");
                         $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5><kbd>" + $("#timePlayed").html() + "</kbd></h5>");
                         $("#teamrow-"+defenderProfileId).find(".showWicketIcn").html("false");
