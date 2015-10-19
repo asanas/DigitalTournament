@@ -18,7 +18,6 @@ import com.digitour.app.dao.MatchPointMasterDAO;
 import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.dao.SymbolMasterDAO;
-import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
@@ -37,15 +36,13 @@ import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchPointManager;
 import com.digitour.app.manager.MatchTurnManager;
+import com.digitour.app.manager.TeamManager;
 
 @Controller
 public class ScoresheetController {
     
     @Autowired
     TournamentMatchDAO tournamentDAO;
-    
-    @Autowired
-    TeamDAO teamDAO;
     
     @Autowired
     TossDetailsDAO tossDetailsDAO;
@@ -82,6 +79,9 @@ public class ScoresheetController {
     
     @Autowired
     MatchFoulMasterDAO matchFoulMasterDAO;
+    
+    @Autowired
+    TeamManager teamManager;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -137,7 +137,7 @@ public class ScoresheetController {
     public String adjustFoulCount(@RequestParam Long matchId, @RequestParam  Long chasingTeamId, @RequestParam Long foulId,
             @RequestParam String action, @RequestParam Long inning) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
-        Team chasingTeam = teamDAO.getById(chasingTeamId);
+        Team chasingTeam = teamManager.getById(chasingTeamId);
         TournamentParticipant chasingTourParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chasingTeam, matchDetails.getTournamentId());
         FoulDetails foulDetails = foulDetailsDAO.getById(foulId);
         Long foulsCount = matchFoulMasterDAO.getFoulsCountByInningAndParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
@@ -329,9 +329,9 @@ public class ScoresheetController {
         String tossWonMsg = "Toss won by ";
         Team team = null;
         if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId())) {
-            team = teamDAO.getById(tournamentParticipant1.getTeamId());
+            team = teamManager.getById(tournamentParticipant1.getTeamId());
         } else {
-            team = teamDAO.getById(tournamentParticipant2.getTeamId());
+            team = teamManager.getById(tournamentParticipant2.getTeamId());
         }
         tossWonMsg = tossWonMsg + team.getTeamName() + " And elected to " + tossDetails.getElectedTo();
         return tossWonMsg;

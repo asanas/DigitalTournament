@@ -8,4 +8,6 @@ public interface TeamManager {
 
 	List<Team> getAll();
 
+    Team getById(Long chasingTeamId);
+
 }

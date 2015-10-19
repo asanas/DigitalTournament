@@ -24,4 +24,10 @@ public class TeamManagerImpl implements TeamManager {
 		teamDAO.save(team);
 	}
 
+    @Override
+    public Team getById(Long teamId)
+    {
+        return teamDAO.getById(teamId);
+    }
+
 }
