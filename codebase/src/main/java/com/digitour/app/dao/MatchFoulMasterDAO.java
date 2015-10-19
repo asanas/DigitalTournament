@@ -6,8 +6,10 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 
 public interface MatchFoulMasterDAO {
 	
-	public Long getFoulsCountByInningAndParticipantForMatch(FoulDetails foulDetails, TournamentMatchDetails tournamentMatchDetails,
+	public Long getFoulsCountParticipantForMatch(FoulDetails foulDetails, TournamentMatchDetails tournamentMatchDetails,
 			Long tournamentPartipantId, Long inning);
 
 	public void save(MatchFoulDetails newMatchFoulDetails);
+
+    public void removeFoulForMatch(MatchFoulDetails matchFoulDetails);
 }

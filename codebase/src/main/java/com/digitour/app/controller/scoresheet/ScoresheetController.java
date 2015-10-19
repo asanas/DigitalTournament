@@ -140,10 +140,14 @@ public class ScoresheetController {
         Team chasingTeam = teamManager.getById(chasingTeamId);
         TournamentParticipant chasingTourParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chasingTeam, matchDetails.getTournamentId());
         FoulDetails foulDetails = foulDetailsDAO.getById(foulId);
-        Long foulsCount = matchFoulMasterDAO.getFoulsCountByInningAndParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
+        Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
         int multiplier = 1;
         if(!"addition".equals(action)) {
-            
+            MatchFoulDetails matchFoulDetails = new MatchFoulDetails();
+            matchFoulDetails.setTournamentMatchId(matchId);
+            matchFoulDetails.setTournamentParticipantId(chasingTourParticipant.getTourParticipantId());
+            matchFoulDetails.setInningNumber(inning);
+            matchFoulMasterDAO.removeFoulForMatch(matchFoulDetails);
         } else {
             MatchFoulDetails newMatchFoulDetails = new MatchFoulDetails();
             newMatchFoulDetails.setFoulDetails(foulDetails);
@@ -153,8 +157,7 @@ public class ScoresheetController {
             matchFoulMasterDAO.save(newMatchFoulDetails);
         }
         foulsCount = foulsCount + (multiplier * 1);
-        
-        return "success";
+        return foulsCount.toString();
     }
     
     private void populateScoresheetData(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
@@ -253,7 +256,7 @@ public class ScoresheetController {
         List<FoulDetails> foulsList = foulDetailsDAO.getAll();
 
         for(FoulDetails foulDetails : foulsList) {
-            Long foulsCount = matchFoulMasterDAO.getFoulsCountByInningAndParticipantForMatch(foulDetails, tournamentMatchDetails, tournamentParticipantTeam.get(0).getTournamentPartipantId(), inning);
+            Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, tournamentMatchDetails, tournamentParticipantTeam.get(0).getTournamentPartipantId(), null);
             foulsCount = foulsCount == null ? 0L : foulsCount;
             foulDetails.setFoulCount(foulsCount);
         }
