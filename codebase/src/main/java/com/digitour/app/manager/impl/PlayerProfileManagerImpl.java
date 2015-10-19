@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -81,7 +82,8 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                         // GENDER
                         else if (cell.getColumnIndex() == 5) {
                             Gender gender = null;
-                            if(cell.getStringCellValue().equals(Gender.MALE.toString())) {
+                            if(cell.getStringCellValue().equalsIgnoreCase(Gender.MALE.toString()) ||
+                                    cell.getStringCellValue().equalsIgnoreCase("M")) {
                                 gender = Gender.MALE;
                             } else {
                                 gender = Gender.FEMALE;
@@ -90,7 +92,7 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                         }
                         // height 
                         else if (cell.getColumnIndex() == 6) {
-                            // TODO in cms
+                            // in cms
                             playerProfile.setHeight(((Double)cell.getNumericCellValue()).intValue());
                         }
                         // weight
@@ -99,38 +101,44 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                         }
                         // MajorSkills
                         else if (cell.getColumnIndex() == 8) {
-                            // TODO : MajorSkill
-                            playerProfile.setMajorSkill(MajorSkill.DIVE);
+                            // MajorSkill
+                            MajorSkill playerMajorSkill = findPlayerMajorSkill(cell.getStringCellValue());
+                            playerProfile.setMajorSkill(playerMajorSkill);
                         }
                         // Role
                         else if (cell.getColumnIndex() == 9) {
-                            // TODO : role
-                            playerProfile.setRole(Role.ALLROUNDER);
+                            // role
+                            Role role = findPlayerRole(cell.getStringCellValue());
+                            playerProfile.setRole(role);
                         }
                         // Role
                         else if (cell.getColumnIndex() == 10) {
-                            // TODO : tournaments participated in
+                            // tournaments participated in
                             playerProfile.setTotalToursParticipated(((Double)cell.getNumericCellValue()).intValue());
                         }
                         // Role
                         else if (cell.getColumnIndex() == 11) {
-                            // TODO : achievements
+                            // achievements
                             playerProfile.setAchievements(cell.getStringCellValue());
                         }
                      // email-id
                         else if (cell.getColumnIndex() == 12) {
-                            // TODO : email id
+                            // email id
+                            playerProfile.setEmailId(cell.getStringCellValue());
                         }
                      // postal address
                         else if (cell.getColumnIndex() == 13) {
-                            // TODO : postal address
+                            playerProfile.setAddress(cell.getStringCellValue());
                         }
                      // postal address
                         else if (cell.getColumnIndex() == 14) {
-                            // TODO : contact number
-                            playerProfile.setContact(String.valueOf(cell.getNumericCellValue()));
+                            // contact number
+                            String playerContact = NumberToTextConverter.toText(cell.getNumericCellValue());
+                            playerProfile.setContact(playerContact);
                         }
                     }
+                    playerProfile.setTeam(newTeam);
+                    playerProfile.setCity(newTeam.getCity());
                     //end iterating a row, add all the elements of a row in list
                     lstPlayers.add(playerProfile);
                 }
@@ -143,6 +151,42 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
             log.error("Error occured while reading multipart file.", e);
         }
         
+    }
+
+    private MajorSkill findPlayerMajorSkill(String cellValue) {
+        MajorSkill majorSkill = MajorSkill.DIVE;
+        if(cellValue.equalsIgnoreCase(MajorSkill.DIVE.toString())) {
+            majorSkill = MajorSkill.DIVE;
+        } else if(cellValue.equalsIgnoreCase("Pole Dive")) {
+            majorSkill = MajorSkill.POLEDIVE;
+        } else if(cellValue.equalsIgnoreCase("Judgement Kho")) {
+            majorSkill = MajorSkill.JUDGEMENTKHO;
+        } else if(cellValue.equalsIgnoreCase("Sudden Attack")) {
+            majorSkill = MajorSkill.SUDDENATTACK;
+        } else if(cellValue.equalsIgnoreCase("Changes")) {
+            majorSkill = MajorSkill.CHANGES;
+        } else if(cellValue.equalsIgnoreCase(MajorSkill.DEFENCE.toString())) {
+            majorSkill = MajorSkill.DEFENCE;
+        } else if(cellValue.equalsIgnoreCase(MajorSkill.RING.toString())) {
+            majorSkill = MajorSkill.RING;
+        } else if(cellValue.equalsIgnoreCase(MajorSkill.ATTACK.toString())) {
+            majorSkill = MajorSkill.ATTACK;
+        } else if(cellValue.equalsIgnoreCase(MajorSkill.ROOT.toString())) {
+            majorSkill = MajorSkill.ROOT;
+        } else if(cellValue.equalsIgnoreCase(MajorSkill.ROOT.toString())) {
+            majorSkill = MajorSkill.ROOT;
+        }
+        return majorSkill;
+    }
+
+    private Role findPlayerRole(String cellValue) {
+        Role playerRole = Role.ALLROUNDER;
+        if(cellValue.equalsIgnoreCase(Role.ATTACKER.toString())) {
+            playerRole = Role.ATTACKER;
+        } else if(cellValue.equalsIgnoreCase(Role.DEFENDER.toString())) {
+            playerRole = Role.DEFENDER;
+        }
+        return playerRole;
     }
 
     public File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException {

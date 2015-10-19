@@ -19,9 +19,7 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.manager.CityManager;
 import com.digitour.app.manager.DummyManager;
 import com.digitour.app.manager.PlayerProfileManager;
-import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentManager;
-import com.digitour.app.manager.impl.PlayerProfileManagerImpl;
 import com.digitour.app.manager.impl.TeamManagerImpl;
 
 @Controller

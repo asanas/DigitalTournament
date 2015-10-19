@@ -3,10 +3,10 @@
         <h2 class="teamContainer " id="defendingTeamName">${defendingTeamName }</h2>
     </div>
     <div class="col-lg-4 text-center">
-        <h3>STOPWATCH<span class="glyphicon glyphicon-time icon-big" style="padding:3px;"></span></h3>
+        <h3><span class="glyphicon glyphicon-time icon-big" style="padding:0 10px;"></span>STOPWATCH</h3>
     </div>
     <div class="col-lg-4 text-center">
-        <h2 class="teamContainer " id="chasingTeamName">${chasingTeamName }</h2>
+        <h2 class="teamContainer " id="chasingTeamName">${chasingTeamName}</h2>
     </div>
 </div>
 <div class="row">

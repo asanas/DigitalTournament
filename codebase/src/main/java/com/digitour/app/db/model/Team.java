@@ -25,7 +25,7 @@ public class Team implements java.io.Serializable {
 
     private Long teamId;
     private City city;
-    private String name;
+    private String teamName;
     private String founderName;
     private String description;
     private String clubAddressLine1;
@@ -42,7 +42,7 @@ public class Team implements java.io.Serializable {
 
     public Team(String teamName, String founderName, String description, String address, String achievements,
             City teamCity, String establishedIn) {
-        this.name = teamName;
+        this.teamName = teamName;
         this.founderName = founderName;
         this.description = description;
         this.clubAddressLine1 = address;
@@ -75,12 +75,12 @@ public class Team implements java.io.Serializable {
     }
 
     @Column(name = "team_name", nullable = false)
-    public String getName() {
-        return this.name;
+    public String getTeamName() {
+        return this.teamName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     @Column(name = "founder_name", nullable = false)

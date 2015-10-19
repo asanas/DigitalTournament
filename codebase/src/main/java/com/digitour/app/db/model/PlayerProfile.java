@@ -43,6 +43,8 @@ public class PlayerProfile implements java.io.Serializable {
     private Long tournamentChaseNumber;
     private List<MatchPointDetails> matchPointDetailsList;
     private String wicketStatus;
+    private String address;
+    private String emailId;
     
     public PlayerProfile() {
     }
@@ -192,13 +194,13 @@ public class PlayerProfile implements java.io.Serializable {
         return firstName;
     }
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     public String getLastName()
     {
         return lastName;
     }
 
-    @Column(name = "middle_name", nullable = false)
+    @Column(name = "middle_name")
     public String getMiddleName()
     {
         return middleName;
@@ -238,4 +240,22 @@ public class PlayerProfile implements java.io.Serializable {
     public void setWicketStatus(String wicketStatus) {
         this.wicketStatus = wicketStatus;
     }
+
+    @Column(name = "address_line1", nullable = true)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Column(name = "email_address", nullable = true)
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 }

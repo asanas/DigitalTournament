@@ -4,6 +4,7 @@
         <%@include file="scoreboard-header.jsp"%>
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
+        <%@include file="foul-modal.jsp"%>
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs nav-justified turnsContainer">
@@ -114,6 +115,13 @@
 .container .row.teamrow :nth-child(odd){
   background-color: #aaaaaa;
 }*/
+.fixed {
+    position: fixed;
+}
+.attach-right {
+    right: 0px;
+    top: 250px;
+}
 .panel {
     background-color: #18BC9C;
 }
@@ -150,6 +158,18 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     color:blue;
     margin-top: 10.5px;
 }
+
+.foul-panel {
+  display:none;
+  width: 195px;
+  height: 295px;
+  background-color: #38337D;
+  border-left: 1px solid #353535;
+  padding: 5px;
+  z-index: 1;
+}
+
+
 </style>
 
 <!-- <script src="${pageContext.request.contextPath}/static_content/js/common/scoresheethelper.js"></script> -->
@@ -255,6 +275,56 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         });
     }
     
+   $("#loadFoulModal").click(function(){
+       $(this).hide( "slide", { direction: "left"  }, 500 );
+       $(".foul-panel").show( "slide", { direction: "right"  }, 500);
+    });
+
+   $("#hideFoulModal").click(function(){
+       $(".foul-panel").hide( "slide", { direction: "right"  }, 500);
+       $("#loadFoulModal").show( "slide", { direction: "left"  }, 500 );
+    });
+   
+   $(".adjustFoulCount").click(function(){
+	   if(window.clock.isRunning()) {
+	       var elemId = $(this).attr("id");
+	       var substrIndex = 9;
+	       var addition = false, makeRequest = true, action = 'minus';
+	       if(elemId.indexOf('Plus') != -1) {
+	           substrIndex = 8;
+	           addition = true;
+	           action = 'addition';
+	       }
+	       var foulCount = parseInt($("#foulCount" + elemId.substr(substrIndex)).html());
+	       if(addition) {
+	           foulCount = foulCount + 1;           
+	       } else {
+	           if(foulCount == 0) {
+	                return;
+	           } 
+	           foulCount = foulCount - 1;
+	       }
+	       $("#foulCount" + elemId.substr(substrIndex)).html(foulCount);
+	       var qParam = "matchId="+ window.tournamentMatchDetails.matchId + "&action=" + action + "&inning="+window.tournamentMatchDetails.currentInning + 
+	       "&chasingTeamId=" + window.tournamentMatchDetails.chasingTeamId + "&foulId=" + elemId.substr(substrIndex);
+	       // make and ajax call to save foul details.
+	       $.ajax({
+	           url: window.pageURL + '/adjustFoulCount',
+	           data: qParam,
+	           type: "POST",
+	           success: function(data) {
+	                   if(data == 'success') {
+	                	    
+	                   }
+	               }
+	       });
+		   
+	   }
+   });
+    $("#show").click(function(){
+       $(".target").show( "slide", {direction: "up" }, 2000 );
+    });
+     
     $( "#symbol" ).change(function() {
         if('Sudden Attack' == $("#symbol").find(":selected").text() ||
                 'Late Entry' == $("#symbol").find(":selected").text()) {
@@ -335,9 +405,9 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                          var rowId = $(this).attr('href');
                          var hoverRowId = rowId.substr(9);
                          if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
-                        	 window.currentStpWtchTime = 540;
+                             window.currentStpWtchTime = 540;
                          } else {
-	                         window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+                             window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
                          }
                          var playerTime  = window.currentStpWtchTime - window.lastWicketTime;
                          var minutes = Math.floor(playerTime/60);
@@ -499,7 +569,9 @@ $( window ).load(function() {
         "turnStatus" : '${turnDetails.status}',
         "matchId" : ${matchDetails.tournamentMatchId},
         "timeLapsed": ${timeLapsed},
-        "currentInningScore": ${currentInningScore}
+        "currentInningScore": ${currentInningScore},
+        "defenceParticipantTeam": ${defenceParticipantTeam.tourParticipantId},
+        "chasingTeamId": ${chasingParticipantTeam.tourParticipantId}
     }
     window.initiateWindowLoadActions();
 });
