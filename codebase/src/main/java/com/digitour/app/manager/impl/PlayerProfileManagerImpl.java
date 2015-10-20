@@ -50,6 +50,7 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                 while (rowIterator.hasNext()) {
                     Row row = null;
                     if(rowNumber == 1) {
+                        // skip first row
                         row = (Row) rowIterator.next();
                         rowNumber++;
                     }

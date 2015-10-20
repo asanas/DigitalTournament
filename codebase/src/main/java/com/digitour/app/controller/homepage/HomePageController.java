@@ -53,27 +53,6 @@ public class HomePageController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/import/team", method=RequestMethod.GET)
-    public ModelAndView showImportTeamForm() {
-        ModelAndView modelAndView = new ModelAndView("importexport/import-team");
-        List<City> cityList = cityManager.getAllCities();
-        modelAndView.addObject("cityList", cityList);
-        return modelAndView;
-    }
-    
-    @RequestMapping(value="/createnew/team", method=RequestMethod.POST)
-    @ResponseBody
-    public String createNewTeam(@RequestParam String teamName, @RequestParam String founderName, @RequestParam String description,
-            @RequestParam String address, @RequestParam String achievements, @RequestParam Long cityId, 
-            @RequestParam String establishedIn, @RequestParam MultipartFile playersList) {
-        log.debug("Creating a new team.");
-        City teamCity = cityManager.getById(cityId);
-        Team newTeam = new Team(teamName, founderName, description, address, achievements, teamCity, establishedIn);
-        teamManager.save(newTeam);
-        playerProfileManager.addPlayersListToTeam(newTeam, playersList);
-        return "success";
-    }
-    
     @RequestMapping(value="/startQuickMatch", method=RequestMethod.POST)
     @ResponseBody
     public String startQuickMatch(@RequestParam Long team1Id, @RequestParam  Long team2Id, @RequestParam Long tossWonBy,
