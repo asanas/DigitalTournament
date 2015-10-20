@@ -98,7 +98,7 @@ public class ScoresheetController {
     public String saveTurnClosure(@RequestParam Long matchId, @RequestParam Long inning, @RequestParam Long turn, @RequestParam String turnStatus) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
         MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(matchDetails, inning, turn);
-        turnDetails.setStatus(TurnStatus.COMPLETED);
+        turnDetails.setStatus(TurnStatus.ABORTED);
         
         if(turnStatus.equals(TurnStatus.COMPLETED.toString())) {
             turnDetails.setStatus(TurnStatus.COMPLETED);

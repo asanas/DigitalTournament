@@ -21,9 +21,9 @@ import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.impl.TeamManagerImpl;
 
 @Controller
-public class ImportExportUtilityController {
+public class TeamController {
 
-    private static final Log log = LogFactory.getLog(ImportExportUtilityController.class);
+    private static final Log log = LogFactory.getLog(TeamController.class);
     
     @Autowired
     CityManager cityManager;
@@ -61,7 +61,9 @@ public class ImportExportUtilityController {
         ModelAndView modelAndView = new ModelAndView("team/teamdetails");
         log.debug("Creating a new team.");
         Team team = teamManager.getById(teamId);
+        List<Team> lstTeam = teamManager.getAll();
         modelAndView.addObject("team", team);
+        modelAndView.addObject("teamList", lstTeam);
         return modelAndView;
     }
 

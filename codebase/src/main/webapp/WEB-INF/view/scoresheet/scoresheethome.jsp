@@ -93,7 +93,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="btn-group">
-              <button type="button" class="btn btn-info">Abort Current Turn</button>
+              <button id="abortTurn" type="button" class="btn btn-info">Abort Current Turn</button>
               <button id="addInning" type="button" class="btn btn-info">Add Inning</button>
               <button type="button" class="btn btn-info">Top Performers</button>
               <button type="button" class="btn btn-info">Show Result</button>
@@ -104,74 +104,6 @@
     </div>
 </header>
 <%@include file="../common/footer.jsp"%>
-<style>
-/*#scoresheetWrapper {
-    border: 5px solid blue;
-}*
-
-/*.container .row.teamrow :nth-child(even){
-  background-color: #dcdcdc;
-}
-.container .row.teamrow :nth-child(odd){
-  background-color: #aaaaaa;
-}*/
-.fixed {
-    position: fixed;
-}
-.attach-right {
-    right: 0px;
-    top: 250px;
-}
-.panel {
-    background-color: #18BC9C;
-}
-.panel-body {
-    padding:10px
-}
-.teamrow {
-    border-bottom: 1px solid lightgray;
-}
-
-.notout {
-    background-color: #E00F0F;
-    color:yellow;
-}
-.icon-small {
-    font-size: 10px;
-    color: black;
-}
-
-.icon-big {
-    font-size: 20px;
-    color: black;
-    padding-top: 10px;
-}
-
-.teamscore {
-    font-size: 60px;
-}
-
-.modal-dialog {
-    color: black;
-}
-a>span.glyphicon-plus, a>span.glyphicon-minus {
-    color:blue;
-    margin-top: 10.5px;
-}
-
-.foul-panel {
-  display:none;
-  width: 195px;
-  height: 295px;
-  background-color: #38337D;
-  border-left: 1px solid #353535;
-  padding: 5px;
-  z-index: 1;
-}
-
-
-</style>
-
 <!-- <script src="${pageContext.request.contextPath}/static_content/js/common/scoresheethelper.js"></script> -->
 
 <script type="text/javascript">
@@ -240,7 +172,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS' && window.tournamentMatchDetails.timeLapsed 
                 && window.tournamentMatchDetails.timeLapsed > 0) {
             window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
-            window.clock.start().addTime(-window.tournamentMatchDetails.timeLapsed);
+            window.clock.start().addTime(-1 * window.tournamentMatchDetails.timeLapsed);
             $("#loadFoulModal").show( "slide", { direction: "right"  }, 500 );
             checkClockStatus();
         }
@@ -361,16 +293,17 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
         if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
             alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
         } else {
-            if (window.clock.isRunning()) {
-                window.clock.stop();
-                // window.clock.reset();
-                markTurnStatus('ABORTED');
-            } else {
-                window.clock.addTime(-1 * window.clock.getTime());
+            if (!window.clock.isRunning()) {
+            	window.clock.addTime(-1 * window.clock.getTime());
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
                 checkClockStatus();
                 $("#loadFoulModal").show( "slide", { direction: "right"  }, 500 );
+                for(var i = 0; i< $(".substitute").length; i++) {
+                    var substituteId = $(".substitute")[i].id;
+                    console.log('Sub id ' + substituteId + ' Hiding  Team row id : #teamrow-' + substituteId.substr(15))
+                    $('#teamrow-' + substituteId.substr(15)).hide('slide', { direction: 'left'  }, 500 );
+                }
             }
         }
     });
@@ -378,7 +311,8 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     var validateShowWicketIcon = function(hoverRowId) {
         var resultFlag = false;
         // check if clock is running
-        if(window.clock.isRunning() || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
+        if(window.clock.isRunning() || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus 
+        		|| 'TURNABORTEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
             // And team row does not have details for the performance and current turn total wickets are less than 9
             if($("#teamrow-"+hoverRowId).find('.timePlayed').html() == '' && window.tournamentMatchDetails.currentInningScore < 9) {
                 resultFlag = true;
@@ -395,9 +329,9 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             var rowId = $(this).attr('id');
             var hoverRowId = rowId.substr(8);
             
-            // check if player is not a substitute and turn status is either NOTSTARTED/INPROGRESS.
+            // check if player is not a substitute and turn status is INPROGRESS/COMPLETEDANDLOG/TURNABORTEDANDLOG.
             if($("#substitute-row-"+ hoverRowId).length == 0 && 
-                    (window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'NOTSTARTED' || 
+                    (window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'TURNABORTEDANDLOG' || 
                             window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG')) {
                 var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
                 if(validateShowWicketIcon(hoverRowId)) {
@@ -407,7 +341,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                          var hoverRowId = rowId.substr(9);
                          if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
                              window.currentStpWtchTime = window.tournamentMatchDetails.inningTime * 60;
-                         } else {
+                         } else if(window.tournamentMatchDetails.turnStatus == 'INPROGRESS'){
                              window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
                          }
                          var playerTime  = window.currentStpWtchTime - window.lastWicketTime;
@@ -479,6 +413,10 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                     if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
                         window.tournamentMatchDetails.turnStatus = 'COMPLETE';
                     }
+                    if(window.tournamentMatchDetails.turnStatus == 'TURNABORTEDANDLOG') {
+                        window.tournamentMatchDetails.turnStatus = 'ABORTED';
+                    }
+                    
                     window.tournamentMatchDetails.currentInningScore = window.tournamentMatchDetails.currentInningScore + 1;
                     if(window.tournamentMatchDetails.currentInningScore > 9) {
                         var newRowScore = '<div class="row secondrow">' +
@@ -495,9 +433,13 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                         $("#scoresheetTime-" + $('#selectedTeamRow').val()).html("<h5><kbd>" + $("#timePlayed").html() + "</kbd></h5>");
                         $("#teamrow-"+defenderProfileId).find(".showWicketIcn").html("false");
                     }
+                    if(!out) {
+                        $("#teamrow-"+defenderProfileId).addClass("notout");
+                    } else {
+	                    var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
+	                    $("#chasingTeamScore").html(chasingTeamScore);
+                    }
                     $("#fillWicketDetailsModal").modal("hide");
-                    var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
-                    $("#chasingTeamScore").html(chasingTeamScore);
                 }
             }
         });
@@ -553,6 +495,14 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                 }
         });
     });
+    $("#abortTurn").click(function() {
+    	markTurnStatus('ABORTED');
+        window.tournamentMatchDetails.turnStatus = 'TURNABORTEDANDLOG';
+        window.clock.stop();
+        window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+        alert('Turn Aborted. Please mark player who remained not out.');
+    });
+    
 })(window, window.document);
 
 
@@ -572,7 +522,7 @@ $( window ).load(function() {
         "currentInningScore": ${currentInningScore},
         "defenceParticipantTeam": ${defenceParticipantTeam.tourParticipantId},
         "chasingTeamId": ${chasingParticipantTeam.tourParticipantId},
-        "inningTime": 3
+        "inningTime": 1
     }
     window.initiateWindowLoadActions();
 });

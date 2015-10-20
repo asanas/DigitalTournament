@@ -43,7 +43,6 @@ com\digitour\app\manager\StateManager.class
 com\digitour\app\manager\impl\CityManagerImpl.class
 com\digitour\app\db\model\MatchFoulDetails.class
 com\digitour\app\dao\TournamentDAO.class
-com\digitour\app\controller\homepage\ImportExportUtilityController.class
 com\digitour\app\dao\impl\TournamentMatchDAOImpl.class
 com\digitour\app\db\model\support\enums\TurnStatus.class
 com\digitour\app\dao\impl\GroupDAOImpl.class

@@ -54,3 +54,59 @@
 .no-boxshadow .form-3 a:hover {
     background: #2a92d8;
 }
+
+.fixed {
+    position: fixed;
+}
+.attach-right {
+    right: 0px;
+    top: 250px;
+}
+.panel {
+    background-color: #18BC9C;
+}
+.panel-body {
+    padding:10px
+}
+.teamrow {
+    border-bottom: 1px solid lightgray;
+}
+
+.notout {
+    background-color: #E00F0F;
+    color:yellow;
+}
+.icon-small {
+    font-size: 10px;
+    color: black;
+}
+
+.icon-big {
+    font-size: 20px;
+    color: black;
+    padding-top: 10px;
+}
+
+.teamscore {
+    font-size: 60px;
+}
+
+.modal-dialog {
+    color: black;
+}
+a>span.glyphicon-plus, a>span.glyphicon-minus {
+    color:blue;
+    margin-top: 10.5px;
+}
+
+.foul-panel, .team-list-panel {
+  display:none;
+  width: 195px;
+  height: 295px;
+  background-color: #38337D;
+  border-left: 1px solid #353535;
+  padding: 5px;
+  z-index: 1;
+}
+
+table a:not(.btn), .table a:not(.btn) {color:white;}

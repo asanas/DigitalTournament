@@ -18,7 +18,6 @@
                         <label class="control-label col-lg-4" for="symbol">Select How:</label>
                         <div class="col-lg-6">
                             <select id="symbol" class="form-control">
-                                <option value="not out">Not out</option>
                                 <c:forEach items="${ symbolList}" var="symbol" varStatus="lpHandle">
                                     <option value="${symbol.symbolId}">${symbol.description}</option>
                                 </c:forEach>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,9 +57,16 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO {
         for(TournamentParticipantTeam participantTeam: chasingParticipantTeam) {
             chasingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
         }
+        chasingParticipantIds.add(null);
+        
         DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        Disjunction or = Restrictions.disjunction();
+        or.add(Restrictions.in("attackParticipantProfileId", chasingParticipantIds))
+          .add(Restrictions.isNull("attackParticipantProfileId"));
+        
         criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
-                .add(Restrictions.in("attackParticipantProfileId", chasingParticipantIds))
+                .add(or)
+                .add(Restrictions.eq("out", true))
                 .setProjection(Projections.rowCount());
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
     }

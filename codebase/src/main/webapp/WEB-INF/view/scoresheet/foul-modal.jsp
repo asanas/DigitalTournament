@@ -8,8 +8,8 @@
             <tr>
                 <th colspan="2"> ${chasingTeamName }</th>
                 <th colspan="2" class="text-right">
-			        <span id="hideFoulModal" class="glyphicon glyphicon-circle-arrow-right icon-big" style="color:#D0D0D4; cursor: pointer;"></span>
-				</th>
+                    <span id="hideFoulModal" class="glyphicon glyphicon-circle-arrow-right icon-big" style="color:#D0D0D4; cursor: pointer;"></span>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -24,4 +24,3 @@
         </tbody>
   </table>
 </div>
-

@@ -15,8 +15,7 @@ public interface MatchPointMasterDAO {
 
     public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn);
 
-	public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
-			List<TournamentParticipantTeam> chasingParticipantTeam);
+	public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> participantTeam1);
 
 	public Long getCurrentInningPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
 			List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn);

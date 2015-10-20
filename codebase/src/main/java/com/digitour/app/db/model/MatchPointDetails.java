@@ -26,7 +26,7 @@ public class MatchPointDetails implements java.io.Serializable {
 	private Long turnNumber;
 	private Long runTime;
 	private Long perTime;
-	private boolean isOut;
+	private boolean out;
 	private boolean turnClosure;
 	private String defenderName;
 	private String chaserName;
@@ -137,7 +137,7 @@ public class MatchPointDetails implements java.io.Serializable {
 	@Column(name="wicket_status", columnDefinition = "CHAR")
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean isOut() {
-		return isOut;
+		return out;
 	}
 
 	@Column(name="turn_closure", columnDefinition = "CHAR")
@@ -162,8 +162,8 @@ public class MatchPointDetails implements java.io.Serializable {
 		this.assistParticipantProfileId = assistParticipantProfileId;
 	}
 
-	public void setOut(boolean isOut) {
-		this.isOut = isOut;
+	public void setOut(boolean out) {
+		this.out = out;
 	}
 
 	public void setTurnClosure(boolean turnClosure) {

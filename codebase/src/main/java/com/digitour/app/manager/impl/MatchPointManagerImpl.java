@@ -42,7 +42,7 @@ public class MatchPointManagerImpl implements MatchPointManager {
         matchPoint.setMatchId(matchDetails.getTournamentMatchId());
         matchPoint.setSymbol(symbol);
         matchPoint.setOut(out);
-        matchPoint.setTurnClosure(false);
+        matchPoint.setTurnClosure(!out);
         matchPoint.setPerTime(timePlayed);
         matchPoint.setRunTime(runTime);
         matchPoint.setTurnNumber(turn);
