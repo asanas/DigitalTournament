@@ -132,17 +132,17 @@ public class ScoresheetController {
         return "success";
     }
     
-    @RequestMapping(value="/adjustFoulCount", method=RequestMethod.POST)
+    @RequestMapping(value="/adjustFoulCount", method=RequestMethod.GET)
     @ResponseBody
     public String adjustFoulCount(@RequestParam Long matchId, @RequestParam  Long chasingTeamId, @RequestParam Long foulId,
             @RequestParam String action, @RequestParam Long inning) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
-        Team chasingTeam = teamManager.getById(chasingTeamId);
-        TournamentParticipant chasingTourParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chasingTeam, matchDetails.getTournamentId());
+        TournamentParticipant chasingTourParticipant = tournamentParticipantDAO.getById(chasingTeamId);
         FoulDetails foulDetails = foulDetailsDAO.getById(foulId);
         Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
         int multiplier = 1;
         if(!"addition".equals(action)) {
+        	multiplier = -1;
             MatchFoulDetails matchFoulDetails = new MatchFoulDetails();
             matchFoulDetails.setTournamentMatchId(matchId);
             matchFoulDetails.setTournamentParticipantId(chasingTourParticipant.getTourParticipantId());
@@ -257,7 +257,7 @@ public class ScoresheetController {
 
         for(FoulDetails foulDetails : foulsList) {
             Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, tournamentMatchDetails, tournamentParticipantTeam.get(0).getTournamentPartipantId(), null);
-            foulsCount = foulsCount == null ? 0L : foulsCount;
+            foulsCount = foulsCount == null ? 0 : foulsCount;
             foulDetails.setFoulCount(foulsCount);
         }
         modelAndView.addObject("foulsList", foulsList);

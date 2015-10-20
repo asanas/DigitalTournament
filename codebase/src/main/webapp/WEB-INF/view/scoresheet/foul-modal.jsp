@@ -1,4 +1,4 @@
-<button id="loadFoulModal" type="button" class="btn btn-info fixed attach-right" style="padding: 0px 2px 10px;">
+<button id="loadFoulModal" type="button" class="btn btn-info fixed attach-right" style="padding: 0px 2px 10px; display:none;">
     <span class="glyphicon glyphicon-circle-arrow-left icon-big "></span>
 </button>
 

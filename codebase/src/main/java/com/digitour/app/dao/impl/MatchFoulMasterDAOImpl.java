@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.digitour.app.dao.MatchFoulMasterDAO;
@@ -27,21 +28,28 @@ public class MatchFoulMasterDAOImpl implements MatchFoulMasterDAO {
         DetachedCriteria criteria = DetachedCriteria.forClass(MatchFoulDetails.class);
         criteria.add(Restrictions.eq("tournamentMatchId", tournamentMatchDetails.getTournamentMatchId()))
                 .add(Restrictions.eq("foulDetails", foulDetails))
-                .add(Restrictions.eq("tournamentParticipantId", tournamentPartipantId));
+                .add(Restrictions.eq("tournamentParticipantId", tournamentPartipantId))
+                .setProjection(Projections.rowCount());
                 
         if(null != inning) {
-            criteria.add(Restrictions.eq("inningNumber", inning))
-                    .setProjection(Projections.rowCount());;
+            criteria.add(Restrictions.eq("inningNumber", inning));
         }
-        return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
+        Long foulCount = 0L;
+        List<Long> lstTotalFoulCount = ((List)this.hibernateTemplate.findByCriteria(criteria));
+        if(!CollectionUtils.isEmpty(lstTotalFoulCount)) {
+        	foulCount = lstTotalFoulCount.get(0);
+        }
+        return foulCount;
     }
 
 	@Override
+	@Transactional
 	public void save(MatchFoulDetails newMatchFoulDetails) {
 		this.hibernateTemplate.saveOrUpdate(newMatchFoulDetails);
 	}
 
     @Override
+    @Transactional
     public void removeFoulForMatch(MatchFoulDetails matchFoulDetails) {
         List<MatchFoulDetails> matchFouls = this.hibernateTemplate.findByExample(matchFoulDetails);
         if(!CollectionUtils.isEmpty(matchFouls)) {

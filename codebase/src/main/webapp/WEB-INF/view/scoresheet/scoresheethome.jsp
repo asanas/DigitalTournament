@@ -241,12 +241,13 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                 && window.tournamentMatchDetails.timeLapsed > 0) {
             window.lastWicketTime = parseInt(window.tournamentMatchDetails.timeLapsed);
             window.clock.start().addTime(-window.tournamentMatchDetails.timeLapsed);
+            $("#loadFoulModal").show( "slide", { direction: "right"  }, 500 );
             checkClockStatus();
         }
     }
     
     var checkClockStatus = function() {
-        if(window.clock.isRunning() && (-1 * window.clock.getTime()) > 540) {
+        if(window.clock.isRunning() && (-1 * window.clock.getTime()) > window.tournamentMatchDetails.inningTime * 60) {
             // alert('Turn closure occured.');
             window.clock.stop();
             // make ajax request to save last players details.
@@ -276,8 +277,10 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     }
     
    $("#loadFoulModal").click(function(){
-       $(this).hide( "slide", { direction: "left"  }, 500 );
-       $(".foul-panel").show( "slide", { direction: "right"  }, 500);
+       if(window.clock.isRunning()) {
+           $(this).hide( "slide", { direction: "left"  }, 500 );
+           $(".foul-panel").show( "slide", { direction: "right"  }, 500);
+       }
     });
 
    $("#hideFoulModal").click(function(){
@@ -286,40 +289,37 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     });
    
    $(".adjustFoulCount").click(function(){
-	   if(window.clock.isRunning()) {
-	       var elemId = $(this).attr("id");
-	       var substrIndex = 9;
-	       var addition = false, makeRequest = true, action = 'minus';
-	       if(elemId.indexOf('Plus') != -1) {
-	           substrIndex = 8;
-	           addition = true;
-	           action = 'addition';
-	       }
-	       var foulCount = parseInt($("#foulCount" + elemId.substr(substrIndex)).html());
-	       if(addition) {
-	           foulCount = foulCount + 1;           
-	       } else {
-	           if(foulCount == 0) {
-	                return;
-	           } 
-	           foulCount = foulCount - 1;
-	       }
-	       $("#foulCount" + elemId.substr(substrIndex)).html(foulCount);
-	       var qParam = "matchId="+ window.tournamentMatchDetails.matchId + "&action=" + action + "&inning="+window.tournamentMatchDetails.currentInning + 
-	       "&chasingTeamId=" + window.tournamentMatchDetails.chasingTeamId + "&foulId=" + elemId.substr(substrIndex);
-	       // make and ajax call to save foul details.
-	       $.ajax({
-	           url: window.pageURL + '/adjustFoulCount',
-	           data: qParam,
-	           type: "POST",
-	           success: function(data) {
-	                   if(data == 'success') {
-	                	    
-	                   }
-	               }
-	       });
-		   
-	   }
+       if(window.clock.isRunning()) {
+           var elemId = $(this).attr("id");
+           var substrIndex = 9;
+           var addition = false, makeRequest = true, action = 'minus';
+           if(elemId.indexOf('Plus') != -1) {
+               substrIndex = 8;
+               addition = true;
+               action = 'addition';
+           }
+           var foulCount = parseInt($("#foulCount" + elemId.substr(substrIndex)).html());
+           if(addition) {
+               foulCount = foulCount + 1;           
+           } else {
+               if(foulCount == 0) {
+                    return;
+               } 
+               foulCount = foulCount - 1;
+           }
+           var qParam = "matchId="+ window.tournamentMatchDetails.matchId + "&action=" + action + "&inning="+window.tournamentMatchDetails.currentInning + 
+           "&chasingTeamId=" + window.tournamentMatchDetails.chasingTeamId + "&foulId=" + elemId.substr(substrIndex);
+           // make and ajax call to save foul details.
+           $.ajax({
+               url: window.pageURL + '/adjustFoulCount',
+               data: qParam,
+               type: "GET",
+               success: function(data) {
+                   $("#foulCount" + elemId.substr(substrIndex)).html(data);
+               }
+           });
+           
+       }
    });
     $("#show").click(function(){
        $(".target").show( "slide", {direction: "up" }, 2000 );
@@ -370,6 +370,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
                 checkClockStatus();
+                $("#loadFoulModal").show( "slide", { direction: "right"  }, 500 );
             }
         }
     });
@@ -405,7 +406,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
                          var rowId = $(this).attr('href');
                          var hoverRowId = rowId.substr(9);
                          if(window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG') {
-                             window.currentStpWtchTime = 540;
+                             window.currentStpWtchTime = window.tournamentMatchDetails.inningTime * 60;
                          } else {
                              window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
                          }
@@ -471,7 +472,6 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
             type: "POST",
             success: function(data) {
                 if(data == 'success') {
-                    
                     if('Sudden Attack' != symbolDesc && 'Late Entry' != symbolDesc) {
                         window.lastWicketTime = window.currentStpWtchTime;
                     }
@@ -571,7 +571,8 @@ $( window ).load(function() {
         "timeLapsed": ${timeLapsed},
         "currentInningScore": ${currentInningScore},
         "defenceParticipantTeam": ${defenceParticipantTeam.tourParticipantId},
-        "chasingTeamId": ${chasingParticipantTeam.tourParticipantId}
+        "chasingTeamId": ${chasingParticipantTeam.tourParticipantId},
+        "inningTime": 3
     }
     window.initiateWindowLoadActions();
 });

@@ -2,6 +2,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\FoulDetailsDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\MajorSkill.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\RoleMasterDAO.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\support\utils\TournamentMatchUtils.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentScheduleMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\PersonDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentParticipantDAOImpl.java
@@ -11,6 +12,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\example\Person.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MajorSkillDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\example\Product.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\scoresheet\TournamentMatchManagerImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\Role.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentDAOImpl.java
@@ -67,8 +69,9 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\MatchPointMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\ui\component\menu\Menu.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\PlayerProfileManagerImpl.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\CountryMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\RoleMaster.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\CountryMasterDAO.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TournamentMatchManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentMatchResultMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\TournamentScheduleDateMaster.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\CityManagerImpl.java
@@ -81,6 +84,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentMatchDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\RoleMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\scoresheet\ScoresheetController.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\scoresheet\MatchResultsController.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\MatchFoulDetails.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\StateManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchTurnManager.java
@@ -90,11 +94,11 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\City.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\PlayerProfileManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Country.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentParticipantTeamDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Symbol.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentParticipantTeamDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\TournamentManagerImpl.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\GroupDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MatchTurnDAO.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\GroupDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TeamDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\TeamType.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\CityManager.java
