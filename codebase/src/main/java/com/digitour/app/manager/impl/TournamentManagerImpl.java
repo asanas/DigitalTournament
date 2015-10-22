@@ -21,6 +21,7 @@ import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.AgeGroup;
+import com.digitour.app.db.model.support.enums.Role;
 import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.TournamentManager;
@@ -82,11 +83,13 @@ public class TournamentManagerImpl implements TournamentManager {
         Team team = teamDAO.getById(team1Id);
         Long playerChaseNumber = 1L;
         for(PlayerProfile playerProfile : team.getPlayersList()) {
-            TournamentParticipantTeam tourTeam = new TournamentParticipantTeam();
-            tourTeam.setPlayerProfileId(playerProfile.getPlayerProfileId());
-            tourTeam.setPlayerChaseNumber(playerChaseNumber++);
-            tourTeam.setTournamentPartipantId(tourParticipant.getTourParticipantId());
-            tourParticipantTeamDAO.save(tourTeam);
+            if(!Role.COACH.equals(playerProfile.getRole()) && Role.MANAGER.equals(playerProfile.getRole())) {
+                TournamentParticipantTeam tourTeam = new TournamentParticipantTeam();
+                tourTeam.setPlayerProfileId(playerProfile.getPlayerProfileId());
+                tourTeam.setPlayerChaseNumber(playerChaseNumber++);
+                tourTeam.setTournamentPartipantId(tourParticipant.getTourParticipantId());
+                tourParticipantTeamDAO.save(tourTeam);
+            }
         }
     }
 
@@ -96,7 +99,7 @@ public class TournamentManagerImpl implements TournamentManager {
         tourMatchDetails.setTeamParticipant2Id(team2ParticipantId);
         tourMatchDetails.setTournamentId(tournament.getTournamentId());
         tournamentMatchDAO.save(tourMatchDetails);
-    	return tourMatchDetails;
+        return tourMatchDetails;
     }
 
     private TournamentParticipant createTourPartipant(Tournament tournament, Long participatingTeamId) {

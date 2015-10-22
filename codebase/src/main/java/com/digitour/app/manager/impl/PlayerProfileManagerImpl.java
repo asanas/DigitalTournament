@@ -16,9 +16,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.support.enums.Gender;
@@ -30,6 +33,9 @@ import com.digitour.app.manager.PlayerProfileManager;
 public class PlayerProfileManagerImpl implements PlayerProfileManager {
 
     private static final Log log = LogFactory.getLog(PlayerProfileManagerImpl.class);
+    
+    @Autowired
+    PlayerProfileDAO playerProfileDAO;
     
     @Override
     public void addPlayersListToTeam(Team newTeam, MultipartFile multipartfile) {
@@ -64,31 +70,23 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                         Cell cell = (Cell) cellIterator.next();
                         Date birthDate = new Date();
                         playerProfile.setDateOfBirth(birthDate);
-                        //Cell with index 1 contains First name
                         if (cell.getColumnIndex() == 1) {
                             playerProfile.setFirstName(cell.getStringCellValue());
                         }
-                        //Cell with index 2 contains marks in Science
                         else if (cell.getColumnIndex() == 2) {
                             playerProfile.setMiddleName(cell.getStringCellValue());
                         }
-                        //Cell with index 3 contains marks in English
                         else if (cell.getColumnIndex() == 3) {
                             playerProfile.setLastName(cell.getStringCellValue());
                         }
                         // DOB
                         else if (cell.getColumnIndex() == 4) {
-                            // TODO: set players birth date. 16-06-1986 - > 16-Jun-1986
+                            Date birthDt = cell.getDateCellValue();
+                            playerProfile.setDateOfBirth(birthDt);
                         }
                         // GENDER
                         else if (cell.getColumnIndex() == 5) {
-                            Gender gender = null;
-                            if(cell.getStringCellValue().equalsIgnoreCase(Gender.MALE.toString()) ||
-                                    cell.getStringCellValue().equalsIgnoreCase("M")) {
-                                gender = Gender.MALE;
-                            } else {
-                                gender = Gender.FEMALE;
-                            }
+                            Gender gender = Gender.valueOf(cell.getStringCellValue().toUpperCase());
                             playerProfile.setGender(gender);
                         }
                         // height 
@@ -97,43 +95,37 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                             playerProfile.setHeight(((Double)cell.getNumericCellValue()).intValue());
                         }
                         // weight
-                        else if (cell.getColumnIndex() == 7) {
+                        else if (cell.getColumnIndex() == 7 && Cell.CELL_TYPE_BLANK != cell.getCellType()) {
                             playerProfile.setWeight(cell.getNumericCellValue());
                         }
                         // MajorSkills
-                        else if (cell.getColumnIndex() == 8) {
+                        else if (cell.getColumnIndex() == 8 && Cell.CELL_TYPE_BLANK != cell.getCellType()) {
                             // MajorSkill
-                            MajorSkill playerMajorSkill = findPlayerMajorSkill(cell.getStringCellValue());
-                            playerProfile.setMajorSkill(playerMajorSkill);
-                        }
-                        // Role
-                        else if (cell.getColumnIndex() == 9) {
-                            // role
-                            Role role = findPlayerRole(cell.getStringCellValue());
+                            Role role = Role.valueOf(cell.getStringCellValue().toUpperCase().replaceAll(" ", ""));
                             playerProfile.setRole(role);
                         }
-                        // Role
-                        else if (cell.getColumnIndex() == 10) {
+                        // total tournaments participated in
+                        else if (cell.getColumnIndex() == 9 && Cell.CELL_TYPE_BLANK != cell.getCellType()) {
                             // tournaments participated in
                             playerProfile.setTotalToursParticipated(((Double)cell.getNumericCellValue()).intValue());
                         }
-                        // Role
-                        else if (cell.getColumnIndex() == 11) {
+                        // achievements
+                        else if (cell.getColumnIndex() == 10) {
                             // achievements
                             playerProfile.setAchievements(cell.getStringCellValue());
                         }
                      // email-id
-                        else if (cell.getColumnIndex() == 12) {
+                        else if (cell.getColumnIndex() == 11) {
                             // email id
                             playerProfile.setEmailId(cell.getStringCellValue());
                         }
                      // postal address
-                        else if (cell.getColumnIndex() == 13) {
+                        else if (cell.getColumnIndex() == 12) {
                             playerProfile.setAddress(cell.getStringCellValue());
                         }
-                     // postal address
-                        else if (cell.getColumnIndex() == 14) {
-                            // contact number
+                     // phone number
+                        else if (cell.getColumnIndex() == 13) {
+                            // contact numberd
                             String playerContact = NumberToTextConverter.toText(cell.getNumericCellValue());
                             playerProfile.setContact(playerContact);
                         }
@@ -141,6 +133,7 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                     playerProfile.setTeam(newTeam);
                     playerProfile.setCity(newTeam.getCity());
                     //end iterating a row, add all the elements of a row in list
+                    playerProfileDAO.save(playerProfile);
                     lstPlayers.add(playerProfile);
                 }
             }

@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.TeamType;
 
 @Entity
@@ -35,13 +36,15 @@ public class Team implements java.io.Serializable {
     private TeamType teamType;
     private Date establishedIn;
     private List<PlayerProfile> playersList;
-    
+    private Gender gender;
+    private String displayName;
+
     public Team() {
         
     }
 
     public Team(String teamName, String founderName, String description, String address, String achievements,
-            City teamCity, String establishedIn) {
+            City teamCity, Date establishedIn, Gender gender) {
         this.teamName = teamName;
         this.founderName = founderName;
         this.description = description;
@@ -50,7 +53,8 @@ public class Team implements java.io.Serializable {
         this.achievements = achievements;
         this.city = teamCity;
         this.teamType = TeamType.CLUB;
-        this.establishedIn = new Date();
+        this.establishedIn = establishedIn;
+        this.gender = gender;
     }
 
     @Id
@@ -165,5 +169,24 @@ public class Team implements java.io.Serializable {
     public void setPlayersList(List<PlayerProfile> playersList) {
         this.playersList = playersList;
     }
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    @Column(name = "display_name",  nullable = false)
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
 }

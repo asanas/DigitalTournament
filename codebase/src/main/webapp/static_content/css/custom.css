@@ -62,6 +62,10 @@
     right: 0px;
     top: 250px;
 }
+.attach-left {
+    left: 0px;
+    top: 250px;
+}
 .panel {
     background-color: #18BC9C;
 }
@@ -110,3 +114,8 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
 }
 
 table a:not(.btn), .table a:not(.btn) {color:white;}
+
+#playersList .row { padding:4px; margin:0; font-weight: bold; color:white;}
+.rowHeader { background-color: #171165;}
+.rowBody { background-color: #9A9BB5;}
+.rowBody > div { border-bottom: 1px solid #B3ABAB}

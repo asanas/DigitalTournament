@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+
 import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.MajorSkill;
 import com.digitour.app.db.model.support.enums.Role;
@@ -45,6 +47,7 @@ public class PlayerProfile implements java.io.Serializable {
     private String wicketStatus;
     private String address;
     private String emailId;
+    private boolean isCaptain;
     
     public PlayerProfile() {
     }
@@ -93,6 +96,24 @@ public class PlayerProfile implements java.io.Serializable {
     @Column(name = "weight", nullable = true)
     public Double getWeight() {
         return this.weight;
+    }
+    
+    @Transient
+    public String getFormattedWeight() {
+        if(null != this.weight) {
+            return this.weight.toString();
+        } else {
+            return ""; 
+        }
+    }
+    
+    @Transient
+    public String getFormattedHeight() {
+        if(0 != this.height) {
+            return String.valueOf(height);
+        } else {
+            return ""; 
+        }
     }
     
     @Column(name = "total_tours_participated")
@@ -242,20 +263,30 @@ public class PlayerProfile implements java.io.Serializable {
     }
 
     @Column(name = "address_line1", nullable = true)
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	@Column(name = "email_address", nullable = true)
-	public String getEmailId() {
-		return emailId;
-	}
+    @Column(name = "email_address", nullable = true)
+    public String getEmailId() {
+        return emailId;
+    }
 
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
-	}
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    @Column(name="captain", columnDefinition = "CHAR")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isCaptain() {
+        return isCaptain;
+    }
+
+    public void setCaptain(boolean isCaptain) {
+        this.isCaptain = isCaptain;
+    }
 }

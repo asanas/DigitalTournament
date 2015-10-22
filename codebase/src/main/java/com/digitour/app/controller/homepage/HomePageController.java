@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.digitour.app.db.model.City;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.manager.CityManager;
@@ -76,16 +74,6 @@ public class HomePageController {
         return modelAndView;
     }
     
-    @RequestMapping(value="/loadDemoScoreSheet", method=RequestMethod.GET)
-    public ModelAndView showDemoScoreSheet() {
-        ModelAndView modelAndView = new ModelAndView("scoresheet/demoscoresheet");
-        modelAndView.addObject("defendingTeamName", "Defending Team Name");
-        modelAndView.addObject("chasingTeamName", "Chasing Team Name");
-        modelAndView.addObject("defendingTeamScore", 6);
-        modelAndView.addObject("chasingTeamScore", 7);
-        
-        return modelAndView;
-    }
     /*private List<Menu> createHomepageMenus() {
         List<Menu> lstMenu = new ArrayList<Menu>();
         Menu createTour = new Menu();

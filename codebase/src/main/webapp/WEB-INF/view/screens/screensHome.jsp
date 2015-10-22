@@ -24,36 +24,9 @@
                 </div>
             </div>
         </div>
-        <%@include file="scoreboard-header.jsp"%>
-        <div class="row">
-            <div class="col-lg-2 text-center">
-                <a href="#" onclick="addOneToScore('team1Score');">
-                  <span class="glyphicon glyphicon-plus"></span>
-                </a>
-            </div>
-            <div class="col-lg-2 text-center">
-                <a href="#" onclick="minusOneFromScore('team1Score');">
-                  <span class="glyphicon glyphicon-minus"></span>
-                </a>
-            </div>
-            <div class="col-lg-4 text-center">
-                &nbsp;
-            </div>
-            <div class="col-lg-2 text-center">
-                <a href="#" onclick="addOneToScore('team2Score');">
-                  <span class="glyphicon glyphicon-plus"></span>
-                </a>
-            </div>
-            <div class="col-lg-2 text-center">
-                <a href="#" onclick="minusOneFromScore('team2Score');">
-                  <span class="glyphicon glyphicon-minus"></span>
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <hr class="star-light">
-                <span class="skills">Venue: S.P. College Ground, Pune</span>
+        <div class="row text-center">
+            <div class="col-lg-3">
+                <h3><a href="#" onclick="addOneToScore('team1Score');">Load Demo Scoresheet</a></h3>
             </div>
         </div>
     </div>
