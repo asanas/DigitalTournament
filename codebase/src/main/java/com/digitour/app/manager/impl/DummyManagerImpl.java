@@ -64,7 +64,7 @@ public class DummyManagerImpl implements DummyManager
             dummyTeam.setAchievements("Dream Test achievements" + i);
             dummyTeam.setEstablishedIn(new Date());
             dummyTeam.setCity(city);
-            dummyTeam.setTeamType(TeamType.CLUB);
+            dummyTeam.setTeamType(TeamType.MEN);
             teamMasterDAO.save(dummyTeam);
             
             for(int j =1;j<= numberOfPlayers; j++) {

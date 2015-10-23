@@ -19,6 +19,7 @@ com\digitour\app\dao\impl\TeamDAOImpl.class
 com\digitour\app\dao\TournamentParticipantDAO.class
 com\digitour\app\manager\impl\PlayerProfileManagerImpl.class
 com\digitour\app\manager\TournamentMatchManager.class
+com\digitour\app\controller\homepage\TeamController.class
 com\digitour\app\model\TournamentParticipantPoints.class
 com\digitour\app\manager\impl\TeamManagerImpl.class
 com\digitour\app\model\example\Product.class
@@ -36,6 +37,7 @@ com\digitour\app\model\example\Category.class
 com\digitour\app\dao\CountryMasterDAO.class
 com\digitour\app\support\utils\TournamentMatchUtils.class
 com\digitour\app\model\TournamentMatchResultMaster.class
+com\digitour\app\controller\homepage\DemoScreenLink.class
 com\digitour\app\db\model\Team.class
 com\digitour\app\db\model\City.class
 com\digitour\app\manager\TeamManager.class
@@ -49,6 +51,7 @@ com\digitour\app\dao\impl\GroupDAOImpl.class
 com\digitour\app\ui\component\menu\Menu.class
 com\digitour\app\dao\TossDetailsDAO.class
 com\digitour\app\manager\impl\TournamentManagerImpl.class
+com\digitour\app\dao\PlayerProfileMasterDAO.class
 com\digitour\app\model\RoleMaster.class
 com\digitour\app\manager\DummyManager.class
 com\digitour\app\model\example\Person.class
@@ -69,6 +72,7 @@ com\digitour\app\dao\GroupDAO.class
 com\digitour\app\manager\MatchPointManager.class
 com\digitour\app\dao\impl\TournamentParticipantDAOImpl.class
 com\digitour\app\controller\scoresheet\MatchResultsController.class
+com\digitour\app\controller\homepage\DemoScreensController.class
 com\digitour\app\dao\impl\OfficialMasterDAOImpl.class
 com\digitour\app\dao\impl\TournamentMatchResultMasterDAOImpl.class
 com\digitour\app\db\model\support\enums\MajorSkill.class
@@ -78,6 +82,7 @@ com\digitour\app\db\model\TournamentParticipant.class
 com\digitour\app\dao\impl\StateDAOImpl.class
 com\digitour\app\dao\impl\CountryMasterDAOImpl.class
 com\digitour\app\db\model\support\enums\TeamType.class
+com\digitour\app\dao\impl\PlayerProfileMasterDAOImpl.class
 com\digitour\app\dao\OfficialMasterDAO.class
 com\digitour\app\db\model\TournamentMatchDetails.class
 com\digitour\app\model\example\Department.class

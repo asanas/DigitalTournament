@@ -16,7 +16,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 text-right"><h4>Established In:</h4></div>
-                    <div class="col-lg-6 text-left"><h4>--</h4></div>
+                    <div class="col-lg-6 text-left"><h4>${team.formattedEstablishedIn }</h4></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 text-right"><h4>Founder Name:</h4></div>
@@ -46,7 +46,7 @@
                     <div class="col-lg-1">Age</div>
                     <div class="col-lg-1">Weight</div>
                     <div class="col-lg-1">Height</div>
-                    <div class="col-lg-3 text-left">Role</div>
+                    <div class="col-lg-2 text-left">Role</div>
                 </div>
                 <c:forEach items="${ team.playersList}" var="player" varStatus="plHandle">
 	                <div class="row rowBody">
@@ -55,7 +55,7 @@
 	                    <div class="col-lg-1">20</div>
 	                    <div class="col-lg-1">${player.formattedWeight}</div>
 	                    <div class="col-lg-1">${player.formattedHeight}</div>
-	                    <div class="col-lg-3 text-left">${player.role}</div>
+	                    <div class="col-lg-2 text-left">${player.role}</div>
 	                </div>
 	            </c:forEach>
             </div>
@@ -75,7 +75,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th colspan="2"> Team List(Women)</th>
+                <th colspan="2" style="color: #EFD813;"> Team List(Women)</th>
                 <th colspan="2" class="text-right">
                     <span id="hidewomenteamlistpanel" class="glyphicon glyphicon-circle-arrow-left icon-big" style="color:#D0D0D4; cursor: pointer;"></span>
                 </th>
@@ -95,7 +95,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th colspan="2"> Team List(Men)</th>
+                <th colspan="2" style="color: #EFD813;"> Team List(Men)</th>
                 <th colspan="2" class="text-right">
                     <span id="hidementeamlistpanel" class="glyphicon glyphicon-circle-arrow-right icon-big " style="color:#D0D0D4; cursor: pointer;"></span>
                 </th>

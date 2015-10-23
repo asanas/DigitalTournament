@@ -1,5 +1,6 @@
 package com.digitour.app.db.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.TeamType;
@@ -36,7 +38,6 @@ public class Team implements java.io.Serializable {
     private TeamType teamType;
     private Date establishedIn;
     private List<PlayerProfile> playersList;
-    private Gender gender;
     private String displayName;
 
     public Team() {
@@ -44,7 +45,7 @@ public class Team implements java.io.Serializable {
     }
 
     public Team(String teamName, String founderName, String description, String address, String achievements,
-            City teamCity, Date establishedIn, Gender gender) {
+            City teamCity, Date establishedIn, String teamType) {
         this.teamName = teamName;
         this.founderName = founderName;
         this.description = description;
@@ -52,9 +53,8 @@ public class Team implements java.io.Serializable {
         this.clubAddressLine1 = address;
         this.achievements = achievements;
         this.city = teamCity;
-        this.teamType = TeamType.CLUB;
+        this.teamType = TeamType.valueOf(teamType);
         this.establishedIn = establishedIn;
-        this.gender = gender;
     }
 
     @Id
@@ -161,7 +161,7 @@ public class Team implements java.io.Serializable {
         this.establishedIn = establishedIn;
     }
 
-    @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
     public List<PlayerProfile> getPlayersList() {
         return playersList;
     }
@@ -170,16 +170,6 @@ public class Team implements java.io.Serializable {
         this.playersList = playersList;
     }
     
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
     @Column(name = "display_name",  nullable = false)
 	public String getDisplayName() {
 		return displayName;
@@ -189,4 +179,13 @@ public class Team implements java.io.Serializable {
 		this.displayName = displayName;
 	}
 
+	@Transient
+	public String getFormattedEstablishedIn() {
+	    String resultDate = "";
+	    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+	    if(null != this.establishedIn) {
+	        resultDate = formatter.format(establishedIn);
+	    }
+	    return resultDate;
+	}
 }

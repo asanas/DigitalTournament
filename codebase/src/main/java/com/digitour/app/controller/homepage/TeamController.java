@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.digitour.app.db.model.City;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.support.enums.Gender;
+import com.digitour.app.db.model.support.enums.TeamType;
 import com.digitour.app.manager.CityManager;
 import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.impl.TeamManagerImpl;
@@ -48,10 +49,9 @@ public class TeamController {
     @RequestMapping(value="/createnew/team", method=RequestMethod.POST)
     public ModelAndView createNewTeam(@RequestParam String teamName, @RequestParam String founderName, @RequestParam String description,
             @RequestParam String address, @RequestParam String achievements, @RequestParam Long cityId, 
-            @RequestParam String establishedIn, @RequestParam MultipartFile playersList, @RequestParam String gender) {
+            @RequestParam String establishedIn, @RequestParam MultipartFile playersList, @RequestParam String teamType) {
         log.debug("Creating a new team.");
         City teamCity = cityManager.getById(cityId);
-        Gender teamGender = Gender.valueOf(gender.toUpperCase());
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
         Date dtEstablishedIn = null;
         try {
@@ -59,7 +59,7 @@ public class TeamController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Team newTeam = new Team(teamName, founderName, description, address, achievements, teamCity, dtEstablishedIn, teamGender);
+        Team newTeam = new Team(teamName, founderName, description, address, achievements, teamCity, dtEstablishedIn, teamType);
         teamManager.save(newTeam);
         playerProfileManager.addPlayersListToTeam(newTeam, playersList);
         return new ModelAndView("redirect:/loadTeamDetails/team/"+newTeam.getTeamId());
@@ -71,8 +71,8 @@ public class TeamController {
         ModelAndView modelAndView = new ModelAndView("team/teamdetails");
         log.debug("Creating a new team.");
         Team team = teamManager.getById(teamId);
-        List<Team> lstMenTeams = teamManager.getAllTeamsByGender(Gender.MALE);
-        List<Team> lstWomenTeams = teamManager.getAllTeamsByGender(Gender.FEMALE);
+        List<Team> lstMenTeams = teamManager.getAllTeamsByTeamType(TeamType.MEN);
+        List<Team> lstWomenTeams = teamManager.getAllTeamsByTeamType(TeamType.WOMEN);
         modelAndView.addObject("team", team);
         modelAndView.addObject("menTeamList", lstMenTeams);
         modelAndView.addObject("womenTeamList", lstWomenTeams);
