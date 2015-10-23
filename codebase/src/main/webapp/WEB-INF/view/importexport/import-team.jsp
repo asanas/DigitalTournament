@@ -24,8 +24,8 @@
             <div class="form-group">
                 <label class="control-label col-lg-4" for="establishedIn">Team Type:</label>
                 <div class="col-lg-6 text-left" >
-                    <label class="radio-inline"><input type="radio" name="teamType" value="Men">Men</label>
-                    <label class="radio-inline"><input type="radio" name="teamType" value="Women">Women</label>
+                    <label class="radio-inline"><input type="radio" name="teamType" value="MEN">Men</label>
+                    <label class="radio-inline"><input type="radio" name="teamType" value="WOMEN">Women</label>
                 </div>
             </div>
             <div class="form-group">

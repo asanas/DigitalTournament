@@ -332,9 +332,9 @@ public class ScoresheetController {
         String tossWonMsg = "Toss won by ";
         Team team = null;
         if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId())) {
-            team = teamManager.getById(tournamentParticipant1.getTeamId());
+            team = teamManager.getById(tournamentParticipant1.getTeamId(), false);
         } else {
-            team = teamManager.getById(tournamentParticipant2.getTeamId());
+            team = teamManager.getById(tournamentParticipant2.getTeamId(), false);
         }
         tossWonMsg = tossWonMsg + team.getTeamName() + " And elected to " + tossDetails.getElectedTo();
         return tossWonMsg;

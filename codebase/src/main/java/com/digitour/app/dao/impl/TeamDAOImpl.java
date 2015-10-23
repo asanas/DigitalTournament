@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -40,8 +41,11 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    public Team getById(Long teamId) {
-        return hibernateTemplate.get(Team.class, teamId);
+    @Transactional
+    public Team getById(Long teamId, Boolean loadPlayersList) {
+        Team team = hibernateTemplate.get(Team.class, teamId);
+        Hibernate.initialize(team.getPlayersList());
+        return team;
     }
 
     @Override

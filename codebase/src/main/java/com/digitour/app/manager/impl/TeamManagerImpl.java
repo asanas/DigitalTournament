@@ -26,9 +26,8 @@ public class TeamManagerImpl implements TeamManager {
 	}
 
     @Override
-    public Team getById(Long teamId)
-    {
-        return teamDAO.getById(teamId);
+    public Team getById(Long teamId, Boolean loadPlayersList) {
+        return teamDAO.getById(teamId, loadPlayersList);
     }
 
 	public List<Team> getAllTeamsByTeamType(TeamType teamType) {

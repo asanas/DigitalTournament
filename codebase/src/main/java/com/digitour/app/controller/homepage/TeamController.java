@@ -70,7 +70,7 @@ public class TeamController {
     public ModelAndView loadTeamDetails(@PathVariable Long teamId) {
         ModelAndView modelAndView = new ModelAndView("team/teamdetails");
         log.debug("Creating a new team.");
-        Team team = teamManager.getById(teamId);
+        Team team = teamManager.getById(teamId, true);
         List<Team> lstMenTeams = teamManager.getAllTeamsByTeamType(TeamType.MEN);
         List<Team> lstWomenTeams = teamManager.getAllTeamsByTeamType(TeamType.WOMEN);
         modelAndView.addObject("team", team);

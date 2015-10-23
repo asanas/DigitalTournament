@@ -80,7 +80,7 @@ public class TournamentManagerImpl implements TournamentManager {
     }
 
     private void createTournamentPartipantTeam(TournamentParticipant tourParticipant, Long team1Id) {
-        Team team = teamDAO.getById(team1Id);
+        Team team = teamDAO.getById(team1Id, true);
         Long playerChaseNumber = 1L;
         for(PlayerProfile playerProfile : team.getPlayersList()) {
             if(!Role.COACH.equals(playerProfile.getRole()) && Role.MANAGER.equals(playerProfile.getRole())) {

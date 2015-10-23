@@ -11,7 +11,7 @@ public interface TeamDAO {
 
     public List<Team> getAll();
 
-	public Team getById(Long teamId);
+	public Team getById(Long teamId, Boolean loadPlayersList);
 
 	public List<Team> getAllTeamsByTeamType(TeamType teamType);
 }
