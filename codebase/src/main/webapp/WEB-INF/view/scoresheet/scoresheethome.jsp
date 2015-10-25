@@ -1,10 +1,15 @@
 <%@include file="../common/header.jsp"%>
 <header>
-    <div class="container" id="scoresheetWrapper">
+    <div class="container scoresheet">
         <%@include file="scoreboard-header.jsp"%>
+    </div>
+</header>
+<header>
+    <div class="container" id="scoresheetWrapper" style="padding-top: 50px;">
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
         <%@include file="foul-modal.jsp"%>
+        <%@include file="../result/match-result-wrapper.jsp" %>
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs nav-justified turnsContainer">
@@ -96,8 +101,9 @@
               <button id="abortTurn" type="button" class="btn btn-info">Abort Current Turn</button>
               <button id="addInning" type="button" class="btn btn-info">Add Inning</button>
               <button type="button" class="btn btn-info">Top Performers</button>
-              <button type="button" class="btn btn-info">Show Result</button>
               <button type="button" class="btn btn-info">Play Sudden Death</button>
+              <button type="button" class="btn btn-info">Make Substitution</button>
+              <button id="btnShowMatchResult" type="button" class="btn btn-info">Show Result</button>
             </div>
           </div>
         </div>
@@ -294,7 +300,7 @@
             alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
         } else {
             if (!window.clock.isRunning()) {
-            	window.clock.addTime(-1 * window.clock.getTime());
+                window.clock.addTime(-1 * window.clock.getTime());
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
                 checkClockStatus();
@@ -312,7 +318,7 @@
         var resultFlag = false;
         // check if clock is running
         if(window.clock.isRunning() || 'COMPLETEDANDLOG' == window.tournamentMatchDetails.turnStatus 
-        		|| 'TURNABORTEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
+                || 'TURNABORTEDANDLOG' == window.tournamentMatchDetails.turnStatus) {
             // And team row does not have details for the performance and current turn total wickets are less than 9
             if($("#teamrow-"+hoverRowId).find('.timePlayed').html() == '' && window.tournamentMatchDetails.currentInningScore < 9) {
                 resultFlag = true;
@@ -362,6 +368,18 @@
          $(this).find("a.wicketIcon:last").remove();
      });
 
+    
+    $("#btnShowMatchResult").click(function() {
+    	$.ajax({
+            url: window.pageURL + '/showMatchResults',
+            data: "matchId="+ window.tournamentMatchDetails.matchId,
+            type: "GET",
+            success: function(data) {
+                $('#showMatchResultModal').html(data);
+                $('#showMatchResultModal').modal();
+            }
+        });
+    });
     var openSubstituteModal = function(element) {
         var rowId = $(element).attr('href');
         var hoverRowId = rowId.substr(9);
@@ -436,8 +454,8 @@
                     if(!out) {
                         $("#teamrow-"+defenderProfileId).addClass("notout");
                     } else {
-	                    var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
-	                    $("#chasingTeamScore").html(chasingTeamScore);
+                        var chasingTeamScore = parseInt($("#chasingTeamScore").html()) + 1;
+                        $("#chasingTeamScore").html(chasingTeamScore);
                     }
                     $("#fillWicketDetailsModal").modal("hide");
                 }
@@ -495,14 +513,14 @@
                 }
         });
     });
+
     $("#abortTurn").click(function() {
-    	markTurnStatus('ABORTED');
+        markTurnStatus('ABORTED');
         window.tournamentMatchDetails.turnStatus = 'TURNABORTEDANDLOG';
         window.clock.stop();
         window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
         alert('Turn Aborted. Please mark player who remained not out.');
     });
-    
 })(window, window.document);
 
 
@@ -522,7 +540,7 @@ $( window ).load(function() {
         "currentInningScore": ${currentInningScore},
         "defenceParticipantTeam": ${defenceParticipantTeam.tourParticipantId},
         "chasingTeamId": ${chasingParticipantTeam.tourParticipantId},
-        "inningTime": 1
+        "inningTime": 9
     }
     window.initiateWindowLoadActions();
 });

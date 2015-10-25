@@ -7,7 +7,7 @@
                     <select id="team1" class="teamList">
                         <option id="">Select Team1</option>
                         <c:forEach items="${teamList}" var="team">
-                            <option id="${team.teamId }">${team.teamName }</option>
+                            <option id="${team.teamId }">${team.displayName }</option>
                         </c:forEach>
                     </select>
                     <div class="">
@@ -18,7 +18,7 @@
                     <select id="team2" class="teamList">
                         <option id="">Select Team2</option>
                         <c:forEach items="${teamList}" var="team">
-                            <option id="${team.teamId }">${team.teamName}</option>
+                            <option id="${team.teamId }">${team.displayName}</option>
                         </c:forEach>
                     </select>
                     <div class="">

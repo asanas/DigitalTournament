@@ -17,10 +17,8 @@ import com.digitour.app.dao.MatchFoulMasterDAO;
 import com.digitour.app.dao.MatchPointMasterDAO;
 import com.digitour.app.dao.MatchTurnDAO;
 import com.digitour.app.dao.PlayerProfileDAO;
-import com.digitour.app.dao.SymbolMasterDAO;
 import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
-import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.FoulDetails;
 import com.digitour.app.db.model.MatchFoulDetails;
@@ -29,14 +27,15 @@ import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Symbol;
-import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchPointManager;
 import com.digitour.app.manager.MatchTurnManager;
+import com.digitour.app.manager.ScoresheetManager;
 import com.digitour.app.manager.TeamManager;
+import com.digitour.app.manager.TournamentParticipantManager;
 
 @Controller
 public class ScoresheetController {
@@ -48,8 +47,7 @@ public class ScoresheetController {
     TossDetailsDAO tossDetailsDAO;
     
     @Autowired
-    TournamentParticipantDAO tournamentParticipantDAO;
-    
+    TournamentParticipantManager participantManager;
     @Autowired
     TournamentParticipantTeamDAO tournamentParticipantTeamDAO;
     
@@ -61,9 +59,6 @@ public class ScoresheetController {
     
     @Autowired
     TournamentMatchDAO tournamentMatchDAO;
-    
-    @Autowired
-    SymbolMasterDAO symbolDAO;
     
     @Autowired
     MatchTurnDAO matchTurnDAO;
@@ -82,6 +77,9 @@ public class ScoresheetController {
     
     @Autowired
     TeamManager teamManager;
+    
+    @Autowired
+    ScoresheetManager scoresheetManager;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -137,7 +135,7 @@ public class ScoresheetController {
     public String adjustFoulCount(@RequestParam Long matchId, @RequestParam  Long chasingTeamId, @RequestParam Long foulId,
             @RequestParam String action, @RequestParam Long inning) {
         TournamentMatchDetails matchDetails = tournamentMatchDAO.getMatchDetailsById(matchId);
-        TournamentParticipant chasingTourParticipant = tournamentParticipantDAO.getById(chasingTeamId);
+        TournamentParticipant chasingTourParticipant = participantManager.getById(chasingTeamId);
         FoulDetails foulDetails = foulDetailsDAO.getById(foulId);
         Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
         int multiplier = 1;
@@ -159,35 +157,27 @@ public class ScoresheetController {
         foulsCount = foulsCount + (multiplier * 1);
         return foulsCount.toString();
     }
-    
+
     private void populateScoresheetData(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn) {
-        TournamentParticipant tournamentParticipant1 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant1Id());
-        TournamentParticipant tournamentParticipant2 = tournamentParticipantDAO.getById(tournamentMatchDetails.getTeamParticipant2Id());
+        TournamentParticipant tournamentParticipant1 = participantManager.getById(tournamentMatchDetails.getTeamParticipant1Id());
+        TournamentParticipant tournamentParticipant2 = participantManager.getById(tournamentMatchDetails.getTeamParticipant2Id());
         MatchTossDetails tossDetails = tournamentMatchDetails.getMatchTossDetails();
-        String tossWonMsg = createTossWonMessage(tournamentParticipant1, tournamentParticipant2, tossDetails);
+        String tossWonMsg = scoresheetManager.createTossWonMessage(tournamentParticipant1, tournamentParticipant2, tossDetails);
         MatchTurnDetails turnDetails = matchTurnDAO.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails, inning, turn);
         modelAndView.addObject("tossWonMessage", tossWonMsg);
         modelAndView.addObject("matchDetails", tournamentMatchDetails);
         modelAndView.addObject("turnDetails", turnDetails);
-        populateSymbols(modelAndView);
-        populateTurns(modelAndView, tournamentMatchDetails);
-        populateParticipatingTeams(tournamentMatchDetails, tournamentParticipant1, tournamentParticipant2, tossDetails, modelAndView, inning, turn);
-    }
-
-    private void populateTurns(ModelAndView modelAndView, TournamentMatchDetails tournamentMatchDetails) {
-        List<MatchTurnDetails> matchTurnList = turnManager.getTurnsByMatch(tournamentMatchDetails);
-        modelAndView.addObject("matchTurnList", matchTurnList);
-    }
-
-    private void populateSymbols(ModelAndView modelAndView) {
-        List<Symbol> symbolList = symbolDAO.getAllSymbols();
+        List<Symbol> symbolList = scoresheetManager.populateSymbols(modelAndView);
         modelAndView.addObject("symbolList", symbolList);
+        List<MatchTurnDetails> matchTurnList = scoresheetManager.populateTurns(modelAndView, tournamentMatchDetails);
+        modelAndView.addObject("matchTurnList", matchTurnList);
+        populateParticipatingTeams(tournamentMatchDetails, tournamentParticipant1, tournamentParticipant2, tossDetails, modelAndView, inning, turn);
     }
 
     private void populateMatchPointDetails(TournamentMatchDetails tournamentMatchDetails, Long inning, Long turn, List<TournamentParticipantTeam> defendingParticipatingTeam,
             List<PlayerProfile> defendingTeamList) {
         Long tourParticipantId = defendingParticipatingTeam.get(0).getTournamentPartipantId();
-        TournamentParticipant tournamentParticipant = tournamentParticipantDAO.getById(tourParticipantId);
+        TournamentParticipant tournamentParticipant = participantManager.getById(tourParticipantId);
         for(PlayerProfile playerProfile : defendingTeamList) {
             TournamentParticipantTeam defendingPlayerTeamProfile = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(playerProfile, tournamentParticipant);
             List<MatchPointDetails> matchPointList = matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, defendingPlayerTeamProfile.getTournamentParticipantPlayerId(), inning, turn);
@@ -326,17 +316,5 @@ public class ScoresheetController {
             listPlayers.add(playerProfile);
         }
         return listPlayers;
-    }
-
-    private String createTossWonMessage(TournamentParticipant tournamentParticipant1, TournamentParticipant tournamentParticipant2, MatchTossDetails tossDetails) {
-        String tossWonMsg = "Toss won by ";
-        Team team = null;
-        if(tossDetails.getTossWonByTeamId().equals(tournamentParticipant1.getTourParticipantId())) {
-            team = teamManager.getById(tournamentParticipant1.getTeamId(), false);
-        } else {
-            team = teamManager.getById(tournamentParticipant2.getTeamId(), false);
-        }
-        tossWonMsg = tossWonMsg + team.getTeamName() + " And elected to " + tossDetails.getElectedTo();
-        return tossWonMsg;
     }
 }

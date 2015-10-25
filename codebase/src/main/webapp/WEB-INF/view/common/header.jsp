@@ -63,7 +63,7 @@
 
 <body id="page-top" class="index">
 <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-shrink">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -73,7 +73,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#page-top">NMS ALL INDIA 2015</a>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">NMS ALL INDIA 2015</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -83,13 +83,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#StartMatch">&nbsp;</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#scoresheet">&nbsp;</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#result">&nbsp;</a>
+                        <a href="#NMS">Digital Tournament</a>
                     </li>
                 </ul>
             </div>

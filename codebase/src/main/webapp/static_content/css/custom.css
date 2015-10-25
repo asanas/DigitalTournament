@@ -105,7 +105,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
 
 .foul-panel, .team-list-panel {
   display:none;
-  width: 195px;
+  width: 200px;
   height: 295px;
   background-color: #38337D;
   border-left: 1px solid #353535;
@@ -119,3 +119,11 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowHeader { background-color: #171165;}
 .rowBody { background-color: #9A9BB5;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
+header .container.scoresheet{padding-top:50px; padding-bottom: 0px}
+.navbar-default {background-color: #1E3348;}
+#showMatchResultModal .modal-content {background-color: #89ACD8;}
+#showMatchResultModal .modal-body {background-color: #E3D8EA;}
+#showMatchResultModal .modal-footer {padding:0;}
+#showMatchResultModal hr.star-light {border-color: #1A27C3}
+hr.star-light.results:after {color: #1A27C3; background-color: #E3D8EA;}
+#showMatchResultModal h3 {padding:0;}
