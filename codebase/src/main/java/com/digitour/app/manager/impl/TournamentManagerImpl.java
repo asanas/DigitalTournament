@@ -13,7 +13,6 @@ import com.digitour.app.dao.TournamentMatchDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.MatchTossDetails;
-import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.Tournament;
@@ -22,7 +21,6 @@ import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.AgeGroup;
 import com.digitour.app.db.model.support.enums.Role;
-import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.TournamentManager;
 

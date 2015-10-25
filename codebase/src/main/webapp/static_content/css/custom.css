@@ -126,4 +126,8 @@ header .container.scoresheet{padding-top:50px; padding-bottom: 0px}
 #showMatchResultModal .modal-footer {padding:0;}
 #showMatchResultModal hr.star-light {border-color: #1A27C3}
 hr.star-light.results:after {color: #1A27C3; background-color: #E3D8EA;}
-#showMatchResultModal h3 {padding:0;}
+#showMatchResultModal h3 {    padding: 0; margin-top: 0; font-size: 35px;}
+td.defenders .list-group-item {background-color: #CDC9D0;}
+td.attackers .list-group-item {background-color: #EFCCD9;}
+span.performanceLabel {font-size: 17px; font-weight: bold;}
+span.performanceLabel img{display: inline-block; margin: 0;}

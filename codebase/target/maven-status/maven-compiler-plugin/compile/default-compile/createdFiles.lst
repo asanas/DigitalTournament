@@ -5,7 +5,6 @@ com\digitour\app\dao\MatchFoulMasterDAO.class
 com\digitour\app\dao\impl\TossDetailsDAOImpl.class
 com\digitour\app\db\model\support\enums\AgeGroup.class
 com\digitour\app\dao\impl\TournamentScheduleMasterDAOImpl.class
-com\digitour\app\dao\impl\MatchPointMasterDAOImpl.class
 com\digitour\app\manager\MatchTurnManager.class
 com\digitour\app\dao\impl\TournamentParticipantTeamDAOImpl.class
 com\helloworld\app\controller\HelloWorldController.class
@@ -36,7 +35,6 @@ com\digitour\app\db\model\MatchTossDetails.class
 com\digitour\app\model\example\Category.class
 com\digitour\app\dao\CountryMasterDAO.class
 com\digitour\app\support\utils\TournamentMatchUtils.class
-com\digitour\app\model\TournamentMatchResultMaster.class
 com\digitour\app\controller\homepage\DemoScreenLink.class
 com\digitour\app\db\model\Team.class
 com\digitour\app\db\model\City.class
@@ -58,7 +56,6 @@ com\digitour\app\model\example\Person.class
 com\digitour\app\dao\FoulDetailsDAO.class
 com\digitour\app\dao\StateDAO.class
 com\digitour\app\db\model\State.class
-com\digitour\app\dao\MatchPointMasterDAO.class
 com\digitour\app\dao\TournamentScheduleDateMasterDAO.class
 com\digitour\app\dao\impl\RoleMasterDAOImpl.class
 com\digitour\app\dao\impl\MajorSkillDAOImpl.class

@@ -5,9 +5,9 @@ import com.digitour.app.db.model.TournamentParticipant;
 
 public interface TournamentParticipantDAO {
 
-	public void save(TournamentParticipant tourPartipant);
+    public void save(TournamentParticipant tourPartipant);
 
     public TournamentParticipant getById(Long teamParticipant1Id);
 
-	public TournamentParticipant getTournamentParticipantByTeamAndTournament(Team team, Long tournamentId);
+    public TournamentParticipant getTournamentParticipantByTeamAndTournament(Team team, Long tournamentId);
 }

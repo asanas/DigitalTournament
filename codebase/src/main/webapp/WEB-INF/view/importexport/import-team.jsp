@@ -10,6 +10,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="control-label col-lg-4" for="teamName">Team Display Name:</label>
+                <div class="col-lg-6 text-left" >
+                    <input type="text" class="form-control" name="displayName" id="displayName" placeholder="Enter team display name" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="control-label col-lg-4" for="founderName">Founder Name:</label>
                 <div class="col-lg-6 text-left" >
                     <input type="text" class="form-control" name="founderName" id="founderName" placeholder="Enter founder name" autocomplete="off">

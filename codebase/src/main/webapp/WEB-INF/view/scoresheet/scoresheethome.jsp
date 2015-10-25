@@ -189,7 +189,6 @@
             // alert('Turn closure occured.');
             window.clock.stop();
             // make ajax request to save last players details.
-            window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
             markTurnStatus('COMPLETED');
             return;
         }
@@ -205,12 +204,18 @@
             data: queryParam,
             type: "POST",
             success: function(data) {
-                    if(data == 'success') {
-                        if(turnStatus == 'COMPLETED') {
-                            alert('Reached turn closure. Please mark player who remained not out.');
-                        }
-                    }
-                }
+               if(data == 'success') {
+                   if(turnStatus == 'ABORTED') {
+                       alert('Turn Aborted. Please mark player who remained not out.');
+                       window.tournamentMatchDetails.turnStatus = 'TURNABORTEDANDLOG';
+                   } else if(turnStatus == 'COMPLETED') {
+                       alert('Reached turn closure. Please mark player who remained not out.');
+                       window.tournamentMatchDetails.turnStatus = 'COMPLETEDANDLOG';
+                   } else {
+                       window.tournamentMatchDetails.turnStatus = 'INPROGRESS';
+                   }
+               }
+           }
         });
     }
     
@@ -370,7 +375,7 @@
 
     
     $("#btnShowMatchResult").click(function() {
-    	$.ajax({
+        $.ajax({
             url: window.pageURL + '/showMatchResults',
             data: "matchId="+ window.tournamentMatchDetails.matchId,
             type: "GET",
@@ -516,10 +521,8 @@
 
     $("#abortTurn").click(function() {
         markTurnStatus('ABORTED');
-        window.tournamentMatchDetails.turnStatus = 'TURNABORTEDANDLOG';
         window.clock.stop();
         window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
-        alert('Turn Aborted. Please mark player who remained not out.');
     });
 })(window, window.document);
 

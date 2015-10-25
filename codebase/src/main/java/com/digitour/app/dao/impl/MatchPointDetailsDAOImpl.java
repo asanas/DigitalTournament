@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,13 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.digitour.app.dao.MatchPointMasterDAO;
+import com.digitour.app.dao.MatchPointDetailsDAO;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
 @Repository
-public class MatchPointMasterDAOImpl implements MatchPointMasterDAO {
+public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
 
     @Autowired
     HibernateTemplate hibernateTemplate;
@@ -85,5 +86,20 @@ public class MatchPointMasterDAOImpl implements MatchPointMasterDAO {
                 .add(Restrictions.eq("turnNumber", turn))
                 .setProjection(Projections.rowCount());
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
+    }
+
+    @Override
+    public List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam) {
+        List<Long> defenderParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam defenderProfile: participantTeam) {
+            defenderParticipantIds.add(defenderProfile.getTournamentParticipantPlayerId());
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        criteria.add(Restrictions.eq("matchId", matchDetails.getTournamentMatchId()))
+                .add(Restrictions.in("defenceParticipantProfileId", defenderParticipantIds))
+                .add(Restrictions.ge("perTime", 50L))
+                .addOrder(Order.desc("perTime"));
+        return (List<MatchPointDetails>) this.hibernateTemplate.findByCriteria(criteria);
     }
 }

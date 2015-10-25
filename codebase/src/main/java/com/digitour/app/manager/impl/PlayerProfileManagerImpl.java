@@ -18,7 +18,6 @@ import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.digitour.app.dao.PlayerProfileDAO;
@@ -173,19 +172,14 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
         return majorSkill;
     }
 
-    private Role findPlayerRole(String cellValue) {
-        Role playerRole = Role.ALLROUNDER;
-        if(cellValue.equalsIgnoreCase(Role.ATTACKER.toString())) {
-            playerRole = Role.ATTACKER;
-        } else if(cellValue.equalsIgnoreCase(Role.DEFENDER.toString())) {
-            playerRole = Role.DEFENDER;
-        }
-        return playerRole;
-    }
-
     public File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException {
             File convFile = new File( multipart.getOriginalFilename());
             multipart.transferTo(convFile);
             return convFile;
+    }
+
+    @Override
+    public PlayerProfile getById(Long playerProfileId) {
+        return playerProfileDAO.getById(playerProfileId);
     }
 }

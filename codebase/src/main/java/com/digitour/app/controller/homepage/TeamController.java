@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.digitour.app.db.model.City;
 import com.digitour.app.db.model.Team;
-import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.TeamType;
 import com.digitour.app.manager.CityManager;
 import com.digitour.app.manager.PlayerProfileManager;
@@ -47,7 +46,7 @@ public class TeamController {
     }
     
     @RequestMapping(value="/createnew/team", method=RequestMethod.POST)
-    public ModelAndView createNewTeam(@RequestParam String teamName, @RequestParam String founderName, @RequestParam String description,
+    public ModelAndView createNewTeam(@RequestParam String teamName, @RequestParam String displayName, @RequestParam String founderName, @RequestParam String description,
             @RequestParam String address, @RequestParam String achievements, @RequestParam Long cityId, 
             @RequestParam String establishedIn, @RequestParam MultipartFile playersList, @RequestParam String teamType) {
         log.debug("Creating a new team.");
@@ -60,6 +59,7 @@ public class TeamController {
             e.printStackTrace();
         }
         Team newTeam = new Team(teamName, founderName, description, address, achievements, teamCity, dtEstablishedIn, teamType);
+        newTeam.setDisplayName(displayName);
         teamManager.save(newTeam);
         playerProfileManager.addPlayersListToTeam(newTeam, playersList);
         return new ModelAndView("redirect:/loadTeamDetails/team/"+newTeam.getTeamId());

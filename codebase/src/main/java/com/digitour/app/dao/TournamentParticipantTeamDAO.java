@@ -7,12 +7,12 @@ import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 
 public interface TournamentParticipantTeamDAO {
-	public void save(TournamentParticipantTeam tourTeam);
+    public void save(TournamentParticipantTeam tourTeam);
 
     public List<TournamentParticipantTeam> getByTournamentParticipantOrderByChaseNumber(TournamentParticipant tournamentParticipant1);
 
-    public TournamentParticipantTeam getById(Long attackParticipantProfileId);
+    public TournamentParticipantTeam getById(Long participantProfileId);
 
-	public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile defenderPlayerProfile,
-			TournamentParticipant defenderParticipant);
+    public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile defenderPlayerProfile,
+            TournamentParticipant defenderParticipant);
 }

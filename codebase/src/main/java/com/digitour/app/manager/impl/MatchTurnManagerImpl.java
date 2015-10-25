@@ -2,10 +2,7 @@ package com.digitour.app.manager.impl;
 
 import java.util.List;
 
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.MatchTurnDAO;
@@ -56,5 +53,11 @@ public class MatchTurnManagerImpl implements MatchTurnManager {
                 turnDao.save(matchTurn);
             }
         }
+    }
+
+    @Override
+    public MatchTurnDetails getInningDetailsByMatchInningAndTurnNumber(TournamentMatchDetails matchDetails, Long inning,
+            Long turn) {
+        return turnDao.getInningDetailsByMatchInningAndTurnNumber(matchDetails, inning, turn);
     }
 }

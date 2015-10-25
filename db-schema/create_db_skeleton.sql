@@ -160,12 +160,11 @@ CREATE TABLE IF NOT EXISTS `match_point_master` (
 );
 
 CREATE TABLE IF NOT EXISTS `tournament_match_result_master` (
-	`match_result_id` bigint NOT NULL AUTO_INCREMENT,
-	`fk_tournament_match_id` bigint NOT NULL,
+	`match_result_id` bigint NOT NULL,
 	`match_won_by` bigint,
 	`won_by_points` bigint NOT NULL,
-	`won_by_time` TIME NOT NULL,
-	`result_details` varchar(500) NOT NULL,
+	`won_by_time` int,
+	`result_details` varchar(500),
 	`fk_player_of_the_match` bigint NOT NULL,
 	PRIMARY KEY (`match_result_id`)
 );

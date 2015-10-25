@@ -23,18 +23,25 @@
                         <div class="row">
                             <table class="table table-condensed" style="width: 100%;">
                                 <tr>
-                                  <td>Defence</td>
-                                  <td>Attack</td>
+                                  <td style="width: 50%"><span class="performanceLabel">Defence <img src="${pageContext.request.contextPath}/static_content/images/defenceIcon.png" height="20px" ></span></td>
+                                  <td><span class="performanceLabel">Attack <img src="${pageContext.request.contextPath}/static_content/images/chasingIcon.png" height="22px" style="margin-top: -12px;"></span></td>
                                 </tr>
                                 <tr>
-                                  <td>
+                                  <td class="defenders">
                                     <ul class="list-group">
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>  
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>  
+                                        <c:choose>
+                                            <c:when test="${ not empty team1Defenders}">
+                                                <c:forEach items="${team1Defenders }" var="topDefender" varStatus="tdHandle">
+                                                    <li class="list-group-item"><span class="badge">${topDefender.formattedPerTime }</span> ${topDefender.playerName }</li>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                    <li class="list-group-item">--</li>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </ul>
                                   </td>
-                                  <td>
+                                  <td class="attackers">
                                     <ul class="list-group">
                                         <li class="list-group-item"><span class="badge">5 Wickets</span> Shashank K</li>
                                         <li class="list-group-item"><span class="badge">5 Wickets</span> Shashank K</li>  
@@ -49,18 +56,23 @@
                         <div class="row">
                             <table class="table table-condensed" style="width: 100%;">
                                 <tr>
-                                  <td>Defence</td>
-                                  <td>Attack</td>
+                                  <td style="width: 50%"><span class="performanceLabel">Defence <img src="${pageContext.request.contextPath}/static_content/images/defenceIcon.png" height="20px" ></span></td>
+                                  <td><span class="performanceLabel">Attack <img src="${pageContext.request.contextPath}/static_content/images/chasingIcon.png" height="22px" style="margin-top: -12px;"></span></td>
                                 </tr>
                                 <tr>
-                                  <td>
-                                    <ul class="list-group">
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>  
-                                        <li class="list-group-item"><span class="badge">1M 20S</span> Shashank K</li>  
-                                    </ul>
+                                  <td class="defenders">
+                                    <c:choose>
+                                        <c:when test="${ not empty team2Defenders}">
+                                            <c:forEach items="${team2Defenders }" var="topDefender" varStatus="tdHandle">
+                                                <li class="list-group-item"><span class="badge">${topDefender.formattedPerTime }</span> ${topDefender.playerName }</li>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                                <li class="list-group-item">--</li>
+                                        </c:otherwise>
+                                    </c:choose>
                                   </td>
-                                  <td>
+                                  <td class="attackers">
                                     <ul class="list-group">
                                         <li class="list-group-item"><span class="badge">5 Wickets</span> Shashank K</li>
                                         <li class="list-group-item"><span class="badge">5 Wickets</span> Shashank K</li>  
@@ -71,6 +83,9 @@
                              </table>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center"><h3>${ resultDescription}</h3></div>
                 </div>
             </div>
             <div class="modal-footer">

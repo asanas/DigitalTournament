@@ -27,11 +27,11 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
     private HibernateTemplate hibernateTemplate;
 
     
-	@Override
-	@Transactional
-	public void save(TournamentParticipantTeam tourTeam) {
-		this.hibernateTemplate.saveOrUpdate(tourTeam);
-	}
+    @Override
+    @Transactional
+    public void save(TournamentParticipantTeam tourTeam) {
+        this.hibernateTemplate.saveOrUpdate(tourTeam);
+    }
 
 
     @Override
@@ -49,13 +49,13 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
     }
 
 
-	@Override
-	public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile playerProfile,
-			TournamentParticipant tournamentParticipant) {
+    @Override
+    public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile playerProfile,
+            TournamentParticipant tournamentParticipant) {
         DetachedCriteria criteria = DetachedCriteria.forClass(TournamentParticipantTeam.class);
         criteria.add(Restrictions.eq("playerProfileId", playerProfile.getPlayerProfileId()))
-        		.add(Restrictions.eq("tournamentPartipantId", tournamentParticipant.getTourParticipantId()));
+                .add(Restrictions.eq("tournamentPartipantId", tournamentParticipant.getTourParticipantId()));
         return ((List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria)).get(0);
-	}
+    }
 
 }

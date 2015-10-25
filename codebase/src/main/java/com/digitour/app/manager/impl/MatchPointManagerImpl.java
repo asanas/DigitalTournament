@@ -1,9 +1,11 @@
 package com.digitour.app.manager.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.digitour.app.dao.MatchPointMasterDAO;
+import com.digitour.app.dao.MatchPointDetailsDAO;
 import com.digitour.app.dao.SymbolMasterDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
@@ -28,7 +30,7 @@ public class MatchPointManagerImpl implements MatchPointManager {
     SymbolMasterDAO symbolDAO;
     
     @Autowired
-    MatchPointMasterDAO matchPointDAO;
+    MatchPointDetailsDAO matchPointDAO;
     
     @Override
     public void addMatchPointDetails(TournamentMatchDetails matchDetails, PlayerProfile defenderPlayerProfile, PlayerProfile chaserPlayerProfile, Long timePlayed,
@@ -56,6 +58,30 @@ public class MatchPointManagerImpl implements MatchPointManager {
             matchPoint.setAssistParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());
         }
         matchPointDAO.save(matchPoint);
+    }
+
+    @Override
+    public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam1) {
+        return matchPointDAO.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
+    }
+
+    @Override
+    public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning,
+            Long turn) {
+        return matchPointDAO.getMaxRunTimeByMatchInningAndTurn(tournamentMatchDetails, inning, turn);
+    }
+
+    @Override
+    public List<MatchPointDetails> getMatchPointsByInningTurnAndDefender(TournamentMatchDetails tournamentMatchDetails,
+            Long tournamentParticipantPlayerId, Long inning, Long turn) {
+        return matchPointDAO.getMatchPointsByInningTurnAndDefender(tournamentMatchDetails, tournamentParticipantPlayerId, inning, turn);
+    }
+
+    @Override
+    public List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam) {
+        return matchPointDAO.getTopDefendersList(matchDetails, participantTeam);
     }
 
 }

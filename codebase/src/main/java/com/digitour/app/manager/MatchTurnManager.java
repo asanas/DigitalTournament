@@ -10,4 +10,6 @@ public interface MatchTurnManager {
     void save(MatchTurnDetails turnDetails);
     void createMatchTurns(TournamentMatchDetails tournamentMatch);
     void addInning(TournamentMatchDetails tournamentMatch);
+    MatchTurnDetails getInningDetailsByMatchInningAndTurnNumber(TournamentMatchDetails matchDetails, Long inning,
+            Long turn);
 }
