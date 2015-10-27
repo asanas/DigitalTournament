@@ -2,6 +2,7 @@ package com.digitour.app.manager;
 
 import java.util.List;
 
+import com.digitour.app.client.pojo.PlayerPerformace;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.TournamentMatchDetails;
@@ -19,6 +20,9 @@ public interface MatchPointManager {
     List<MatchPointDetails> getMatchPointsByInningTurnAndDefender(TournamentMatchDetails tournamentMatchDetails,
             Long tournamentParticipantPlayerId, Long inning, Long turn);
 
-    List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+    List<MatchPointDetails> getTopDefendersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam1);
+
+    List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam2);
 }

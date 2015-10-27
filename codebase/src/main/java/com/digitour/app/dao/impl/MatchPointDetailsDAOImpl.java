@@ -8,11 +8,13 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.digitour.app.client.pojo.PlayerPerformace;
 import com.digitour.app.dao.MatchPointDetailsDAO;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.TournamentMatchDetails;
@@ -89,7 +91,7 @@ public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
     }
 
     @Override
-    public List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+    public List<MatchPointDetails> getTopDefendersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam) {
         List<Long> defenderParticipantIds = new ArrayList<>();
         for(TournamentParticipantTeam defenderProfile: participantTeam) {
@@ -98,8 +100,24 @@ public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
         DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
         criteria.add(Restrictions.eq("matchId", matchDetails.getTournamentMatchId()))
                 .add(Restrictions.in("defenceParticipantProfileId", defenderParticipantIds))
-                .add(Restrictions.ge("perTime", 50L))
+                .add(Restrictions.ge("perTime", 80L))
                 .addOrder(Order.desc("perTime"));
         return (List<MatchPointDetails>) this.hibernateTemplate.findByCriteria(criteria);
+    }
+
+    @Override
+    public List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam) {
+        List<Long> attackerParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam attackerProfile: participantTeam) {
+            attackerParticipantIds.add(attackerProfile.getTournamentParticipantPlayerId());
+        }
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        criteria.setProjection(Projections.projectionList()
+                .add(Projections.groupProperty("attackParticipantProfileId"), "tournamentParticipantProfileId")
+                .add(Projections.rowCount(), "count"))
+                .addOrder(Order.desc("count"))
+                .setResultTransformer(Transformers.aliasToBean(PlayerPerformace.class));
+        return (List<PlayerPerformace>) this.hibernateTemplate.findByCriteria(criteria);
     }
 }

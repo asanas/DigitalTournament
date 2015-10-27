@@ -49,11 +49,11 @@ public class MatchResultsController {
     PlayerProfileManager playerProfileManager;
     
     @RequestMapping(path = "/showMatchResults", method = RequestMethod.GET)
-    public ModelAndView showMatchResult(Long matchId, Long inning, Long turn) {
-        return loadMatchDetails(matchId);    
+    public ModelAndView showMatchResult(Long matchId, Long inning, Long turn, String resultType) {
+        return loadMatchDetails(matchId, resultType);
     }
 
-    private ModelAndView loadMatchDetails(Long matchId) {
+    private ModelAndView loadMatchDetails(Long matchId, String resultType) {
         TournamentMatchDetails matchDetails = matchManager.getById(matchId);
         ModelAndView modelAndView = new ModelAndView("result/match-result");
 
@@ -70,22 +70,32 @@ public class MatchResultsController {
         Long team2Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam2);
         
 
-        List<MatchPointDetails> topDefendersTeam1 = matchPointManager.getTopDefendersList(matchDetails, participantTeam1);
-        List<MatchPointDetails> topDefendersTeam2 = matchPointManager.getTopDefendersList(matchDetails, participantTeam2);
-        
+        List<MatchPointDetails> topDefendersTeam1 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam1);
+        List<MatchPointDetails> topDefendersTeam2 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam2);
+
+        List<PlayerPerformace> topAttackersTeam1 = matchPointManager.getTopAttackersListByMatch(matchDetails, participantTeam1);
+        List<PlayerPerformace> topAttackersTeam2 = matchPointManager.getTopAttackersListByMatch(matchDetails, participantTeam2);
+
         List<PlayerPerformace> team1TopDefenders = fetchPlayerPerformances(topDefendersTeam1);
         List<PlayerPerformace> team2TopDefenders = fetchPlayerPerformances(topDefendersTeam2);
         
         String resultDescription = "";
         String winningTeamName = team1Name;
         Long scoreDiff = team1Score - team2Score;
-        
+        String resultTitle = "";
         if(scoreDiff < 0) {
             winningTeamName = team2Name;
             scoreDiff = -1 * scoreDiff;
         }
-        
-        resultDescription = winningTeamName + " won by " + scoreDiff + " points.";
+
+        if("matchHightlights".equals(resultType)) {
+            resultTitle = "Match Highlights";
+            resultDescription = winningTeamName + " leading by " + scoreDiff + " points.";
+        } else {
+            resultTitle = "Final Score"; 
+            resultDescription = winningTeamName + " won by " + scoreDiff + " points.";
+        }
+
         modelAndView.addObject("team1Name", team1Name);
         modelAndView.addObject("team2Name", team2Name);
         modelAndView.addObject("team1Score", team1Score);
@@ -93,6 +103,7 @@ public class MatchResultsController {
         modelAndView.addObject("team1Defenders", team1TopDefenders);
         modelAndView.addObject("team2Defenders", team2TopDefenders);
         modelAndView.addObject("resultDescription", resultDescription);
+        modelAndView.addObject("resultTitle", resultTitle);
         return modelAndView;
     }
 

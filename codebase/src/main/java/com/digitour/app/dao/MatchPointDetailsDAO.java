@@ -2,6 +2,7 @@ package com.digitour.app.dao;
 
 import java.util.List;
 
+import com.digitour.app.client.pojo.PlayerPerformace;
 import com.digitour.app.db.model.MatchPointDetails;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipantTeam;
@@ -20,6 +21,9 @@ public interface MatchPointDetailsDAO {
     public Long getCurrentInningPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
             List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn);
 
-    public List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+    public List<MatchPointDetails> getTopDefendersListByMatch(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam);
+
+    public List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam);
 }

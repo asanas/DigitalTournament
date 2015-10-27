@@ -103,6 +103,7 @@
               <button type="button" class="btn btn-info">Top Performers</button>
               <button type="button" class="btn btn-info">Play Sudden Death</button>
               <button type="button" class="btn btn-info">Make Substitution</button>
+              <button id="btnShowMatchHighlights" type="button" class="btn btn-info">Match Highlights</button>
               <button id="btnShowMatchResult" type="button" class="btn btn-info">Show Result</button>
             </div>
           </div>
@@ -374,10 +375,14 @@
      });
 
     
-    $("#btnShowMatchResult").click(function() {
+    $("#btnShowMatchResult, #btnShowMatchHighlights").click(function() {
+        var resultType = '&resultType=matchHightlights';
+        if($(this).attr("id") === 'btnShowMatchResult') {
+            resultType = '&resultType=matchResult';
+        }
         $.ajax({
             url: window.pageURL + '/showMatchResults',
-            data: "matchId="+ window.tournamentMatchDetails.matchId,
+            data: "matchId="+ window.tournamentMatchDetails.matchId+resultType,
             type: "GET",
             success: function(data) {
                 $('#showMatchResultModal').html(data);

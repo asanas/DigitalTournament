@@ -4,8 +4,9 @@ public class PlayerPerformace implements java.io.Serializable {
     String playerName;
     Long perTime;
     Long totalWickets;
+    Long count;
     boolean out;
-    
+    Long tournamentParticipantProfileId;
     public String getPlayerName() {
         return playerName;
     }
@@ -40,4 +41,16 @@ public class PlayerPerformace implements java.io.Serializable {
         }
         return formattedPerTime + "<second>" + seconds + "</second>s";
     }
+	public Long getCount() {
+		return count;
+	}
+	public Long getTournamentParticipantProfileId() {
+		return tournamentParticipantProfileId;
+	}
+	public void setCount(Long count) {
+		this.count = count;
+	}
+	public void setTournamentParticipantProfileId(Long tournamentParticipantProfileId) {
+		this.tournamentParticipantProfileId = tournamentParticipantProfileId;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.digitour.app.client.pojo.PlayerPerformace;
 import com.digitour.app.dao.MatchPointDetailsDAO;
 import com.digitour.app.dao.SymbolMasterDAO;
 import com.digitour.app.dao.TournamentParticipantDAO;
@@ -79,9 +80,15 @@ public class MatchPointManagerImpl implements MatchPointManager {
     }
 
     @Override
-    public List<MatchPointDetails> getTopDefendersList(TournamentMatchDetails matchDetails,
+    public List<MatchPointDetails> getTopDefendersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam) {
-        return matchPointDAO.getTopDefendersList(matchDetails, participantTeam);
+        return matchPointDAO.getTopDefendersListByMatch(matchDetails, participantTeam);
+    }
+
+    @Override
+    public List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
+            List<TournamentParticipantTeam> participantTeam) {
+        return matchPointDAO.getTopAttackersListByMatch(matchDetails, participantTeam);
     }
 
 }
