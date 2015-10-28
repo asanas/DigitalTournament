@@ -68,7 +68,6 @@ public class MatchResultsController {
 
         Long team1Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
         Long team2Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam2);
-        
 
         List<MatchPointDetails> topDefendersTeam1 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam1);
         List<MatchPointDetails> topDefendersTeam2 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam2);
@@ -79,10 +78,14 @@ public class MatchResultsController {
         List<PlayerPerformace> team1TopDefenders = fetchPlayerPerformances(topDefendersTeam1);
         List<PlayerPerformace> team2TopDefenders = fetchPlayerPerformances(topDefendersTeam2);
         
+        topAttackersTeam1 = cleanUpAndFillPlayerDetails(topAttackersTeam1);
+        topAttackersTeam2 = cleanUpAndFillPlayerDetails(topAttackersTeam2);
+
         String resultDescription = "";
         String winningTeamName = team1Name;
         Long scoreDiff = team1Score - team2Score;
         String resultTitle = "";
+        String modalClass = "results";
         if(scoreDiff < 0) {
             winningTeamName = team2Name;
             scoreDiff = -1 * scoreDiff;
@@ -91,6 +94,7 @@ public class MatchResultsController {
         if("matchHightlights".equals(resultType)) {
             resultTitle = "Match Highlights";
             resultDescription = winningTeamName + " leading by " + scoreDiff + " points.";
+            modalClass = "highlights";
         } else {
             resultTitle = "Final Score"; 
             resultDescription = winningTeamName + " won by " + scoreDiff + " points.";
@@ -102,9 +106,30 @@ public class MatchResultsController {
         modelAndView.addObject("team2Score", team2Score);
         modelAndView.addObject("team1Defenders", team1TopDefenders);
         modelAndView.addObject("team2Defenders", team2TopDefenders);
+        modelAndView.addObject("team1Attackers", topAttackersTeam1);
+        modelAndView.addObject("team2Attackers", topAttackersTeam2);
         modelAndView.addObject("resultDescription", resultDescription);
         modelAndView.addObject("resultTitle", resultTitle);
+        modelAndView.addObject("modalClass", modalClass);
+        
         return modelAndView;
+    }
+
+    private List<PlayerPerformace> cleanUpAndFillPlayerDetails(List<PlayerPerformace> topAttackersTeam) {
+        List<PlayerPerformace> lstPlayerPerformances = new ArrayList<>();
+        for(PlayerPerformace playerPerformance : topAttackersTeam) {
+            if(playerPerformance != null) {
+                PlayerProfile playerProfile = playerProfileManager.getByTournamentParticipantProfileId(playerPerformance.getTournamentParticipantProfileId());
+                setDisplayName(playerPerformance, playerProfile);
+                lstPlayerPerformances.add(playerPerformance);
+                if(lstPlayerPerformances.size() > 3) break;
+            }
+        }
+        return lstPlayerPerformances;
+    }
+
+    private void setDisplayName(PlayerPerformace playerPerformance, PlayerProfile playerProfile) {
+        playerPerformance.setPlayerName(playerProfile.getFirstName() + " " + playerProfile.getLastName().substring(0, 1) + ".");        
     }
 
     private List<PlayerPerformace> fetchPlayerPerformances(List<MatchPointDetails> topDefenders) {
@@ -115,10 +140,9 @@ public class MatchResultsController {
                 if(playerCount > 3) {
                     break;
                 }
-                TournamentParticipantTeam participantProfile = participantTeamManager.getById(pointDetails.getDefenceParticipantProfileId());
-                PlayerProfile playerProfile = playerProfileManager.getById(participantProfile.getPlayerProfileId());
+                PlayerProfile playerProfile = playerProfileManager.getByTournamentParticipantProfileId(pointDetails.getDefenceParticipantProfileId());
                 PlayerPerformace playerPerformance = new PlayerPerformace();
-                playerPerformance.setPlayerName(playerProfile.getFirstName() + " " + playerProfile.getLastName().substring(0, 1) + ".");
+                setDisplayName(playerPerformance, playerProfile);
                 playerPerformance.setPerTime(pointDetails.getPerTime());
                 topDefendersList.add(playerPerformance);
             }

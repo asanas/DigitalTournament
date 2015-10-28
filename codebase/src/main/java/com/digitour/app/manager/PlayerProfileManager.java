@@ -9,4 +9,5 @@ public interface PlayerProfileManager {
 
     void addPlayersListToTeam(Team newTeam, MultipartFile playersList);
     PlayerProfile getById(Long playerProfileId);
+	PlayerProfile getByTournamentParticipantProfileId(Long defenceParticipantProfileId);
 }

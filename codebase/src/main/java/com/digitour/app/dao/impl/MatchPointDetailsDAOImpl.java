@@ -116,6 +116,7 @@ public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
         criteria.setProjection(Projections.projectionList()
                 .add(Projections.groupProperty("attackParticipantProfileId"), "tournamentParticipantProfileId")
                 .add(Projections.rowCount(), "count"))
+                .add(Restrictions.in("attackParticipantProfileId", attackerParticipantIds))
                 .addOrder(Order.desc("count"))
                 .setResultTransformer(Transformers.aliasToBean(PlayerPerformace.class));
         return (List<PlayerPerformace>) this.hibernateTemplate.findByCriteria(criteria);

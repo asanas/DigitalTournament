@@ -103,15 +103,7 @@ a>span.glyphicon-plus, a>span.glyphicon-minus {
     margin-top: 10.5px;
 }
 
-.foul-panel, .team-list-panel {
-  display:none;
-  width: 200px;
-  height: 295px;
-  background-color: #38337D;
-  border-left: 1px solid #353535;
-  padding: 5px;
-  z-index: 1;
-}
+.foul-panel, .team-list-panel {display:none; width: 200px; height: 295px; background-color: #38337D; border-left: 1px solid #353535; padding: 5px; z-index: 1; }
 
 table a:not(.btn), .table a:not(.btn) {color:white;}
 
@@ -121,13 +113,15 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
 header .container.scoresheet{padding-top:50px; padding-bottom: 0px}
 .navbar-default {background-color: #1E3348;}
-#showMatchResultModal .modal-content {background-color: #89ACD8;}
-#showMatchResultModal .modal-body {background-color: #E3D8EA;}
+#showMatchResultModal .modal-content .highlights{background-color: #E3D8EA;}
+#showMatchResultModal .modal-body .highlights{background-color: #89ACD8;}
+#showMatchResultModal .modal-content .results{background-color: #EBECE8;}
+#showMatchResultModal .modal-body .results{background-color: #BBBBBB;}
 #showMatchResultModal .modal-footer {padding:0;}
 #showMatchResultModal hr.star-light {border-color: #1A27C3}
 hr.star-light.results:after {color: #1A27C3; background-color: #E3D8EA;}
 #showMatchResultModal h3 {    padding: 0; margin-top: 0; font-size: 35px;}
-td.defenders .list-group-item {background-color: #CDC9D0;}
-td.attackers .list-group-item {background-color: #EFCCD9;}
+td.defenders .list-group-item {background-color: #CDC9D0; padding:5px 15px;}
+td.attackers .list-group-item {background-color: #EFCCD9; padding:5px 15px;}
 span.performanceLabel {font-size: 17px; font-weight: bold;}
 span.performanceLabel img{display: inline-block; margin: 0;}

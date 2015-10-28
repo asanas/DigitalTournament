@@ -23,10 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.digitour.app.dao.PlayerProfileDAO;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Team;
+import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.MajorSkill;
 import com.digitour.app.db.model.support.enums.Role;
 import com.digitour.app.manager.PlayerProfileManager;
+import com.digitour.app.manager.TournamentParticipantManager;
+import com.digitour.app.manager.TournamentParticipantTeamManager;
 
 @Service
 public class PlayerProfileManagerImpl implements PlayerProfileManager {
@@ -36,6 +39,9 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
     @Autowired
     PlayerProfileDAO playerProfileDAO;
     
+    @Autowired
+    TournamentParticipantTeamManager tourParticipantTeamManager;
+
     @Override
     public void addPlayersListToTeam(Team newTeam, MultipartFile multipartfile) {
         try {
@@ -181,5 +187,11 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
     @Override
     public PlayerProfile getById(Long playerProfileId) {
         return playerProfileDAO.getById(playerProfileId);
+    }
+
+    @Override
+    public PlayerProfile getByTournamentParticipantProfileId(Long tourPartiProfileId) {
+    	TournamentParticipantTeam tourParticipantProfile = tourParticipantTeamManager.getById(tourPartiProfileId);
+        return playerProfileDAO.getById(tourParticipantProfile.getPlayerProfileId());
     }
 }
