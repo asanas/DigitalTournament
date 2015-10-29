@@ -37,27 +37,27 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	<!-- jQuery -->
-	<script src="${pageContext.request.contextPath}/static_content/js/jquery.js"></script>
-	<script src="${pageContext.request.contextPath}/static_content/js/jquery-ui.js"></script>
-	
-	<!-- Bootstrap Core JavaScript -->
-	<script src="${pageContext.request.contextPath}/static_content/js/bootstrap.min.js"></script>
-	
-	<!-- Plugin JavaScript -->
-	<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> -->
-	<script src="${pageContext.request.contextPath}/static_content/js/classie.js"></script>
-	<script src="${pageContext.request.contextPath}/static_content/js/cbpAnimatedHeader.js"></script>
-	
-	<!-- Contact Form JavaScript -->
-	<script src="${pageContext.request.contextPath}/static_content/js/jqBootstrapValidation.js"></script>
-	<!-- <script src="${pageContext.request.contextPath}/static_content/js/contact_me.js"></script> -->
-	
-	<!-- Custom Theme JavaScript -->
-	<script src="${pageContext.request.contextPath}/static_content/js/freelancer.js"></script>
-	
-    <!-- <script src="${pageContext.request.contextPath}/static_content/js/flipclock.js"></script> -->
+    <!-- jQuery -->
+    <script src="${pageContext.request.contextPath}/static_content/js/jquery.js"></script>
+    <script src="${pageContext.request.contextPath}/static_content/js/jquery-ui.js"></script>
     
+    <!-- Bootstrap Core JavaScript -->
+    <script src="${pageContext.request.contextPath}/static_content/js/bootstrap.min.js"></script>
+    
+    <!-- Plugin JavaScript -->
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> -->
+    <script src="${pageContext.request.contextPath}/static_content/js/classie.js"></script>
+    <script src="${pageContext.request.contextPath}/static_content/js/cbpAnimatedHeader.js"></script>
+    
+    <!-- Contact Form JavaScript -->
+    <script src="${pageContext.request.contextPath}/static_content/js/jqBootstrapValidation.js"></script>
+    <!-- <script src="${pageContext.request.contextPath}/static_content/js/contact_me.js"></script> -->
+    
+    <!-- Custom Theme JavaScript -->
+    <script src="${pageContext.request.contextPath}/static_content/js/freelancer.js"></script>
+    
+    <!-- <script src="${pageContext.request.contextPath}/static_content/js/flipclock.js"></script> -->
+    <script src="${pageContext.request.contextPath}/static_content/js/common/commonUtils.js"></script>
     <script src="${pageContext.request.contextPath}/static_content/js/timecircles/TimeCircles.js"></script>
 </head>
 
@@ -73,7 +73,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${pageContext.request.contextPath}/home">NMS ALL INDIA 2015</a>
+                <a class="navbar-brand" href="#">${tournamentName }</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -83,7 +83,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#NMS">Digital Tournament</a>
+                        <a href="${pageContext.request.contextPath}/home">Digital Tournament</a>
                     </li>
                 </ul>
             </div>

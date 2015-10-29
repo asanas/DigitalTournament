@@ -88,7 +88,7 @@
 .icon-big {
     font-size: 20px;
     color: black;
-    padding-top: 10px;
+    padding-top: 5px;
 }
 
 .teamscore {
@@ -113,10 +113,10 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
 header .container.scoresheet{padding-top:50px; padding-bottom: 0px}
 .navbar-default {background-color: #1E3348;}
-#showMatchResultModal .modal-content .highlights{background-color: #E3D8EA;}
-#showMatchResultModal .modal-body .highlights{background-color: #89ACD8;}
-#showMatchResultModal .modal-content .results{background-color: #EBECE8;}
-#showMatchResultModal .modal-body .results{background-color: #BBBBBB;}
+#showMatchResultModal .highlights {background-color: #89ACD8;}
+.highlights .modal-body {background-color: #E3D8EA;}
+#showMatchResultModal .results {background-color: #EBECE8;}
+.results .modal-body {background-color: #BBBBBB;}
 #showMatchResultModal .modal-footer {padding:0;}
 #showMatchResultModal hr.star-light {border-color: #1A27C3}
 hr.star-light.results:after {color: #1A27C3; background-color: #E3D8EA;}
@@ -125,3 +125,17 @@ td.defenders .list-group-item {background-color: #CDC9D0; padding:5px 15px;}
 td.attackers .list-group-item {background-color: #EFCCD9; padding:5px 15px;}
 span.performanceLabel {font-size: 17px; font-weight: bold;}
 span.performanceLabel img{display: inline-block; margin: 0;}
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}

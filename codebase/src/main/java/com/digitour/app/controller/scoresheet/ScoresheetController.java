@@ -222,8 +222,8 @@ public class ScoresheetController {
         modelAndView.addObject("defendingTeam", defendingTeam);
         modelAndView.addObject("chasingTeam", chasingTeam);
         
-        modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getTeamName());
-        modelAndView.addObject("chasingTeamName", chasingTeam.get(0).getTeam().getTeamName());
+        modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getDisplayName());
+        modelAndView.addObject("chasingTeamName", chasingTeam.get(0).getTeam().getDisplayName());
         
     }
 

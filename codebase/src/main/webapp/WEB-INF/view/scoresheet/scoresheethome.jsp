@@ -5,7 +5,7 @@
     </div>
 </header>
 <header>
-    <div class="container" id="scoresheetWrapper" style="padding-top: 50px;">
+    <div class="container" id="scoresheetWrapper" style="padding-top: 0px;">
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
         <%@include file="foul-modal.jsp"%>

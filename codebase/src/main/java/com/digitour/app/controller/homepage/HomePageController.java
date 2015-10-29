@@ -1,11 +1,13 @@
 package com.digitour.app.controller.homepage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import com.digitour.app.manager.DummyManager;
 import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.TournamentManager;
 import com.digitour.app.manager.impl.TeamManagerImpl;
+import com.digitour.app.ui.component.menu.Menu;
 
 @Controller
 public class HomePageController {
@@ -42,10 +45,17 @@ public class HomePageController {
     
     @Autowired
     PlayerProfileManager playerProfileManager;
-    
+
     @RequestMapping(value="/home", method=RequestMethod.GET)
     public ModelAndView showHomepage() {
-        ModelAndView modelAndView = new ModelAndView("home/startquickmatch");
+        ModelAndView modelAndView = new ModelAndView("home/homepage");
+        modelAndView.addObject("homePageMenus", createHomepageMenus());
+        return modelAndView;
+    }
+    
+    @RequestMapping(value="/loadTournament/{tournamentId}", method=RequestMethod.GET)
+    public ModelAndView showScoresheetHomepage(@PathVariable Long tournamentId) {
+        ModelAndView modelAndView = new ModelAndView("home/loadTournament");
         List<Team> teamList = teamManager.getAll();
         modelAndView.addObject("teamList", teamList);
         return modelAndView;
@@ -61,8 +71,10 @@ public class HomePageController {
     
     @RequestMapping(value="/beginQuickMatch", method=RequestMethod.GET)
     public ModelAndView fillDetailsToStratQuickMatch() {
-        ModelAndView modelAndView = new ModelAndView("home/quickmatchform");
-//        modelAndView.addObject("categoryList", categoryList);
+        ModelAndView modelAndView = new ModelAndView("home/startquickmatch");
+        List<Team> teamList = teamManager.getAll();
+        modelAndView.addObject("teamList", teamList);
+        modelAndView.addObject("tournamentName", "Quick Match");
         return modelAndView;
     }
     
@@ -74,20 +86,20 @@ public class HomePageController {
         return modelAndView;
     }
     
-    /*private List<Menu> createHomepageMenus() {
+    private List<Menu> createHomepageMenus() {
         List<Menu> lstMenu = new ArrayList<Menu>();
         Menu createTour = new Menu();
-        createTour.setMenuURL("createNewTournament");
+        createTour.setMenuURL("javascript:void();");
         createTour.setClassName(MAIN_MENU);
         createTour.setMenuDescription("Create new Tournament");
         createTour.setDisplayText("Create new Tournament");
         createTour.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu loadTourMenu = new Menu();
-        loadTourMenu.setMenuURL("loadTournament");
+        loadTourMenu.setMenuURL("javascript:void();");
         loadTourMenu.setClassName(MAIN_MENU);
-        loadTourMenu.setMenuDescription("Load saved Tournament");
-        loadTourMenu.setDisplayText("Load saved Tournament");
+        loadTourMenu.setMenuDescription("Load Tournament");
+        loadTourMenu.setDisplayText("Load Tournament");
         loadTourMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu quickMatchMenu = new Menu();
@@ -97,21 +109,21 @@ public class HomePageController {
         quickMatchMenu.setDisplayText("Quick Match");
         
         Menu importExportMenu = new Menu();
-        importExportMenu.setMenuURL("importExport");
+        importExportMenu.setMenuURL("javascript:void();");
         importExportMenu.setClassName(MAIN_MENU);
         importExportMenu.setMenuDescription("Import/Export data");
         importExportMenu.setDisplayText("Import/Export");
-        loadTourMenu.setJsFunctionCall("showAlert('Coming Soon');");
+        importExportMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu helpMenu = new Menu();
-        helpMenu.setMenuURL("help");
+        helpMenu.setMenuURL("javascript:void();");
         helpMenu.setClassName(MAIN_MENU);
         helpMenu.setMenuDescription("Guidelines");
         helpMenu.setDisplayText("Help!");
         helpMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu creditsMenu = new Menu();
-        creditsMenu.setMenuURL("credits");
+        creditsMenu.setMenuURL("javascript:void();");
         creditsMenu.setClassName(MAIN_MENU);
         creditsMenu.setMenuDescription("Credits");
         creditsMenu.setDisplayText("Credits");
@@ -124,7 +136,7 @@ public class HomePageController {
         lstMenu.add(helpMenu);
         lstMenu.add(creditsMenu);
         return lstMenu;
-    }*/
+    }
     
     
 }
