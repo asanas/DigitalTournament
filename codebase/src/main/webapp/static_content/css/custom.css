@@ -111,15 +111,17 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowHeader { background-color: #171165;}
 .rowBody { background-color: #9A9BB5;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
-header .container.scoresheet{padding-top:50px; padding-bottom: 0px}
+header .container.scoresheet{padding-top:30px; padding-bottom: 0px}
 .navbar-default {background-color: #1E3348;}
 #showMatchResultModal .highlights {background-color: #89ACD8;}
 .highlights .modal-body {background-color: #E3D8EA;}
 #showMatchResultModal .results {background-color: #EBECE8;}
 .results .modal-body {background-color: #BBBBBB;}
 #showMatchResultModal .modal-footer {padding:0;}
-#showMatchResultModal hr.star-light {border-color: #1A27C3}
-hr.star-light.results:after {color: #1A27C3; background-color: #E3D8EA;}
+.highlights hr.star-light {border-color: #1A27C3;}
+hr.star-light.highlights:after {color: #1A27C3; background-color: #E3D8EA;}
+.results hr.star-light {border-color: #000106;}
+hr.star-light.results:after {color: #000106; background-color: #BBBBBB;}
 #showMatchResultModal h3 {    padding: 0; margin-top: 0; font-size: 35px;}
 td.defenders .list-group-item {background-color: #CDC9D0; padding:5px 15px;}
 td.attackers .list-group-item {background-color: #EFCCD9; padding:5px 15px;}
@@ -138,4 +140,17 @@ span.performanceLabel img{display: inline-block; margin: 0;}
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
+}
+kbd {
+	font-size: 17px;
+}
+.dead { background-color: red;}
+.good {background-color: #A11DE4;}
+.fair { background-color: #273DAD;}
+.excellent { background-color: #69E629;}
+.teamrow h4 {margin:5px 0 5px 0;}
+.turnsContainer.nav>li>a { padding: 5px 15px;}
+@media (min-width: 768px) {
+    .navbar-fixed-top.navbar-shrink {
+    padding:0px; border-bottom: 1px solid #E44A1C;}
 }

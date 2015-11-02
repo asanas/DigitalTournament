@@ -74,7 +74,7 @@
                                 </c:choose>
                                     <div class="col-lg-4 text-left"><h5>${matchPoint.chaserName}</h5></div>
                                     <div class="col-lg-4 text-left" style="padding-left:47px;"><h5>${matchPoint.symbol.description}</h5></div>
-                                    <div class="col-lg-2 text-left timePlayed"><h5><kbd>${matchPoint.formattedPerTime}</kbd></h5></div>
+                                    <div class="col-lg-2 text-left timePlayed"><h5>${matchPoint.formattedPerTime}</h5></div>
                                 </div>
                             </c:forEach>
                         </c:when>
@@ -525,9 +525,11 @@
     });
 
     $("#abortTurn").click(function() {
-        markTurnStatus('ABORTED');
-        window.clock.stop();
-        window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+        if(window.clock.isRunning()) {
+            markTurnStatus('ABORTED');
+            window.clock.stop();
+            window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+        }
     });
 })(window, window.document);
 

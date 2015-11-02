@@ -55,20 +55,15 @@ public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
 
     @Override
     public Long getTotalMatchPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
-            List<TournamentParticipantTeam> chasingParticipantTeam) {
-        List<Long> chasingParticipantIds = new ArrayList<>();
-        for(TournamentParticipantTeam participantTeam: chasingParticipantTeam) {
-            chasingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
+            List<TournamentParticipantTeam> defendingParticipantTeam) {
+        List<Long> defendingParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam participantTeam: defendingParticipantTeam) {
+            defendingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
         }
-        chasingParticipantIds.add(null);
         
         DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
-        Disjunction or = Restrictions.disjunction();
-        or.add(Restrictions.in("attackParticipantProfileId", chasingParticipantIds))
-          .add(Restrictions.isNull("attackParticipantProfileId"));
-        
         criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
-                .add(or)
+                .add(Restrictions.in("defenceParticipantProfileId", defendingParticipantIds))
                 .add(Restrictions.eq("out", true))
                 .setProjection(Projections.rowCount());
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);

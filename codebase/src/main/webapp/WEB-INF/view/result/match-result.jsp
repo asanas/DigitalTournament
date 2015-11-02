@@ -16,7 +16,7 @@
                     <div class="col-lg-6 text-center"><h3>${team2Score }</h3></div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 text-center"><hr class="star-light results"></div>
+                    <div class="col-lg-12 text-center"><hr class="star-light ${modalClass }"></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 text-left">

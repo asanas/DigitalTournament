@@ -240,20 +240,18 @@ public class ScoresheetController {
     }
 
     private void addMatchTotalScoreForBothTeams(ModelAndView modelAndView,
-            TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> participantTeam1,
+            TournamentMatchDetails tournamentMatchDetails, List<TournamentParticipantTeam> participatingTeam1,
             List<TournamentParticipantTeam> participatingTeam2, List<PlayerProfile> defendingTeam, List<PlayerProfile> chasingTeam, TournamentParticipant tournamentParticipant1, TournamentParticipant tournamentParticipant2, Long inning, Long turn) {
         Long defendingParticipantTeamScore = 0L;
         Long chasingParticipantTeamScore = 0L;
 //        Long currentInningScore = 0L;
         if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId()) ) {
-            defendingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participantTeam1);
-            chasingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam2);
-        } else {
             defendingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam2);
-            chasingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participantTeam1);
+            chasingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam1);
+        } else {
+            defendingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam1);
+            chasingParticipantTeamScore = matchPointManager.getTotalMatchPointsForTheTeam(tournamentMatchDetails, participatingTeam2);
         }
-//        currentInningScore = matchPointDAO.getCurrentInningPointsForTheTeam(tournamentMatchDetails, defendingParticipatingTeam, inning, turn);
-        
         modelAndView.addObject("defendingTeamScore", defendingParticipantTeamScore);
         modelAndView.addObject("chasingTeamScore", chasingParticipantTeamScore);
         modelAndView.addObject("currentInningScore", 0);

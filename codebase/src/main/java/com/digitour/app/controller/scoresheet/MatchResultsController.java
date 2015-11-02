@@ -66,8 +66,8 @@ public class MatchResultsController {
         String team1Name = teamManager.getById(tournamentParticipant1.getTeamId(), false).getDisplayName();
         String team2Name = teamManager.getById(tournamentParticipant2.getTeamId(), false).getDisplayName();
 
-        Long team1Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
-        Long team2Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam2);
+        Long team1Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam2);
+        Long team2Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
 
         List<MatchPointDetails> topDefendersTeam1 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam1);
         List<MatchPointDetails> topDefendersTeam2 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam2);
