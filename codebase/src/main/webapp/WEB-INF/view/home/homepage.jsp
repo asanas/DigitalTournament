@@ -17,4 +17,9 @@
         </div>
     </div>
 </header>
+<style>
+<!--
+a.main_menu { border: 1px solid #610956;}
+-->
+</style>
 <%@include file="../common/footer.jsp"%>

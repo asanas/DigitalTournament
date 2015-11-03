@@ -73,6 +73,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\PlayerProfileManagerImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\homepage\DemoScreensController.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\RoleMaster.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\homepage\TournamentController.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\CountryMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TournamentMatchManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentMatchResultMasterDAO.java
@@ -82,8 +83,8 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TossDetailsDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\DummyManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\client\pojo\PlayerPerformace.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\CountryMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchResultsManager.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\CountryMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentScheduleMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\TournamentOfficial.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentMatchDAOImpl.java

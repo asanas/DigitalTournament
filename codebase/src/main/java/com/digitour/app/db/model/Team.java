@@ -171,21 +171,21 @@ public class Team implements java.io.Serializable {
     }
     
     @Column(name = "display_name",  nullable = false)
-	public String getDisplayName() {
-		return displayName;
-	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-	@Transient
-	public String getFormattedEstablishedIn() {
-	    String resultDate = "";
-	    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-	    if(null != this.establishedIn) {
-	        resultDate = formatter.format(establishedIn);
-	    }
-	    return resultDate;
-	}
+    @Transient
+    public String getFormattedEstablishedIn() {
+        String resultDate = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        if(null != this.establishedIn) {
+            resultDate = formatter.format(establishedIn);
+        }
+        return resultDate;
+    }
 }

@@ -121,4 +121,14 @@ public class TournamentManagerImpl implements TournamentManager {
         tournamentDAO.save(tournament);
         return tournament;
     }
+
+    @Override
+    public void save(Tournament tournament) {
+        tournamentDAO.save(tournament);
+    }
+
+    @Override
+    public Tournament getById(Long tournamentId) {
+        return tournamentDAO.getById(tournamentId);
+    }
 }

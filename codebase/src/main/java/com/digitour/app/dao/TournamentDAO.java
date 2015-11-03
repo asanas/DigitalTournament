@@ -6,4 +6,6 @@ import com.digitour.app.db.model.Tournament;
 public interface TournamentDAO {
 
     public void save(Tournament transientInstance);
+
+    public Tournament getById(Long tournamentId);
 }

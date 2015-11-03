@@ -111,7 +111,7 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowHeader { background-color: #171165;}
 .rowBody { background-color: #9A9BB5;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
-header .container.scoresheet{padding-top:30px; padding-bottom: 0px}
+header .container.scoresheet {padding-top:30px; padding-bottom: 0px}
 .navbar-default {background-color: #1E3348;}
 #showMatchResultModal .highlights {background-color: #89ACD8;}
 .highlights .modal-body {background-color: #E3D8EA;}

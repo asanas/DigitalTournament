@@ -89,11 +89,11 @@ public class HomePageController {
     private List<Menu> createHomepageMenus() {
         List<Menu> lstMenu = new ArrayList<Menu>();
         Menu createTour = new Menu();
-        createTour.setMenuURL("javascript:void();");
+        createTour.setMenuURL("createnew/tournament");
         createTour.setClassName(MAIN_MENU);
         createTour.setMenuDescription("Create new Tournament");
         createTour.setDisplayText("Create new Tournament");
-        createTour.setJsFunctionCall("showAlert('Coming Soon');");
+        createTour.setJsFunctionCall("");
         
         Menu loadTourMenu = new Menu();
         loadTourMenu.setMenuURL("javascript:void();");

@@ -31,4 +31,9 @@ public class TournamentDAOImpl implements TournamentDAO {
         }
     }
 
+    @Override
+    public Tournament getById(Long tournamentId) {
+        return this.hibernateTemplate.load(Tournament.class, tournamentId);
+    }
+
 }

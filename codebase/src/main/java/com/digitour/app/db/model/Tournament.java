@@ -1,5 +1,6 @@
 package com.digitour.app.db.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.digitour.app.db.model.support.enums.AgeGroup;
 
@@ -37,6 +39,20 @@ public class Tournament implements java.io.Serializable {
     private List<Team> participatingTeamList;
     
     public Tournament() {
+    }
+
+    public Tournament(String tourName, String tourDescription, String tourLocation, Date tournamentStartDate,
+            Date tournamentEndDate, String ageGroup, String prize) {
+        this.tournamentName = tourName;
+        this.description = tourDescription;
+        this.tournamentStartDate = tournamentStartDate;
+        this.tournamentEndDate = tournamentEndDate;
+        this.location = tourLocation;
+        this.ageGroup = AgeGroup.valueOf(ageGroup.toUpperCase());
+        this.prize = Double.parseDouble(prize);
+        this.createdDate = new Date();
+        this.tourStatus = "INPROGRESS";
+        this.tourType = "ALLINDIA";
     }
 
     @Id
@@ -150,4 +166,23 @@ public class Tournament implements java.io.Serializable {
         this.ageGroup = ageGroup;
     }
 
+    @Transient
+    public String getFormattedStartDate() {
+        String resultDate = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        if(null != this.tournamentStartDate) {
+            resultDate = formatter.format(tournamentStartDate);
+        }
+        return resultDate;
+    }
+
+    @Transient
+    public String getFormattedEndDate() {
+        String resultDate = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        if(null != this.tournamentEndDate) {
+            resultDate = formatter.format(tournamentEndDate);
+        }
+        return resultDate;
+    }
 }
