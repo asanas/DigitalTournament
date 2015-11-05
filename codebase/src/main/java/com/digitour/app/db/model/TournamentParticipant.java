@@ -15,6 +15,7 @@ public class TournamentParticipant implements java.io.Serializable {
     private Long teamId;
     private Long tournamentId;
     private Long grouId;
+    private Long sponsorerId;
     
     public TournamentParticipant() {
     }
@@ -31,31 +32,39 @@ public class TournamentParticipant implements java.io.Serializable {
     }
 
     @Column(name = "team_id", nullable = false)
-	public Long getTeamId() {
-		return teamId;
-	}
+    public Long getTeamId() {
+        return teamId;
+    }
 
     @Column(name = "tournament_id", nullable = false)
     public Long getTournamentId() {
-		return tournamentId;
-	}
+        return tournamentId;
+    }
 
     @Column(name = "group_id", nullable = false)
-	public Long getGrouId() {
-		return grouId;
-	}
+    public Long getGrouId() {
+        return grouId;
+    }
 
-	public void setTeamId(Long teamId) {
-		this.teamId = teamId;
-	}
+    public void setTeamId(Long teamId) {
+        this.teamId = teamId;
+    }
 
-	public void setTournamentId(Long tournamentId) {
-		this.tournamentId = tournamentId;
-	}
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
+    }
 
-	public void setGrouId(Long grouId) {
-		this.grouId = grouId;
-	}
+    public void setGrouId(Long grouId) {
+        this.grouId = grouId;
+    }
 
+    @Column(name = "sponsorer_id")
+    public Long getSponsorerId() {
+        return sponsorerId;
+    }
+
+    public void setSponsorerId(Long sponsorerId) {
+        this.sponsorerId = sponsorerId;
+    }
 
 }
