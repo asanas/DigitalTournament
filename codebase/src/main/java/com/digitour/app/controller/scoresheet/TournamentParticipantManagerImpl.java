@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
+import com.digitour.app.db.model.Tournament;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.manager.TournamentParticipantManager;
@@ -28,6 +29,11 @@ public class TournamentParticipantManagerImpl implements TournamentParticipantMa
     public List<TournamentParticipantTeam> getByTournamentParticipantOrderByChaseNumber(
             TournamentParticipant tournamentParticipant) {
         return teamParticipantDAO.getByTournamentParticipantOrderByChaseNumber(tournamentParticipant);
+    }
+
+    @Override
+    public List<TournamentParticipant> getByTournament(Tournament tournament) {
+        return participantDAO.getByTournament(tournament);
     }
 
 }

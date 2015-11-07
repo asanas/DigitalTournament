@@ -100,11 +100,12 @@ public class TournamentManagerImpl implements TournamentManager {
         return tourMatchDetails;
     }
 
-    private TournamentParticipant createTourPartipant(Tournament tournament, Long participatingTeamId) {
+    @Override
+    public TournamentParticipant createTourPartipant(Tournament tournament, Long teamId) {
         TournamentParticipant tourParticipant = new TournamentParticipant();
         tourParticipant.setGrouId(1L);
         tourParticipant.setTournamentId(tournament.getTournamentId());
-        tourParticipant.setTeamId(participatingTeamId);
+        tourParticipant.setTeamId(teamId);
         tournamentParticipantDAO.save(tourParticipant);
         return tourParticipant;
     }
