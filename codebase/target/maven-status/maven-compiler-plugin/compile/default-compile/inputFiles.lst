@@ -3,11 +3,9 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\MajorSkill.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\RoleMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\support\utils\TournamentMatchUtils.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\TeamSponsorerDetails.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentScheduleMasterDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\PersonDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentParticipantDAOImpl.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\SponsorerManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\example\Department.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentScheduleDateMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\model\TournamentScheduleMaster.java
@@ -22,6 +20,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\GroupDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentParticipantTeamDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TournamentScheduleDateMasterDAOImpl.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\TeamSponsorsDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\TournamentParticipantTeam.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\PlayerProfileDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\MajorSkillDAOImpl.java
@@ -62,12 +61,13 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TournamentManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TeamManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\PlayerProfileDAO.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TeamSponsorsDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchPointManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\PlayerProfile.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\TournamentParticipant.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\TeamManagerImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\impl\MatchResultsManagerImpl.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\SponsorerDAO.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\TeamSponsorsDetails.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentMatchDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\SymbolMasterDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\Gender.java
@@ -102,6 +102,7 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\MatchTurnManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\homepage\HomePageSupporterController.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\controller\scoresheet\TournamentParticipantManagerImpl.java
+E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TeamSponsorsManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\TournamentParticipantManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\ScoresheetManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\support\enums\AgeGroup.java
@@ -110,7 +111,6 @@ E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MatchPointDetailsDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\manager\PlayerProfileManager.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Country.java
-E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\impl\SponsorerDAOImpl.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\db\model\Symbol.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\TournamentParticipantTeamDAO.java
 E:\Aditya\Projects\git\DigitalTournament\codebase\src\main\java\com\digitour\app\dao\MatchTurnDAO.java

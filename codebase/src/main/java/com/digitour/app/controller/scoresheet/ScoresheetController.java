@@ -3,6 +3,8 @@ package com.digitour.app.controller.scoresheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.DocFlavor.STRING;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,7 @@ import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.Symbol;
+import com.digitour.app.db.model.TeamSponsorsDetails;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
@@ -29,6 +32,7 @@ import com.digitour.app.manager.MatchPointManager;
 import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.ScoresheetManager;
+import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentMatchManager;
 import com.digitour.app.manager.TournamentParticipantManager;
@@ -66,6 +70,9 @@ public class ScoresheetController {
     
     @Autowired
     ScoresheetManager scoresheetManager;
+    
+    @Autowired
+    TeamSponsorsManager teamSponsorsManager;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -208,12 +215,26 @@ public class ScoresheetController {
         }
         
         if(defendingTeam.get(0).getTeam().getTeamId().equals(tournamentParticipant1.getTeamId())) {
+            TeamSponsorsDetails defendingTeamSponsor = teamSponsorsManager.getById(tournamentParticipant1.getSponsorerId());
+            TeamSponsorsDetails chasingTeamSponsor = teamSponsorsManager.getById(tournamentParticipant2.getSponsorerId());
+            String defendingTeamSponsorName = defendingTeamSponsor != null ? defendingTeamSponsor.getName() : "";
+            String chasingTeamSponsorName = defendingTeamSponsor != null ? chasingTeamSponsor.getName() : "";
+
             modelAndView.addObject("defenceParticipantTeam", tournamentParticipant1);
             modelAndView.addObject("chasingParticipantTeam", tournamentParticipant2);
+            modelAndView.addObject("defendingTeamSponsorName", defendingTeamSponsorName);
+            modelAndView.addObject("chasingTeamSponsorName", chasingTeamSponsorName);
             addFoulDetailsForChasingTeam(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, inning);
         } else {
+            TeamSponsorsDetails defendingTeamSponsor = teamSponsorsManager.getById(tournamentParticipant2.getSponsorerId());
+            TeamSponsorsDetails chasingTeamSponsor = teamSponsorsManager.getById(tournamentParticipant1.getSponsorerId());
+            String defendingTeamSponsorName = defendingTeamSponsor != null ? defendingTeamSponsor.getName() : "";
+            String chasingTeamSponsorName = defendingTeamSponsor != null ? chasingTeamSponsor.getName() : "";
+
             modelAndView.addObject("defenceParticipantTeam", tournamentParticipant2);
             modelAndView.addObject("chasingParticipantTeam", tournamentParticipant1);
+            modelAndView.addObject("defendingTeamSponsorName", defendingTeamSponsorName);
+            modelAndView.addObject("chasingTeamSponsorName", chasingTeamSponsorName);
             addFoulDetailsForChasingTeam(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, inning);
         }
         addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);

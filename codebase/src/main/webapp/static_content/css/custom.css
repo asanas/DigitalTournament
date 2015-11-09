@@ -72,10 +72,6 @@
 .panel-body {
     padding:10px
 }
-.teamrow {
-    border-bottom: 1px solid lightgray;
-}
-
 .notout {
     background-color: #E00F0F;
     color:yellow;
@@ -85,15 +81,9 @@
     color: black;
 }
 
-.icon-big {
-    font-size: 20px;
-    color: black;
-    padding-top: 5px;
-}
+.icon-big { font-size: 20px; color: black; padding-top: 5px;}
 
-.teamscore {
-    font-size: 60px;
-}
+.scoresheet-header h1.teamscore { font-size: 60px; color: white; box-shadow: 1px 1px 1px 1px #EFE1E8; text-shadow: 2px 2px 4px #000000; background-color: #761096; border-radius: 8px; width: 100px; text-align: center; margin: auto; height: 65px;}
 
 .modal-dialog {
     color: black;
@@ -111,7 +101,7 @@ table a:not(.btn), .table a:not(.btn) {color:white;}
 .rowHeader { background-color: #171165;}
 .rowBody { background-color: #9A9BB5;}
 .rowBody > div { border-bottom: 1px solid #B3ABAB}
-header .container.scoresheet {padding-top:30px; padding-bottom: 0px}
+header .container.scoresheet {padding-top:30px; padding-bottom: 0px; background-color: #A033CE;}
 .navbar-default {background-color: #1E3348;}
 #showMatchResultModal .highlights {background-color: #89ACD8;}
 .highlights .modal-body {background-color: #E3D8EA;}
@@ -142,7 +132,7 @@ span.performanceLabel img{display: inline-block; margin: 0;}
     to { transform: scale(1) rotate(360deg);}
 }
 kbd {
-	font-size: 17px;
+    font-size: 17px;
 }
 .dead { background-color: red;}
 .good {background-color: #A11DE4;}
@@ -154,3 +144,16 @@ kbd {
     .navbar-fixed-top.navbar-shrink {
     padding:0px; border-bottom: 1px solid #E44A1C;}
 }
+.scoresheet-header h1, .h1 { margin-top: 30px; color:#1E3348; text-shadow: 2px 2px 4px #FFA501;}
+.scoresheet-header small {margin-top: 0px; display: block; font-size: 10px;}
+.scoresheet-header h2, .h2 , h3, .h3 {margin-top: 0px; display: block;}
+.scoresheet-header h2, .h2 , h3.sponsor {font-size: 20px; color: #ECBFEB; display: inline;}
+.nav-tabs.nav-justified.turnsContainer {padding-top: 5px;}
+.sponsorLogo {padding-top: 23px;}
+.stopwatchContainer {border: 1px solid #D6C3DE;box-shadow: 1px 1px 20px 5px #FBEFEF;border-radius: 20px;}
+#scoresheetWrapper li.active>a, .teamrow, #scoresheetWrapper .scoresheetRowHeader {background-color: #761096;}
+.teamrow {
+    border-bottom: 1px solid lightgray;
+}
+#scoresheetWrapper li.active>a {color: white; text-transform: uppercase;}    
+#scoresheetWrapper .scoresheetRowHeader small{color:white;}

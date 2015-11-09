@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.Tournament;
 import com.digitour.app.db.model.TournamentParticipant;
-import com.digitour.app.manager.SponsorerManager;
+import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentManager;
 import com.digitour.app.manager.TournamentParticipantManager;
@@ -33,7 +33,7 @@ public class TournamentController {
     TeamManager teamManager;
 
     @Autowired
-    SponsorerManager sponsorerManager;
+    TeamSponsorsManager sponsorerManager;
     
     @Autowired
     TournamentParticipantManager tourParticiapantManager;

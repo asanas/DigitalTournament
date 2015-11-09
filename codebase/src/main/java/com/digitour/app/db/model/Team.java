@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.TeamType;
 
 @Entity
@@ -39,7 +38,7 @@ public class Team implements java.io.Serializable {
     private Date establishedIn;
     private List<PlayerProfile> playersList;
     private String displayName;
-
+    private TeamSponsorsDetails sponsorsDetails;
     public Team() {
         
     }
@@ -187,5 +186,14 @@ public class Team implements java.io.Serializable {
             resultDate = formatter.format(establishedIn);
         }
         return resultDate;
+    }
+
+    @Transient
+    public TeamSponsorsDetails getSponsorsDetails() {
+        return sponsorsDetails;
+    }
+
+    public void setSponsorsDetails(TeamSponsorsDetails sponsorsDetails) {
+        this.sponsorsDetails = sponsorsDetails;
     }
 }

@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "sponsordetails")
-public class TeamSponsorerDetails implements java.io.Serializable {
+public class TeamSponsorsDetails implements java.io.Serializable {
 
     private Long id;
     private String name;
@@ -17,7 +17,7 @@ public class TeamSponsorerDetails implements java.io.Serializable {
     private String otherPerks;
     private String logoLink;
     
-    public TeamSponsorerDetails() {
+    public TeamSponsorsDetails() {
 
     }
 

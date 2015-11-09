@@ -5,7 +5,7 @@
     </div>
 </header>
 <header>
-    <div class="container" id="scoresheetWrapper" style="padding-top: 0px;">
+    <div class="container" id="scoresheetWrapper" style="padding-top: 0px; background-color: #CA73EF;">
         <%@include file="fill-wicket-details-modal.jsp"%>
         <%@include file="substitute-modal.jsp"%>
         <%@include file="foul-modal.jsp"%>
@@ -19,9 +19,9 @@
                 </ul>
             </div>
         </div>
-        <div class="row">
+        <div class="row scoresheetRowHeader">
             <div class="col-lg-3 text-left">
-                <h4>${defendingTeamName}</h4>
+                <h4>${defendingTeamName}<small>(Defence)</small></h4>
             </div>
             <div class="col-lg-1 text-center" style="width: 50px;">&nbsp;</div>
             <div class="col-lg-3 text-left">
@@ -127,7 +127,7 @@
         "animation": "smooth",
         "bg_width": 1,
         "fg_width": 0.04,
-        "circle_bg_color": "#18BC9C",
+        "circle_bg_color": "#A033CE",
         "time": {
             "Days": {
                 "text": "Days",
@@ -136,12 +136,12 @@
             },
             "Hours": {
                 "text": "Hours",
-                "color": "#18BC9C",
+                "color": "#A033CE",
                 "show": false
             },
             "Minutes": {
                 "text": "Minutes",
-                "color": "#18BC9C",
+                "color": "#A033CE",
                 "show": true,
                 "text-size": "68px"
             },

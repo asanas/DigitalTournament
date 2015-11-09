@@ -5,19 +5,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.digitour.app.dao.SponsorerDAO;
-import com.digitour.app.db.model.TeamSponsorerDetails;
-import com.digitour.app.manager.SponsorerManager;
+import com.digitour.app.dao.TeamSponsorsDAO;
+import com.digitour.app.db.model.TeamSponsorsDetails;
+import com.digitour.app.manager.TeamSponsorsManager;
 
 @Service
-public class SponsorerManagerImpl implements SponsorerManager {
+public class SponsorerManagerImpl implements TeamSponsorsManager {
 
     @Autowired
-    SponsorerDAO sponsorerDAO;
+    TeamSponsorsDAO sponsorerDAO;
 
     @Override
-    public List<TeamSponsorerDetails> getAllSponsorers() {
-        return sponsorerDAO.getAllSponsorers();
+    public List<TeamSponsorsDetails> getAllSponsorers() {
+        return sponsorerDAO.getAllSponsors();
+    }
+
+    @Override
+    public TeamSponsorsDetails getById(Long sponsorerId) {
+        return sponsorerDAO.getById(sponsorerId);
     }
 
 }
