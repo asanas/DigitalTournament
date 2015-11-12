@@ -37,9 +37,13 @@ public class PlayerPerformace implements java.io.Serializable {
         long minutes = this.perTime/60;
         long seconds = this.perTime%60;
         if(minutes > 0 ) {
-            formattedPerTime += "<minute>" + minutes + "</minute>m ";
+            formattedPerTime += "<minute>" + minutes + "</minute>:";
         }
-        return formattedPerTime + "<second>" + seconds + "</second>s";
+        String secondsStr = seconds + "";
+        if(secondsStr.length() == 1) {
+            secondsStr = "0" + secondsStr;
+        }
+        return formattedPerTime + "<second>" + secondsStr + "</second>";
     }
 	public Long getCount() {
 		return count;

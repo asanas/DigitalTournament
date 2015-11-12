@@ -18,8 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.digitour.app.db.model.Team;
 import com.digitour.app.db.model.Tournament;
 import com.digitour.app.db.model.TournamentParticipant;
-import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TeamManager;
+import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TournamentManager;
 import com.digitour.app.manager.TournamentParticipantManager;
 
@@ -41,6 +41,12 @@ public class TournamentController {
     @RequestMapping(value="/createnew/tournament", method=RequestMethod.GET)
     public ModelAndView showCreateTournamentForm() {
         ModelAndView modelAndView = new ModelAndView("tournament/createnewtournament");
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/tournament/{tournamentId}/home", method=RequestMethod.GET)
+    public ModelAndView showTournamentHome() {
+        ModelAndView modelAndView = new ModelAndView("tournament/home");
         return modelAndView;
     }
 
@@ -107,12 +113,14 @@ public class TournamentController {
         return "success";
     }
 
-    @RequestMapping(value="/tournament/{tournamentId}/participant/{participantId}/saveChaseNumbers", method=RequestMethod.POST)
+    @RequestMapping(value="/tournament/{tournamentId}/team/{teamId}/saveChaseNumbers", method=RequestMethod.POST)
     @ResponseBody
-    public String addParticipantsChaseNumbers(@PathVariable Long tournamentId, @PathVariable Long participantId, 
-            @RequestParam String participantChasenumber) {
+    public String addParticipantsChaseNumbers(@PathVariable Long tournamentId, @PathVariable Long teamId, 
+            @RequestParam String playerProfileChaseNumberMap) {
         Tournament tournament = tourManager.getById(tournamentId);
-        tourManager.save(tournament);
+        Team team = teamManager.getById(teamId, false);
+
+        tourParticiapantManager.createTournamentParticipantTeamByChaseNumber(tournament, team, playerProfileChaseNumberMap);
         return "success";
     }
 

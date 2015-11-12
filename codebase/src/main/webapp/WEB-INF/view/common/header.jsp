@@ -27,8 +27,6 @@
     <link href="${pageContext.request.contextPath}/static_content/js/timecircles/TimeCircles.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/static_content/js/timecircles/readme.css" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/static_content/css/custom.css" rel="stylesheet" type="text/css">
-    <!--<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,10 +38,11 @@
     <!-- jQuery -->
     <script src="${pageContext.request.contextPath}/static_content/js/jquery.js"></script>
     <script src="${pageContext.request.contextPath}/static_content/js/jquery-ui.js"></script>
-    
+
     <!-- Bootstrap Core JavaScript -->
     <script src="${pageContext.request.contextPath}/static_content/js/bootstrap.min.js"></script>
-    
+
+
     <!-- Plugin JavaScript -->
     <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> -->
     <script src="${pageContext.request.contextPath}/static_content/js/classie.js"></script>

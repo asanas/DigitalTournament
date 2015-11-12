@@ -14,7 +14,7 @@
             <div class="col-lg-12">
                 <ul class="nav nav-tabs nav-justified turnsContainer">
                     <c:forEach items="${ matchTurnList}" var="matchTurn" varStatus="lpTurnHandle">
-                      <li id="turn${lpTurnHandle.count }"><a href="#turn${lpTurnHandle.count }" class="turnTab">Turn ${lpTurnHandle.count }</a></li>
+                      <li id="turn${lpTurnHandle.count }"><a href="#turn${lpTurnHandle.count }" class="turnTab" onclick="loadRequestedTurn(this);">Turn ${lpTurnHandle.count }</a></li>
                     </c:forEach>
                 </ul>
             </div>
@@ -111,6 +111,11 @@
     </div>
 </header>
 <%@include file="../common/footer.jsp"%>
+<style>
+<!--
+header{background-color:#DEDADE; }
+-->
+</style>
 <!-- <script src="${pageContext.request.contextPath}/static_content/js/common/scoresheethelper.js"></script> -->
 
 <script type="text/javascript">
@@ -272,20 +277,24 @@
     $( "#symbol" ).change(function() {
         if('Sudden Attack' == $("#symbol").find(":selected").text() ||
                 'Late Entry' == $("#symbol").find(":selected").text()) {
-            $("#timePlayed").html('0m 0s');
+            $("#timePlayed").html('0:00');
             return;
         }
         var playerTime = window.currentPlayerTime;
         var minutes = Math.floor(playerTime/60);
         var seconds = playerTime%60;
-        $("#timePlayed").html(minutes+'m '+seconds+'s');
+        if(seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        $("#timePlayed").html(minutes+':'+seconds);
     });
     
-    $(".turnTab").click(function() {
+    window.loadRequestedTurn = function(clickedTab) {
         // http://localhost:4141/digital-tour/loadScoresheet/match/7/inning/1/turn/1
-        var turnHref = $(this).attr('href');
+        var turnHref = $(clickedTab).attr('href');
         var gotoTurn = turnHref.substr(turnHref.length- 1), gotoInning = 1;
         if(gotoTurn > 2) {
+            console.log('GOTO TURN: ' + gotoTurn);
             if(gotoTurn % 2) {
                 gotoInning = Math.floor(gotoTurn/2) + gotoTurn % 2;
                 gotoTurn = 1;
@@ -299,7 +308,7 @@
             return;
         }
         window.location = window.pageURL + '/loadScoresheet/match/'+window.tournamentMatchDetails.matchId+'/inning/'+ gotoInning +'/turn/'+gotoTurn;
-    });
+    }
     
     $(".clock").click(function() {
         if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
@@ -364,7 +373,10 @@
                          $('#selectedTeamRow').val(hoverRowId);
                          $("#chaser").val('NA');
                          $("#symbol").val('1');
-                         $("#timePlayed").html(minutes+'m '+seconds+'s');
+                         if(seconds < 10) {
+                            seconds = '0' + seconds; 
+                         }
+                         $("#timePlayed").html(minutes+':'+seconds);
                          $("#fillWicketDetailsModal").modal();
                     }); 
                  }
@@ -516,8 +528,7 @@
             type: "POST",
             success: function(data) {
                     if(data == 'success') {
-                        var turnTabs = '<li id="turn5"><a href="#turn5" class="turnTab">Turn 5</a></li>' + 
-                                       '<li id="turn6"><a href="#turn6" class="turnTab">Turn 6</a></li>';
+                        var turnTabs = '<li id="turn5"><a href="#turn5" class="turnTab" onclick="loadRequestedTurn(this);">Turn 5</a></li>' + 
                         $(".turnsContainer").append($(turnTabs));
                     }
                 }

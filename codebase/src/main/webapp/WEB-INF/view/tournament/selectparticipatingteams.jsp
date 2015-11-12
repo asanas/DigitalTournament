@@ -1,6 +1,6 @@
 <%@include file="../common/header.jsp"%>
 <header>
-    <div class="container">
+    <div class="container" style="padding-top: 100px;">
 
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#teamDetails">Tournament Details</a></li>
@@ -47,7 +47,7 @@
                        <!-- <div class="col-lg-6 text-left">&nbsp;</div> -->
                    </div>
                    </c:forEach>
-                    <div class="row" style="width:25%">
+                    <div class="row" style="width:25%; padding-top: 5px;">
                         <div class="col-lg-12 text-right">
                             <button id="addParticipantToTour" type="button" class="btn btn-info" style="margin-right: -15px;">Add Selected Teams</button>
                         </div>

@@ -91,7 +91,7 @@ public class MatchPointDetails implements java.io.Serializable {
     @Transient
     public String getFormattedPerTime() {
         String formattedPerTime = "<kbd ";
-        String minutesStr = "";
+        String secondsStr = "";
         String cssClass = "dead";
         long minutes = this.perTime/60;
         long seconds = this.perTime%60;
@@ -103,9 +103,12 @@ public class MatchPointDetails implements java.io.Serializable {
             } else {
                 cssClass = "excellent";
             }
-            minutesStr = minutes + "m";
         }
-        return formattedPerTime += " class='"+ cssClass +"'>" + minutesStr + " " + seconds + "s</kbd>";
+        secondsStr = seconds + "";
+        if(secondsStr.length() == 1) {
+            secondsStr = "0" + seconds;
+        }
+        return formattedPerTime += " class='"+ cssClass +"'>" + minutes + ":" + secondsStr + "</kbd>";
     }
     
     @Transient
@@ -114,9 +117,9 @@ public class MatchPointDetails implements java.io.Serializable {
         long minutes = this.runTime/60;
         long seconds = this.runTime%60;
         if(minutes > 0 ) {
-            formattedRunTime += "<minute>" + minutes + "</minute>m ";
+            formattedRunTime += "<minute>" + minutes + "</minute>:";
         }
-        return formattedRunTime + "<second>" + seconds + "</second>s";
+        return formattedRunTime + "<second>" + seconds + "</second>";
     }
     
     public void setPerTime(Long perTime) {

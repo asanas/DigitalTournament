@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.MatchTossDetails;
@@ -52,10 +53,15 @@ public class TournamentParticipantTeamDAOImpl implements TournamentParticipantTe
     @Override
     public TournamentParticipantTeam getByPlayerProfileAndTournamentParticipant(PlayerProfile playerProfile,
             TournamentParticipant tournamentParticipant) {
+    	TournamentParticipantTeam participantProfile = null;
         DetachedCriteria criteria = DetachedCriteria.forClass(TournamentParticipantTeam.class);
         criteria.add(Restrictions.eq("playerProfileId", playerProfile.getPlayerProfileId()))
                 .add(Restrictions.eq("tournamentPartipantId", tournamentParticipant.getTourParticipantId()));
-        return ((List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria)).get(0);
+        List<TournamentParticipantTeam> participantProfileList = (List<TournamentParticipantTeam>) this.hibernateTemplate.findByCriteria(criteria);
+        if(!CollectionUtils.isEmpty(participantProfileList)) {
+        	participantProfile = participantProfileList.get(0);
+        }
+        return participantProfile;
     }
 
 }
