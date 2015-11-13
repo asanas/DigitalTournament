@@ -26,4 +26,7 @@ public interface MatchPointDetailsDAO {
 
     public List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam);
+
+    Long getTotalMatchPointsForTheTeamByInning(Long inning, TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> defendingParticipantTeam);
 }

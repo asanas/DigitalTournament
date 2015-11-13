@@ -3,8 +3,6 @@ package com.digitour.app.controller.scoresheet;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.print.DocFlavor.STRING;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +30,8 @@ import com.digitour.app.manager.MatchPointManager;
 import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.ScoresheetManager;
-import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TeamManager;
+import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TournamentMatchManager;
 import com.digitour.app.manager.TournamentParticipantManager;
 import com.digitour.app.manager.TournamentParticipantTeamManager;
@@ -133,7 +131,7 @@ public class ScoresheetController {
         Long foulsCount = matchFoulMasterDAO.getFoulsCountParticipantForMatch(foulDetails, matchDetails, chasingTourParticipant.getTourParticipantId(), inning);
         int multiplier = 1;
         if(!"addition".equals(action)) {
-        	multiplier = -1;
+            multiplier = -1;
             MatchFoulDetails matchFoulDetails = new MatchFoulDetails();
             matchFoulDetails.setTournamentMatchId(matchId);
             matchFoulDetails.setTournamentParticipantId(chasingTourParticipant.getTourParticipantId());
@@ -181,6 +179,7 @@ public class ScoresheetController {
                         TournamentParticipantTeam chaserParticipatingProfile = participantTeamManager.getById(matchPoint.getAttackParticipantProfileId());
                         PlayerProfile chaserPlayerProfile = playerProfileManager.getById(chaserParticipatingProfile.getPlayerProfileId());
                         matchPoint.setChaserName(chaserPlayerProfile.getFirstName() + " " + chaserPlayerProfile.getLastName());
+                        matchPoint.setChaseNumber(chaserParticipatingProfile.getPlayerChaseNumber());
                     } else {
                         matchPoint.setChaserName("--");
                     }
@@ -224,6 +223,8 @@ public class ScoresheetController {
             modelAndView.addObject("chasingParticipantTeam", tournamentParticipant2);
             modelAndView.addObject("defendingTeamSponsorName", defendingTeamSponsorName);
             modelAndView.addObject("chasingTeamSponsorName", chasingTeamSponsorName);
+            modelAndView.addObject("defendingTeamSponsorLogoUrl", defendingTeamSponsor.getLogoLink());
+            modelAndView.addObject("chasingTeamSponsorLogoUrl", chasingTeamSponsor.getLogoLink());
             addFoulDetailsForChasingTeam(modelAndView, tournamentMatchDetails, tournamentParticipantTeam2, inning);
         } else {
             TeamSponsorsDetails defendingTeamSponsor = teamSponsorsManager.getById(tournamentParticipant2.getSponsorerId());
@@ -235,6 +236,8 @@ public class ScoresheetController {
             modelAndView.addObject("chasingParticipantTeam", tournamentParticipant1);
             modelAndView.addObject("defendingTeamSponsorName", defendingTeamSponsorName);
             modelAndView.addObject("chasingTeamSponsorName", chasingTeamSponsorName);
+            modelAndView.addObject("defendingTeamSponsorLogoUrl", defendingTeamSponsor.getLogoLink());
+            modelAndView.addObject("chasingTeamSponsorLogoUrl", chasingTeamSponsor.getLogoLink());
             addFoulDetailsForChasingTeam(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, inning);
         }
         addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);

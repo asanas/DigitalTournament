@@ -25,4 +25,7 @@ public interface MatchPointManager {
 
     List<PlayerPerformace> getTopAttackersListByMatch(TournamentMatchDetails matchDetails,
             List<TournamentParticipantTeam> participantTeam2);
+
+    Long getTotalMatchPointsForTheTeamByInning(Long inning, TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> defendingParticipantTeam);
 }

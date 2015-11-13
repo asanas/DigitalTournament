@@ -12,8 +12,13 @@
                     <div class="col-lg-6 text-center"><h3>${team2Name }</h3></div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 text-center"><h3>${team1Score }</h3></div>
-                    <div class="col-lg-6 text-center"><h3>${team2Score }</h3></div>
+                    <div class="col-lg-4 text-center"><h3>${team1Score }</h3></div>
+                    <div class="col-lg-4 text-center">
+                        <c:if test="${isHalfTimeCompleted }">
+                            <h4 style="margin-bottom: 0; ">Half Time</h4>(${ team1HalfTimeScore }- ${ team2HalfTimeScore })
+                        </c:if> 
+                        </div>
+                    <div class="col-lg-4 text-center"><h3>${team2Score }</h3></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 text-center"><hr class="star-light ${modalClass }"></div>

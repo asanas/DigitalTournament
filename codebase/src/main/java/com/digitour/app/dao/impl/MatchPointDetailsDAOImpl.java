@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -69,6 +68,23 @@ public class MatchPointDetailsDAOImpl implements MatchPointDetailsDAO {
         return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
     }
 
+    @Override
+    public Long getTotalMatchPointsForTheTeamByInning(Long inning, TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> defendingParticipantTeam) {
+        List<Long> defendingParticipantIds = new ArrayList<>();
+        for(TournamentParticipantTeam participantTeam: defendingParticipantTeam) {
+            defendingParticipantIds.add(participantTeam.getTournamentParticipantPlayerId());
+        }
+        
+        DetachedCriteria criteria = DetachedCriteria.forClass(MatchPointDetails.class);
+        criteria.add(Restrictions.eq("matchId", tournamentMatchDetails.getTournamentMatchId()))
+                .add(Restrictions.in("defenceParticipantProfileId", defendingParticipantIds))
+                .add(Restrictions.eq("out", true))
+                .add(Restrictions.eq("inningNumber", inning))
+                .setProjection(Projections.rowCount());
+        return (Long) ((List)this.hibernateTemplate.findByCriteria(criteria)).get(0);
+    }
+    
     @Override
     public Long getCurrentInningPointsForTheTeam(TournamentMatchDetails tournamentMatchDetails,
             List<TournamentParticipantTeam> defendingParticipatingTeam, Long inning, Long turn) {

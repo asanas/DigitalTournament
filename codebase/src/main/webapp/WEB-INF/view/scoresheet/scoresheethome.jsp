@@ -23,7 +23,8 @@
             <div class="col-lg-3 text-left">
                 <h4>${defendingTeamName}<small>(Defence)</small></h4>
             </div>
-            <div class="col-lg-1 text-center" style="width: 50px;">&nbsp;</div>
+            <div class="col-lg-1 text-center" style="width: 50px; padding:0px;">&nbsp;</div>
+            <div class="col-lg-1 text-center" style="width: 25px; padding:0px;">&nbsp;</div>
             <div class="col-lg-3 text-left">
                 <h5>Wicket Taken By</h5>
             </div>
@@ -54,6 +55,7 @@
                     </h4>
                 </div>
                 <div class="col-lg-1 text-left" id="wicket-icon-row-${defendingPlayer.playerProfileId }" style="width: 25px; padding: 0px;"></div>
+                <div class="col-lg-1 text-left" id="active-player-icon-row-${defendingPlayer.playerProfileId }" style="width: 25px; padding: 0px;"></div>
                 <div class="col-lg-8 text-left">
                     <c:choose>
                         <c:when test="${fn:length(defendingPlayer.matchPointDetailsList) > 0}">
@@ -72,7 +74,7 @@
                                             <div class="col-lg-1 text-center" style="width: 25px; padding:0px;"><a href="javascript:void(0);" class="expandTime" style="display:none;"><span class="glyphicon glyphicon-minus"></span></a></div>
                                     </c:otherwise>
                                 </c:choose>
-                                    <div class="col-lg-4 text-left"><h5>${matchPoint.chaserName}</h5></div>
+                                    <div class="col-lg-4 text-left"><h5>${matchPoint.chaseNumber}. ${matchPoint.chaserName}</h5></div>
                                     <div class="col-lg-4 text-left" style="padding-left:47px;"><h5>${matchPoint.symbol.description}</h5></div>
                                     <div class="col-lg-2 text-left timePlayed"><h5>${matchPoint.formattedPerTime}</h5></div>
                                 </div>
@@ -101,7 +103,6 @@
               <button id="abortTurn" type="button" class="btn btn-info">Abort Current Turn</button>
               <button id="addInning" type="button" class="btn btn-info">Add Inning</button>
               <button type="button" class="btn btn-info">Top Performers</button>
-              <button type="button" class="btn btn-info">Play Sudden Death</button>
               <button type="button" class="btn btn-info">Make Substitution</button>
               <button id="btnShowMatchHighlights" type="button" class="btn btn-info">Match Highlights</button>
               <button id="btnShowMatchResult" type="button" class="btn btn-info">Show Result</button>
@@ -247,9 +248,9 @@ header{background-color:#DEDADE; }
                addition = true;
                action = 'addition';
            }
-           var foulCount = parseInt($("#foulCount" + elemId.substr(substrIndex)).html());
+           var foulCount = parseInt($("#foulCount" + elemId.substr(substrIndex)).html().trim());
            if(addition) {
-               foulCount = foulCount + 1;           
+               foulCount = foulCount + 1;
            } else {
                if(foulCount == 0) {
                     return;
@@ -264,7 +265,7 @@ header{background-color:#DEDADE; }
                data: qParam,
                type: "GET",
                success: function(data) {
-                   $("#foulCount" + elemId.substr(substrIndex)).html(data);
+                   $("#foulCount" + elemId.substr(substrIndex)).html(foulCount);
                }
            });
            
@@ -354,9 +355,11 @@ header{background-color:#DEDADE; }
             if($("#substitute-row-"+ hoverRowId).length == 0 && 
                     (window.tournamentMatchDetails.turnStatus == 'INPROGRESS' || window.tournamentMatchDetails.turnStatus == 'TURNABORTEDANDLOG' || 
                             window.tournamentMatchDetails.turnStatus == 'COMPLETEDANDLOG')) {
-                var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
+                var loadWicketIconHTML = '<a href="#teamrow-'+ hoverRowId +'" title="Mark player as out" class="wicketIcon" id="icn-out-'+ hoverRowId +'" ><span class="glyphicon glyphicon-hand-up icon-big"></span></a>';
+                var loadMarkActiveIconHTML = '<a href="#teamrow-'+ hoverRowId +'" title="Mark player as active" class="markActiveIcon" id="icn-mark-active-'+ hoverRowId +'" ><span class="glyphicon glyphicon-heart icon-big"></span></a>';
                 if(validateShowWicketIcon(hoverRowId)) {
                      $("#wicket-icon-row-" + hoverRowId).append($(loadWicketIconHTML));
+                     $("#active-player-icon-row-" + hoverRowId).append($(loadMarkActiveIconHTML));
                      $(".wicketIcon").click(function() {
                          var rowId = $(this).attr('href');
                          var hoverRowId = rowId.substr(9);
@@ -378,12 +381,20 @@ header{background-color:#DEDADE; }
                          }
                          $("#timePlayed").html(minutes+':'+seconds);
                          $("#fillWicketDetailsModal").modal();
-                    }); 
+                    });
+                     
+                     $(".markActiveIcon").click(function() {
+                         var rowId = $(this).attr('href');
+                         var hoverRowId = rowId.substr(9);
+                         $("#scoresheetWrapper").find(".teamrow.active").removeClass("active");
+                         $(rowId).addClass("active");
+                     });
                  }
              }
         // }
      }, function() {
          $(this).find("a.wicketIcon:last").remove();
+         $(this).find("a.markActiveIcon:last").remove();
      });
 
     
@@ -415,8 +426,9 @@ header{background-color:#DEDADE; }
         var defenderProfileId = $("#selectedTeamRow").val();
         var chaserProfileId = $("#chaser").find(":selected").val();
         var symbolId = $("#symbol").find(":selected").val();
-        var timePlayedArray = $("#timePlayed").text().split(' ');
-        var timePlayedMinutes = parseInt(timePlayedArray[0].substr(0, 1)), timePlayedSeconds = parseInt(timePlayedArray[1].substr(0, timePlayedArray[1].length -1));
+        var timePlayedArray = $("#timePlayed").text().split(':');
+        var timePlayedMinutes = parseInt(timePlayedArray[0]), 
+        timePlayedSeconds = parseInt(timePlayedArray[1]);
         var timePlayed = timePlayedMinutes * 60 + timePlayedSeconds;
         var out = true;
         var categories = ['Late Entry', 'Out of field', 'Retired'];

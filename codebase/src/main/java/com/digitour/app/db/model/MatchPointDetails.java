@@ -30,6 +30,7 @@ public class MatchPointDetails implements java.io.Serializable {
     private boolean turnClosure;
     private String defenderName;
     private String chaserName;
+    private Long chaseNumber;
     private String assistName;
     
     public MatchPointDetails() {
@@ -213,6 +214,15 @@ public class MatchPointDetails implements java.io.Serializable {
     public void setAssistName(String assistName)
     {
         this.assistName = assistName;
+    }
+
+    @Transient
+    public Long getChaseNumber() {
+        return chaseNumber;
+    }
+
+    public void setChaseNumber(Long chaseNumber) {
+        this.chaseNumber = chaseNumber;
     }
 
 }

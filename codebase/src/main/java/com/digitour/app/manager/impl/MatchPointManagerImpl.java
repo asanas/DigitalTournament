@@ -67,6 +67,7 @@ public class MatchPointManagerImpl implements MatchPointManager {
         return matchPointDAO.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
     }
 
+    
     @Override
     public Long getMaxRunTimeByMatchInningAndTurn(TournamentMatchDetails tournamentMatchDetails, Long inning,
             Long turn) {
@@ -91,4 +92,9 @@ public class MatchPointManagerImpl implements MatchPointManager {
         return matchPointDAO.getTopAttackersListByMatch(matchDetails, participantTeam);
     }
 
+    @Override
+    public Long getTotalMatchPointsForTheTeamByInning(Long inning, TournamentMatchDetails tournamentMatchDetails,
+            List<TournamentParticipantTeam> defendingParticipantTeam) {
+        return matchPointDAO.getTotalMatchPointsForTheTeamByInning(inning, tournamentMatchDetails, defendingParticipantTeam);
+    }
 }

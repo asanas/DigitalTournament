@@ -30,7 +30,7 @@
                             <select id="chaser" class="form-control">
                                 <option value="NA">None</option>
                                 <c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
-                                    <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
+                                    <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.tournamentChaseNumber }. ${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label class="control-label col-lg-4" for="timePlayed">Time Played:</label>
                         <div class="col-lg-6 text-left" id="timePlayed" style="padding-top: 10px;">
-                            2m 10s
+                            &nbsp;
                         </div>
                     </div>
                 </form>

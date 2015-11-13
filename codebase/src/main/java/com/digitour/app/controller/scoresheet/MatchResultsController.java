@@ -12,12 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.digitour.app.client.pojo.PlayerPerformace;
 import com.digitour.app.db.model.MatchPointDetails;
+import com.digitour.app.db.model.MatchTurnDetails;
 import com.digitour.app.db.model.PlayerProfile;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.TournamentParticipantTeam;
+import com.digitour.app.db.model.support.enums.TurnStatus;
 import com.digitour.app.manager.MatchPointManager;
 import com.digitour.app.manager.MatchResultsManager;
+import com.digitour.app.manager.MatchTurnManager;
 import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentMatchManager;
@@ -48,6 +51,9 @@ public class MatchResultsController {
     @Autowired
     PlayerProfileManager playerProfileManager;
     
+    @Autowired
+    MatchTurnManager turnManager;
+    
     @RequestMapping(path = "/showMatchResults", method = RequestMethod.GET)
     public ModelAndView showMatchResult(Long matchId, Long inning, Long turn, String resultType) {
         return loadMatchDetails(matchId, resultType);
@@ -69,6 +75,8 @@ public class MatchResultsController {
         Long team1Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam2);
         Long team2Score = matchPointManager.getTotalMatchPointsForTheTeam(matchDetails, participantTeam1);
 
+        List<MatchTurnDetails> turnList = turnManager.getTurnsByMatch(matchDetails);
+        String halfTimeStatus = getHalfTimeStatus(turnList);
         List<MatchPointDetails> topDefendersTeam1 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam1);
         List<MatchPointDetails> topDefendersTeam2 = matchPointManager.getTopDefendersListByMatch(matchDetails, participantTeam2);
 
@@ -97,6 +105,13 @@ public class MatchResultsController {
             modalClass = "highlights";
         } else {
             resultTitle = "Final Score"; 
+            if("HALFTIME-COMPLETED".equals(halfTimeStatus)) {
+                Long team1HalfTimeScore = matchPointManager.getTotalMatchPointsForTheTeamByInning(1L, matchDetails, participantTeam2);
+                Long team2HalfTimeScore = matchPointManager.getTotalMatchPointsForTheTeamByInning(1L, matchDetails, participantTeam1);
+                modelAndView.addObject("isHalfTimeCompleted", true);
+                modelAndView.addObject("team1HalfTimeScore", team1HalfTimeScore);
+                modelAndView.addObject("team2HalfTimeScore", team2HalfTimeScore);
+            }
             resultDescription = winningTeamName + " won by " + scoreDiff + " points.";
         }
 
@@ -113,6 +128,23 @@ public class MatchResultsController {
         modelAndView.addObject("modalClass", modalClass);
         
         return modelAndView;
+    }
+
+    private String getHalfTimeStatus(List<MatchTurnDetails> turnList) {
+        MatchTurnDetails turn2 = fetchTurn(1L, 2L, turnList);
+        if(turn2.getStatus().equals(TurnStatus.COMPLETED) || turn2.getStatus().equals(TurnStatus.ABORTED)) {
+            return "HALFTIME-COMPLETED";
+        }
+        return null;
+    }
+
+    private MatchTurnDetails fetchTurn(Long i, Long t, List<MatchTurnDetails> turnList) {
+        for(MatchTurnDetails turnDetails : turnList) {
+            if(turnDetails.getTurnNumber().longValue() == i && turnDetails.getInningNumber().longValue() == i) {
+                return turnDetails;
+            }
+        }
+        return null;
     }
 
     private List<PlayerPerformace> cleanUpAndFillPlayerDetails(List<PlayerPerformace> topAttackersTeam) {

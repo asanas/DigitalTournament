@@ -73,8 +73,11 @@
     padding:10px
 }
 .notout {
-    background-color: #E00F0F;
+    background-color: #1E53B5 !important;
     color:yellow;
+}
+.notout .icon-big {
+    color: yellow;
 }
 .icon-small {
     font-size: 10px;
@@ -89,7 +92,7 @@
     color: black;
 }
 a>span.glyphicon-plus, a>span.glyphicon-minus {
-    color:blue;
+    color:#ACACBB;
     margin-top: 10.5px;
 }
 
@@ -135,8 +138,8 @@ kbd {
     font-size: 17px;
 }
 .dead { background-color: red;}
-.good {background-color: #A11DE4;}
-.fair { background-color: #273DAD;}
+.good {background-color: #ABA795;}
+.fair { background-color: #9DDCEF;}
 .excellent { background-color: #69E629;}
 .teamrow h4 {margin:5px 0 5px 0;}
 .turnsContainer.nav>li>a { padding: 5px 15px;}
@@ -144,7 +147,7 @@ kbd {
     .navbar-fixed-top.navbar-shrink {
     padding:0px; border-bottom: 1px solid #E44A1C;}
 }
-.scoresheet-header h1, .h1 { margin-top: 30px; color:#1E3348; text-shadow: 2px 2px 4px #FFA501;}
+.scoresheet-header h1, .h1 { margin-top: 30px; color:#1E3348; text-shadow: 2px 2px 4px #DEDAD2;}
 .scoresheet-header small {margin-top: 0px; display: block; font-size: 10px;}
 .scoresheet-header h2, .h2 , h3, .h3 {margin-top: 0px; display: block;}
 .scoresheet-header h2, .h2 , h3.sponsor {font-size: 20px; color: #ECBFEB; display: inline;}
@@ -154,6 +157,10 @@ kbd {
 #scoresheetWrapper li.active>a, .teamrow, #scoresheetWrapper .scoresheetRowHeader {background-color: #761096;}
 .teamrow {
     border-bottom: 1px solid lightgray;
+}
+.teamrow.active {
+    background-color: #4DA521;
+    color: #FFFF00;
 }
 #scoresheetWrapper li.active>a {color: white; text-transform: uppercase;}    
 #scoresheetWrapper .scoresheetRowHeader small{color:white;}
