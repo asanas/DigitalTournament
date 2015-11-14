@@ -2,6 +2,7 @@
     <!-- Header -->
     <header>
         <div class="container">
+            <%@include file="../playerProfile/playerProfilleModal.jsp"%>
             <div class="row">
                 <div class="col-lg-6">
                     <select id="team1" class="teamList">
@@ -10,8 +11,8 @@
                             <option id="${team.teamId }">${team.displayName }</option>
                         </c:forEach>
                     </select>
-                    <div class="">
-                        <img src="${pageContext.request.contextPath}/static_content/img/team1.png" class="img-responsive img-circle" alt="Team1" width="304" height="236">
+                    <div id="team1Players">
+                        
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -21,8 +22,8 @@
                             <option id="${team.teamId }">${team.displayName}</option>
                         </c:forEach>
                     </select>
-                    <div class="">
-                        <img src="${pageContext.request.contextPath}/static_content/img/team2.png" class="img-responsive img-circle" alt="Team 2" width="304" height="236">
+                    <div id="team2Players">
+                        
                     </div>
                 </div>
             </div>
@@ -62,7 +63,21 @@ label { padding: 10px;}
 $(function() {
     $(".teamList").selectmenu({
        select: function( event, ui ) {
-            if($("#team1").val() != 'Select Team1' && $("#team2").val() != 'Select Team2') {
+           var clickTeamElementId = $(this).find(":selected").attr("id");
+           var clickTeamId = $(this).attr("id");
+           if($(this).val() != 'Select Team1') {
+               $.ajax({
+                   url: '${pageContext.request.contextPath}/loadTeamDetails/team/' + clickTeamElementId + '/weight/false/height/false',
+                   data: "",
+                   type: "GET",
+                   success: function(data) {
+                       var playersListHTML = $(data).find("#playersList").html();
+                       $("#" + clickTeamId + "Players").html(playersListHTML);
+                   }
+               });
+           }
+
+           if($("#team1").val() != 'Select Team1' && $("#team2").val() != 'Select Team2') {
                 if($("#team1").val() === $("#team2").val()) {
                     alert('Please select two different teams to start match.');
                     $("#beginMatchRow").hide();
@@ -84,7 +99,7 @@ $(function() {
     
     $( "#beginMatch" ).click(function() {
         if($('input[name=tossWonTeam]:checked') && $('input[name=electedTo]:checked')) {
-        	var team1Id = $("#team1").find(":selected").attr("id");
+            var team1Id = $("#team1").find(":selected").attr("id");
             var team2Id = $("#team2").find(":selected").attr("id");
             var queryParam = 'team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
             +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();

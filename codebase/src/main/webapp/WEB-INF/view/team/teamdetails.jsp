@@ -42,22 +42,22 @@
             <div id="playersList" class="tab-pane fade">
                 <div class="row rowHeader">
                     <div class="col-lg-1 text-right">Sr. No.</div>
-                    <div class="col-lg-3 text-left">Player Name</div>
+                    <div class="col-lg-5 text-left">Player Name</div>
                     <div class="col-lg-1">Age</div>
-                    <div class="col-lg-1">Weight</div>
-                    <div class="col-lg-1">Height</div>
+                    <c:if test="${isIncludeWeight }"> <div class="col-lg-1">Weight</div></c:if>
+                    <c:if test="${isIncludeHeight}"> <div class="col-lg-1">Height</div></c:if>
                     <div class="col-lg-2 text-left">Role</div>
                 </div>
                 <c:forEach items="${ team.playersList}" var="player" varStatus="plHandle">
-	                <div class="row rowBody">
-	                    <div class="col-lg-1 text-right">${plHandle.count }.</div>
-	                    <div class="col-lg-3 text-left">${player.firstName} ${player.lastName}</div>
-	                    <div class="col-lg-1">20</div>
-	                    <div class="col-lg-1">${player.formattedWeight}</div>
-	                    <div class="col-lg-1">${player.formattedHeight}</div>
-	                    <div class="col-lg-2 text-left">${player.role}</div>
-	                </div>
-	            </c:forEach>
+                    <div class="row rowBody">
+                        <div class="col-lg-1 text-right">${plHandle.count }.</div>
+                        <div class="col-lg-5 text-left">${player.firstName} ${player.lastName}</div>
+                        <div class="col-lg-1">20</div>
+                        <c:if test="${isIncludeWeight }"> <div class="col-lg-1">${player.formattedWeight}</div> </c:if>
+                        <c:if test="${isIncludeHeight}"> <div class="col-lg-1">${player.formattedHeight}</div> </c:if>
+                        <div class="col-lg-2 text-left">${player.role}</div>
+                    </div>
+                </c:forEach>
             </div>
         </div>
     </div>
@@ -84,7 +84,7 @@
         <tbody>
           <c:forEach items="${ womenTeamList}" var="teamDetails" varStatus="tdHandle">
              <tr>
-                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}">${teamDetails.displayName}</a></td>
+                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true">${teamDetails.displayName}</a></td>
              </tr>
           </c:forEach>
         </tbody>
@@ -104,7 +104,7 @@
         <tbody>
           <c:forEach items="${ menTeamList}" var="teamDetails" varStatus="tdHandle">
              <tr>
-                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}">${teamDetails.displayName}</a></td>
+                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true">${teamDetails.displayName}</a></td>
              </tr>
           </c:forEach>
         </tbody>
@@ -119,7 +119,7 @@ $(".team-list-btn").click(function(){
 });
 
 $("#hidementeamlistpanel, #hidewomenteamlistpanel").click(function(){
-	var id = $(this).attr('id');
+    var id = $(this).attr('id');
     $("#" + id.substr(4)).fadeOut();
     $("#show"+ id.substr(4, id.indexOf('panel') -4)).fadeIn();
 });

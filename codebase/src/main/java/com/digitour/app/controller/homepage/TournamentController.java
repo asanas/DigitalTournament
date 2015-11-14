@@ -22,9 +22,12 @@ import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TeamSponsorsManager;
 import com.digitour.app.manager.TournamentManager;
 import com.digitour.app.manager.TournamentParticipantManager;
+import com.digitour.app.ui.component.menu.Menu;
 
 @Controller
 public class TournamentController {
+
+    private static final String MAIN_MENU = "main_menu";
 
     @Autowired
     TournamentManager tourManager;
@@ -38,15 +41,20 @@ public class TournamentController {
     @Autowired
     TournamentParticipantManager tourParticiapantManager;
     
+    
     @RequestMapping(value="/createnew/tournament", method=RequestMethod.GET)
     public ModelAndView showCreateTournamentForm() {
         ModelAndView modelAndView = new ModelAndView("tournament/createnewtournament");
         return modelAndView;
     }
 
-    @RequestMapping(value="/tournament/{tournamentId}/home", method=RequestMethod.GET)
-    public ModelAndView showTournamentHome() {
-        ModelAndView modelAndView = new ModelAndView("tournament/home");
+    @RequestMapping( value="/tournament/{tournamentId}/home", method=RequestMethod.GET)
+    public ModelAndView showTournamentHome(@PathVariable Long tournamentId) {
+        ModelAndView modelAndView = new ModelAndView("tournament/tournamentHome");
+        Tournament tournamentDetails = tourManager.getById(tournamentId);
+        modelAndView.addObject("tournamentHomeMenus", createTournamentHomepageMenus(tournamentDetails));
+        modelAndView.addObject("tournamentDetails", tournamentDetails);
+        modelAndView.addObject("tournamentName", tournamentDetails.getTournamentName());
         return modelAndView;
     }
 
@@ -82,25 +90,61 @@ public class TournamentController {
         return modelAndView;
     }
 
-    /*@RequestMapping(value="/createnew/", method=RequestMethod.POST)
-    public ModelAndView handleAddParticipantsQuickMatch(@RequestParam String tourName, @RequestParam String tourDescription, @RequestParam String tourLocation, 
-            @RequestParam String startDate, @RequestParam String endDate, @RequestParam String ageGroup, @RequestParam String prize) {
-        ModelAndView modelAndView = new ModelAndView("tournament/selectparticipatingteams");
-        modelAndView.addObject("tournamentName", tourName);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-        Date tournamentStartDate = null;
-        Date tournamentEndDate = null;
-        try {
-            tournamentStartDate = formatter.parse(startDate);
-            tournamentEndDate = formatter.parse(endDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Tournament tournament = new Tournament(tourName, tourDescription, tourLocation, tournamentStartDate, tournamentEndDate, ageGroup, prize);
-        tourManager.save(tournament);
-        return new ModelAndView("redirect:/selectTournamentParticipant/tournament/"+tournament.getTournamentId());
-    }*/
+    @RequestMapping(value="/tournament/{tournamentId}/nextMatch", method=RequestMethod.GET)
+    public ModelAndView selectTournamentNextMatch(@PathVariable Long tournamentId) {
+        ModelAndView modelAndView = new ModelAndView("home/startquickmatch");
+        Tournament tournamentDetails = tourManager.getById(tournamentId);
+        modelAndView.addObject("tournamentDetails", tournamentDetails);
+        modelAndView.addObject("tournamentName", tournamentDetails.getTournamentName());
+        modelAndView.addObject("teamList", teamManager.getAll());
+        // add support for sponsorer details
+        modelAndView.addObject("sponsorerList", sponsorerManager.getAllSponsorers());
+        return modelAndView;
+    }
 
+    @RequestMapping(value="/tournament/{tournamentId}/markTourInProgress", method=RequestMethod.GET)
+    @ResponseBody
+    public String markTournamentInProgressAndGotoHome(@PathVariable Long tournamentId) {
+        Tournament tournamentDetails = tourManager.getById(tournamentId);
+        tournamentDetails.setTourStatus("INPROGRESS");
+        tourManager.save(tournamentDetails);
+        return "success";
+    }
+
+    private List<Menu> createTournamentHomepageMenus(Tournament tournamentDetails) {
+        List<Menu> lstMenu = new ArrayList<Menu>();
+        Menu nextMatch = new Menu();
+        nextMatch.setMenuURL("tournament/" + tournamentDetails.getTournamentId() + "/nextMatch");
+        nextMatch.setClassName(MAIN_MENU);
+        nextMatch.setMenuDescription("Next match");
+        nextMatch.setDisplayText("Next match");
+        
+        Menu leaderboard = new Menu();
+        leaderboard.setMenuURL("javascript:void();");
+        leaderboard.setClassName(MAIN_MENU);
+        leaderboard.setMenuDescription("Leaderboard");
+        leaderboard.setDisplayText("Leaderboard");
+        leaderboard.setJsFunctionCall("showAlert('Coming Soon');");
+
+        Menu teams = new Menu();
+        teams.setMenuURL("tournament/participatingTeams");
+        teams.setClassName(MAIN_MENU);
+        teams.setMenuDescription("Teams");
+        teams.setDisplayText("Teams");
+        
+        Menu tourSponsors = new Menu();
+        tourSponsors.setMenuURL("tournament/sponsorsHome");
+        tourSponsors.setClassName(MAIN_MENU);
+        tourSponsors.setMenuDescription("Tournament Sponsors");
+        tourSponsors.setDisplayText("Tournament Sponsors");
+        
+        lstMenu.add(nextMatch);
+        lstMenu.add(leaderboard);
+        lstMenu.add(teams);
+        lstMenu.add(tourSponsors);
+        return lstMenu;
+    }
+    
     @RequestMapping(value="/tournament/addParticipants/", method=RequestMethod.POST)
     @ResponseBody
     public String handleAddParticipants(@RequestParam Long tournamentId, @RequestParam String teams) {

@@ -4,17 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,6 +21,7 @@ public class Tournament implements java.io.Serializable {
 
     private Long tournamentId;
     private String tournamentName;
+    private String displayName;
     private String description;
     private String location;
     private double prize;
@@ -184,5 +180,14 @@ public class Tournament implements java.io.Serializable {
             resultDate = formatter.format(tournamentEndDate);
         }
         return resultDate;
+    }
+
+    @Column(name = "display_name")
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

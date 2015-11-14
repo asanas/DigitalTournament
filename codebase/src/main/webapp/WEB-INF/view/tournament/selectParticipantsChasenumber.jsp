@@ -60,16 +60,16 @@
 </style>
 <script type="text/javascript">
 (function(window, document) {
-        $(".expandTime").click(function() {
-            if($(this).parent().parent().find('.panel-body').is(':visible')) {
-                $(this).parent().parent().find('.panel-body').slideUp('slow');
-                $(this).find('span').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-circle-arrow-down');
-            } else {
-                $(this).parent().parent().find('.panel-body').slideDown('slow');
-                $(this).find('span').removeClass('glyphicon-circle-arrow-down').addClass('glyphicon-circle-arrow-up');
-            }
-        });
-        
+    $(".expandTime").click(function() {
+        if($(this).parent().parent().find('.panel-body').is(':visible')) {
+            $(this).parent().parent().find('.panel-body').slideUp('slow');
+            $(this).find('span').removeClass('glyphicon-circle-arrow-up').addClass('glyphicon-circle-arrow-down');
+        } else {
+            $(this).parent().parent().find('.panel-body').slideDown('slow');
+            $(this).find('span').removeClass('glyphicon-circle-arrow-down').addClass('glyphicon-circle-arrow-up');
+        }
+    });
+
         $(".editChase").click(function() {
             var teamId = $(this).attr("id").substr("editChaseNumbersTeam".length);
             $("#editChaseNumbersTeam" + teamId).hide();
@@ -77,7 +77,19 @@
             $("#teamrow-panel-wrap-" + teamId).find(".defaultChase").hide();
             $("#saveChaseNumbersTeam" + teamId).show();
         });
-        
+
+        $("#gotoSelectTourSchedule").click(function() {
+            $.ajax({
+                // /tournament/{tournamentId}/home
+                url: "${pageContext.request.contextPath}/tournament/${tournamentDetails.tournamentId}/markTourInProgress",
+                data: "",
+                type: "GET",
+                success: function(data) {
+                    window.location = '${pageContext.request.contextPath}/tournament/${tournamentDetails.tournamentId}/home';
+                }
+            });
+        });
+
         $(".saveChase").click(function() {
             var teamId = $(this).attr("id").substr("saveChaseNumbersTeam".length);
             var playerProfilesDivs = $("#teamrow-panel-wrap-" + teamId).find(".playerProfile");
@@ -109,8 +121,6 @@
                     }
                 }
             });
-            
-            
         });
 })(window, document);
 </script>

@@ -311,7 +311,7 @@ header{background-color:#DEDADE; }
         window.location = window.pageURL + '/loadScoresheet/match/'+window.tournamentMatchDetails.matchId+'/inning/'+ gotoInning +'/turn/'+gotoTurn;
     }
     
-    $(".clock").click(function() {
+    $("#startTime").click(function() {
         if(window.tournamentMatchDetails.turnStatus == 'COMPLETED' || window.tournamentMatchDetails.turnStatus == 'ABORTED') {
             alert('This turn is completed. Please click on Turn' + (window.tournamentMatchDetails.currentTurn + 1)+ ' to proceed further.');
         } else {
@@ -320,6 +320,7 @@ header{background-color:#DEDADE; }
                 window.clock.start();
                 markTurnStatus('INPROGRESS');
                 checkClockStatus();
+                $("#stopwatchBtnPanel").hide();
                 $("#loadFoulModal").show( "slide", { direction: "right"  }, 500 );
                 for(var i = 0; i< $(".substitute").length; i++) {
                     var substituteId = $(".substitute")[i].id;
@@ -345,6 +346,13 @@ header{background-color:#DEDADE; }
         }
         return resultFlag;
     }
+    
+    $(".clock").hover(function(event) {
+    	
+        if(!window.clock.isRunning() && event.originalEvent.type && event.originalEvent.type === "mouseover") {
+            $("#stopwatchBtnPanel").show();
+        }
+    });
     
     $(".row.teamrow").hover(function() {
         // if(window.clock.running) {
@@ -547,11 +555,19 @@ header{background-color:#DEDADE; }
         });
     });
 
-    $("#abortTurn").click(function() {
+    $("#abortTurn, #stopTime").click(function() {
         if(window.clock.isRunning()) {
             markTurnStatus('ABORTED');
             window.clock.stop();
+            $("#stopwatchBtnPanel").hide();
             window.currentStpWtchTime = Math.floor(-1 * clock.getTime());
+        }
+    });
+    
+    $("#resetTime").click(function() {
+        if(window.clock.isRunning()) {
+            window.clock.stop();
+            window.clock.addTime(1 * window.clock.getTime());
         }
     });
 })(window, window.document);

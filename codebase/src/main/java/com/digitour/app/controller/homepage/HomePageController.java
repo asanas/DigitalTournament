@@ -93,15 +93,14 @@ public class HomePageController {
         createTour.setClassName(MAIN_MENU);
         createTour.setMenuDescription("Create new Tournament");
         createTour.setDisplayText("Create new Tournament");
-        createTour.setJsFunctionCall("");
         
         Menu loadTourMenu = new Menu();
         loadTourMenu.setMenuURL("javascript:void();");
         loadTourMenu.setClassName(MAIN_MENU);
         loadTourMenu.setMenuDescription("Load Tournament");
         loadTourMenu.setDisplayText("Load Tournament");
-        loadTourMenu.setJsFunctionCall("showAlert('Coming Soon');");
-        
+        loadTourMenu.setJsFunctionCall("showLoadTournamentModal();");
+
         Menu quickMatchMenu = new Menu();
         quickMatchMenu.setMenuURL("beginQuickMatch");
         quickMatchMenu.setClassName(MAIN_MENU);
@@ -109,11 +108,10 @@ public class HomePageController {
         quickMatchMenu.setDisplayText("Quick Match");
         
         Menu importExportMenu = new Menu();
-        importExportMenu.setMenuURL("javascript:void();");
+        importExportMenu.setMenuURL("import/team");
         importExportMenu.setClassName(MAIN_MENU);
         importExportMenu.setMenuDescription("Import/Export data");
         importExportMenu.setDisplayText("Import/Export");
-        importExportMenu.setJsFunctionCall("showAlert('Coming Soon');");
         
         Menu helpMenu = new Menu();
         helpMenu.setMenuURL("javascript:void();");

@@ -1,6 +1,7 @@
 <%@include file="../common/header.jsp"%>
 <header>
     <div class="container">
+        <%@include file="load-tournament-list-modal.jsp"%>
         <div class="row">
             <div class="col-lg-4">&nbsp;</div>
             <div class="col-lg-4">
@@ -23,3 +24,8 @@ a.main_menu { border: 1px solid #610956;}
 -->
 </style>
 <%@include file="../common/footer.jsp"%>
+<script>
+function showLoadTournamentModal() {
+    
+}
+</script>

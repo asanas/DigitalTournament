@@ -66,13 +66,16 @@ public class TeamController {
     }
 
     
-    @RequestMapping(value="/loadTeamDetails/team/{teamId}", method=RequestMethod.GET)
-    public ModelAndView loadTeamDetails(@PathVariable Long teamId) {
+    @RequestMapping(value="/loadTeamDetails/team/{teamId}/weight/{isIncludeWeight}/height/{isIncludeHeight}", method=RequestMethod.GET)
+    public ModelAndView loadTeamDetails(@PathVariable Long teamId, Boolean isIncludeWeight, Boolean isIncludeHeight) {
         ModelAndView modelAndView = new ModelAndView("team/teamdetails");
         log.debug("Creating a new team.");
         Team team = teamManager.getById(teamId, true);
         List<Team> lstMenTeams = teamManager.getAllTeamsByTeamType(TeamType.MEN);
         List<Team> lstWomenTeams = teamManager.getAllTeamsByTeamType(TeamType.WOMEN);
+        
+        modelAndView.addObject("isIncludeWeight", isIncludeWeight);
+        modelAndView.addObject("isIncludeHeight", isIncludeHeight);
         modelAndView.addObject("team", team);
         modelAndView.addObject("menTeamList", lstMenTeams);
         modelAndView.addObject("womenTeamList", lstWomenTeams);
