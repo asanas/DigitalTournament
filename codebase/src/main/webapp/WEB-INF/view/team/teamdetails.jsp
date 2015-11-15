@@ -1,7 +1,6 @@
 <%@include file="../common/header.jsp"%>
 <header>
-    <div class="container">
-
+    <div class="container" style="padding-top: 100px">
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#teamDetails">Team
                     Details</a></li>
@@ -44,17 +43,17 @@
                     <div class="col-lg-1 text-right">Sr. No.</div>
                     <div class="col-lg-5 text-left">Player Name</div>
                     <div class="col-lg-1">Age</div>
-                    <c:if test="${isIncludeWeight }"> <div class="col-lg-1">Weight</div></c:if>
-                    <c:if test="${isIncludeHeight}"> <div class="col-lg-1">Height</div></c:if>
+                    <c:if test="${isIncludeHeight}"> <div class="col-lg-1">Height(cms)</div></c:if>
+                    <c:if test="${isIncludeWeight }"> <div class="col-lg-1">Weight(kg)</div></c:if>
                     <div class="col-lg-2 text-left">Role</div>
                 </div>
                 <c:forEach items="${ team.playersList}" var="player" varStatus="plHandle">
                     <div class="row rowBody">
                         <div class="col-lg-1 text-right">${plHandle.count }.</div>
                         <div class="col-lg-5 text-left">${player.firstName} ${player.lastName}</div>
-                        <div class="col-lg-1">20</div>
-                        <c:if test="${isIncludeWeight }"> <div class="col-lg-1">${player.formattedWeight}</div> </c:if>
+                        <div class="col-lg-1">${player.age} </div>
                         <c:if test="${isIncludeHeight}"> <div class="col-lg-1">${player.formattedHeight}</div> </c:if>
+                        <c:if test="${isIncludeWeight }"> <div class="col-lg-1">${player.formattedWeight}</div> </c:if>
                         <div class="col-lg-2 text-left">${player.role}</div>
                     </div>
                 </c:forEach>
@@ -84,7 +83,7 @@
         <tbody>
           <c:forEach items="${ womenTeamList}" var="teamDetails" varStatus="tdHandle">
              <tr>
-                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true">${teamDetails.displayName}</a></td>
+                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true/tournament/0">${teamDetails.displayName}</a></td>
              </tr>
           </c:forEach>
         </tbody>
@@ -104,7 +103,7 @@
         <tbody>
           <c:forEach items="${ menTeamList}" var="teamDetails" varStatus="tdHandle">
              <tr>
-                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true">${teamDetails.displayName}</a></td>
+                 <td class="text-left"><a href="${pageContext.request.contextPath}/loadTeamDetails/team/${teamDetails.teamId}/weight/true/height/true/tournament/0">${teamDetails.displayName}</a></td>
              </tr>
           </c:forEach>
         </tbody>

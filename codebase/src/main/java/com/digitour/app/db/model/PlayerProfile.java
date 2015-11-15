@@ -1,5 +1,6 @@
 package com.digitour.app.db.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -280,6 +281,11 @@ public class PlayerProfile implements java.io.Serializable {
         this.emailId = emailId;
     }
 
+    @Transient
+    public String getphotoUrl() {
+        return "playerPhotos/" + this.getTeam().getTeamName().replaceAll(" ", "") + "/" + this.firstName.trim() + "_" + this.lastName.trim() + ".jpg";
+    }
+
     @Column(name="captain", columnDefinition = "CHAR")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     public boolean isCaptain() {
@@ -288,5 +294,18 @@ public class PlayerProfile implements java.io.Serializable {
 
     public void setCaptain(boolean isCaptain) {
         this.isCaptain = isCaptain;
+    }
+    
+    @Transient
+    public int getAge() {
+        int age = 0;
+        if(this.dateOfBirth != null) {
+            Calendar clndToday = Calendar.getInstance();
+            Calendar clndDOB = Calendar.getInstance();
+            clndDOB.setTime(this.dateOfBirth);
+            int yearDiff = clndToday.get(Calendar.YEAR) - clndDOB.get(Calendar.YEAR);
+            age = yearDiff;
+        }
+        return age;
     }
 }

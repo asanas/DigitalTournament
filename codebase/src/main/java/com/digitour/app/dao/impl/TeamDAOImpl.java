@@ -1,5 +1,6 @@
 package com.digitour.app.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.digitour.app.dao.TeamDAO;
+import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.db.model.Team;
+import com.digitour.app.db.model.Tournament;
+import com.digitour.app.db.model.TournamentParticipant;
 import com.digitour.app.db.model.support.enums.TeamType;
 
 @Repository
@@ -22,6 +26,9 @@ public class TeamDAOImpl implements TeamDAO {
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
+    @Autowired
+    private TournamentParticipantDAO tourParticipantsDAO;
+    
     @Transactional
     public Team save(Team team) {
         log.debug("persisting TeamMaster instance");
@@ -53,5 +60,16 @@ public class TeamDAOImpl implements TeamDAO {
         Team sampleTeam = new Team();
         sampleTeam.setTeamType(teamType);
         return (List<Team>) this.hibernateTemplate.findByExample(sampleTeam);
+    }
+
+    @Override
+    public List<Team> getAllByTournament(Tournament tournamentDetails) {
+        List<Team> listTeam = new ArrayList<>();
+        List<TournamentParticipant> tourPartiList = tourParticipantsDAO.getByTournament(tournamentDetails);
+        for(TournamentParticipant tourParticipant: tourPartiList) {
+            Team team = this.hibernateTemplate.load(Team.class, tourParticipant.getTeamId());
+            listTeam.add(team);
+        }
+        return listTeam;
     }
 }

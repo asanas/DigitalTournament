@@ -1,30 +1,32 @@
 <%@include file="../common/header.jsp"%>
     <!-- Header -->
     <header>
-        <div class="container">
-            <%@include file="../playerProfile/playerProfilleModal.jsp"%>
+        <div class="container" style="padding-top: 80px;">
+            <%@include file="../team/playerProfilleWrapperModal.jsp"%>
             <div class="row">
                 <div class="col-lg-6">
-                    <select id="team1" class="teamList">
-                        <option id="">Select Team1</option>
-                        <c:forEach items="${teamList}" var="team">
-                            <option id="${team.teamId }">${team.displayName }</option>
-                        </c:forEach>
-                    </select>
-                    <div id="team1Players">
-                        
+                    <div class="text-left">
+                        <select id="team1" class="teamList">
+                            <option id="">Select Team</option>
+                            <c:forEach items="${teamList}" var="team">
+                                <option id="${team.teamId }">${team.displayName }</option>
+                            </c:forEach>
+                        </select>
+                        <button id="loadteam1PlayerProfile" type="button" class="btn btn-info showPlayerProfile disabled" style="display: inline; margin-top: -32px;">Player Profile</button>
                     </div>
+                    <div id="team1Players" style="width: 85%;"></div>
                 </div>
                 <div class="col-lg-6">
-                    <select id="team2" class="teamList">
-                        <option id="">Select Team2</option>
-                        <c:forEach items="${teamList}" var="team">
-                            <option id="${team.teamId }">${team.displayName}</option>
-                        </c:forEach>
-                    </select>
-                    <div id="team2Players">
-                        
+                    <div>
+                        <select id="team2" class="teamList">
+                            <option id="">Select Team</option>
+                            <c:forEach items="${teamList}" var="team">
+                                <option id="${team.teamId }">${team.displayName}</option>
+                            </c:forEach>
+                        </select>
+                        <button id="loadteam2PlayerProfile" type="button" class="btn btn-info showPlayerProfile disabled" style="display: inline; margin-top: -32px;">Player Profile</button>
                     </div>
+                    <div id="team2Players" style="width: 85%;"></div>
                 </div>
             </div>
             <div class="row">
@@ -52,10 +54,11 @@
             </div>
         </div>
     </header>
-
 <style>
 <!--
 label { padding: 10px;}
+#team1-button {width: 200px !important;}
+#team2-button {width: 200px !important;}
 -->
 </style>
 <%@include file="../common/footer.jsp"%>
@@ -65,9 +68,9 @@ $(function() {
        select: function( event, ui ) {
            var clickTeamElementId = $(this).find(":selected").attr("id");
            var clickTeamId = $(this).attr("id");
-           if($(this).val() != 'Select Team1') {
+           if($(this).val() != 'Select Team') {
                $.ajax({
-                   url: '${pageContext.request.contextPath}/loadTeamDetails/team/' + clickTeamElementId + '/weight/false/height/false',
+                   url: '${pageContext.request.contextPath}/loadTeamDetails/team/' + clickTeamElementId + '/weight/false/height/false/tournament/${tournamentDetails.tournamentId}',
                    data: "",
                    type: "GET",
                    success: function(data) {
@@ -75,9 +78,13 @@ $(function() {
                        $("#" + clickTeamId + "Players").html(playersListHTML);
                    }
                });
+               if($("#load" + $(this).attr("id") + "PlayerProfile").hasClass("disabled")) {
+                   $("#load" + $(this).attr("id") + "PlayerProfile").toggleClass("disabled");
+               }
+           } else {
+               $("#load" + $(this).attr("id") + "PlayerProfile").toggleClass("disabled");
            }
-
-           if($("#team1").val() != 'Select Team1' && $("#team2").val() != 'Select Team2') {
+           if($("#team1").val() != 'Select Team' && $("#team2").val() != 'Select Team') {
                 if($("#team1").val() === $("#team2").val()) {
                     alert('Please select two different teams to start match.');
                     $("#beginMatchRow").hide();
@@ -96,13 +103,13 @@ $(function() {
             }
        }
     });
-    
-    $( "#beginMatch" ).click(function() {
+
+    $("#beginMatch").click(function() {
         if($('input[name=tossWonTeam]:checked') && $('input[name=electedTo]:checked')) {
             var team1Id = $("#team1").find(":selected").attr("id");
             var team2Id = $("#team2").find(":selected").attr("id");
             var queryParam = 'team1Id='+team1Id+'&team2Id='+team2Id+'&tossWonBy='
-            +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val();
+            +$('input[name=tossWonTeam]:checked').val()+'&electedTo='+$('input[name=electedTo]:checked').val() + '&tournamentId=${tournamentDetails.tournamentId}';
             $.ajax({
                 url: '${pageContext.request.contextPath}/startQuickMatch',
                 data: queryParam,
@@ -112,6 +119,20 @@ $(function() {
                 }
             });
         }
+    });
+
+    $( ".showPlayerProfile" ).click(function() {
+        var teamId = $("#"+ $(this).attr("id").substr(4, 5)).find(":selected").attr("id");
+        $.ajax({
+            url: '${pageContext.request.contextPath}/fetchTeamPlayers/team/'+teamId+'/tournament/${tournamentDetails.tournamentId}',
+            data: "",
+            type: "GET",
+            success: function(data) {
+                $('#teamPlayerProfileModal').html(data);
+                $('#teamPlayerProfileModal').modal();
+                $('#cbp-contentslider').cbpContentSlider();
+            }
+        });
     });
 });
 </script>

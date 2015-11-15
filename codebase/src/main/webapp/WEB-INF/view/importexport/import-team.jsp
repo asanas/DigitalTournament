@@ -1,6 +1,6 @@
 <%@include file="../common/header.jsp"%>
 <header>
-    <div class="container">
+    <div class="container" style="padding-top: 30px;">
         <h2>Create a New Team</h2>
         <form class="form-horizontal" role="form" method="POST" action="${pageContext.request.contextPath}/createnew/team" enctype="multipart/form-data">
             <div class="form-group">

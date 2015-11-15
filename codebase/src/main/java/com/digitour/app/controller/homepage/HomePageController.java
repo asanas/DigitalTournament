@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.digitour.app.db.model.Team;
+import com.digitour.app.db.model.Tournament;
 import com.digitour.app.db.model.TournamentMatchDetails;
 import com.digitour.app.manager.CityManager;
 import com.digitour.app.manager.DummyManager;
 import com.digitour.app.manager.PlayerProfileManager;
+import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentManager;
-import com.digitour.app.manager.impl.TeamManagerImpl;
 import com.digitour.app.ui.component.menu.Menu;
 
 @Controller
@@ -32,10 +33,10 @@ public class HomePageController {
     private static final String MAIN_MENU = "main_menu";
 
     @Autowired
-    private DummyManager dummyManager;
+    DummyManager dummyManager;
     
     @Autowired
-    private TeamManagerImpl teamManager;
+    TeamManager teamManager;
 
     @Autowired
     TournamentManager tournamentManager;
@@ -64,16 +65,17 @@ public class HomePageController {
     @RequestMapping(value="/startQuickMatch", method=RequestMethod.POST)
     @ResponseBody
     public String startQuickMatch(@RequestParam Long team1Id, @RequestParam  Long team2Id, @RequestParam Long tossWonBy,
-            @RequestParam  String electedTo) {
-        TournamentMatchDetails tourMatchDetails = tournamentManager.startQuickMatch(team1Id, team2Id, tossWonBy, electedTo);
+            @RequestParam  String electedTo, @RequestParam Long tournamentId) {
+        TournamentMatchDetails tourMatchDetails = tournamentManager.startQuickMatch(team1Id, team2Id, tossWonBy, electedTo, tournamentId);
         return tourMatchDetails.getTournamentMatchId().toString();
     }
-    
+
     @RequestMapping(value="/beginQuickMatch", method=RequestMethod.GET)
     public ModelAndView fillDetailsToStratQuickMatch() {
         ModelAndView modelAndView = new ModelAndView("home/startquickmatch");
         List<Team> teamList = teamManager.getAll();
         modelAndView.addObject("teamList", teamList);
+        modelAndView.addObject("tournamentDetails", new Tournament());
         modelAndView.addObject("tournamentName", "Quick Match");
         return modelAndView;
     }

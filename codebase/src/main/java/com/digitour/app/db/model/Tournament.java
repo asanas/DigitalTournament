@@ -2,7 +2,6 @@ package com.digitour.app.db.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,9 +31,9 @@ public class Tournament implements java.io.Serializable {
     private Date tournamentEndDate;
     private Date createdDate;
     private AgeGroup ageGroup;
-    private List<Team> participatingTeamList;
     
     public Tournament() {
+        this.tournamentId = 0L;
     }
 
     public Tournament(String tourName, String tourDescription, String tourLocation, Date tournamentStartDate,

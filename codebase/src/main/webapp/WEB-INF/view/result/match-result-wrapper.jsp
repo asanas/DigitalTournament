@@ -1,2 +1,1 @@
-<div class="modal fade" id="showMatchResultModal" role="dialog">
-</div>
+<div class="modal fade" id="showMatchResultModal" role="dialog"></div>

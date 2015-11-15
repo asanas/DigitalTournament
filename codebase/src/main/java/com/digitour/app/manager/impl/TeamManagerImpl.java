@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.db.model.Team;
+import com.digitour.app.db.model.Tournament;
 import com.digitour.app.db.model.support.enums.TeamType;
 import com.digitour.app.manager.TeamManager;
 
@@ -21,17 +22,24 @@ public class TeamManagerImpl implements TeamManager {
         return teamDAO.getAll();
     }
 
-	public void save(Team team) {
-		teamDAO.save(team);
-	}
+    @Override
+    public void save(Team team) {
+        teamDAO.save(team);
+    }
 
     @Override
     public Team getById(Long teamId, Boolean loadPlayersList) {
         return teamDAO.getById(teamId, loadPlayersList);
     }
 
-	public List<Team> getAllTeamsByTeamType(TeamType teamType) {
-		return teamDAO.getAllTeamsByTeamType(teamType);
-	}
+    @Override
+    public List<Team> getAllTeamsByTeamType(TeamType teamType) {
+        return teamDAO.getAllTeamsByTeamType(teamType);
+    }
+
+    @Override
+    public List<Team> getAllByTournament(Tournament tournamentDetails) {
+        return teamDAO.getAllByTournament(tournamentDetails);
+    }
 
 }

@@ -36,7 +36,7 @@ public class MatchPointManagerImpl implements MatchPointManager {
     @Override
     public void addMatchPointDetails(TournamentMatchDetails matchDetails, PlayerProfile defenderPlayerProfile, PlayerProfile chaserPlayerProfile, Long timePlayed,
             Long runTime, Long inning, Long turn, Long symbolId, Boolean out) {
-        TournamentParticipant defenderParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(defenderPlayerProfile.getTeam(), 
+        TournamentParticipant defenderParticipant = tournamentParticipantDAO.getByTeamAndTournament(defenderPlayerProfile.getTeam(), 
                 matchDetails.getTournamentId());
         TournamentParticipantTeam defenderProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(defenderPlayerProfile, defenderParticipant);
         Symbol symbol = symbolDAO.getById(symbolId);
@@ -52,7 +52,7 @@ public class MatchPointManagerImpl implements MatchPointManager {
         matchPoint.setInningNumber(inning);
 
         if(chaserPlayerProfile != null) {
-            TournamentParticipant chaserParticipant = tournamentParticipantDAO.getTournamentParticipantByTeamAndTournament(chaserPlayerProfile.getTeam(), 
+            TournamentParticipant chaserParticipant = tournamentParticipantDAO.getByTeamAndTournament(chaserPlayerProfile.getTeam(), 
                     matchDetails.getTournamentId());
             TournamentParticipantTeam chaserProfileTourTeam = tournamentParticipantTeamDAO.getByPlayerProfileAndTournamentParticipant(chaserPlayerProfile, chaserParticipant);
             matchPoint.setAttackParticipantProfileId(chaserProfileTourTeam.getTournamentParticipantPlayerId());

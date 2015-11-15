@@ -19,5 +19,7 @@ public interface TournamentParticipantManager {
 
     void createTournamentParticipantTeamByChaseNumber(Tournament tournament, Team team,
             String playerProfileChaseNumberMap);
+    
+    void save(TournamentParticipant tournamentParticipant);
 
 }

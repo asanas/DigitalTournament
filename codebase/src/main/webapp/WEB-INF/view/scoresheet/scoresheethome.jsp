@@ -10,6 +10,7 @@
         <%@include file="substitute-modal.jsp"%>
         <%@include file="foul-modal.jsp"%>
         <%@include file="../result/match-result-wrapper.jsp" %>
+        <%@include file="../team/playerProfilleWrapperModal.jsp"%>
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs nav-justified turnsContainer">
@@ -21,7 +22,7 @@
         </div>
         <div class="row scoresheetRowHeader">
             <div class="col-lg-3 text-left">
-                <h4>${defendingTeamName}<small>(Defence)</small></h4>
+                <h4>${defendingTeam.displayName}<small>(Defence)</small></h4>
             </div>
             <div class="col-lg-1 text-center" style="width: 50px; padding:0px;">&nbsp;</div>
             <div class="col-lg-1 text-center" style="width: 25px; padding:0px;">&nbsp;</div>
@@ -36,7 +37,7 @@
             </div>
         </div>
 
-        <c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
+        <c:forEach items="${ defendingTeamPlayersList}" var="defendingPlayer" varStatus="lpHandle">
             <c:choose>
                <c:when test="${ empty defendingPlayer.wicketStatus}">
                     <div class="row teamrow" id="teamrow-${defendingPlayer.playerProfileId }">
@@ -115,12 +116,12 @@
 <style>
 <!--
 header{background-color:#DEDADE; }
+.teamContainer {cursor: pointer;}
 -->
 </style>
 <!-- <script src="${pageContext.request.contextPath}/static_content/js/common/scoresheethelper.js"></script> -->
 
 <script type="text/javascript">
-
 (function(window, document) {
     window.clock = window.clock || {};
     window.lastWicketTime = window.lastWicketTime || 0;
@@ -157,9 +158,12 @@ header{background-color:#DEDADE; }
                 "show": true
             }
         }
-    });
-    
-    
+    }).addListener(
+        function(unit,value,total) {
+            
+        }
+    );
+
     window.initiateWindowLoadActions = function() {
         console.log('Started executing window load actions.');
         if(window.tournamentMatchDetails.currentInning == 1) {
@@ -271,11 +275,12 @@ header{background-color:#DEDADE; }
            
        }
    });
-    $("#show").click(function(){
+
+   $("#show").click(function(){
        $(".target").show( "slide", {direction: "up" }, 2000 );
     });
-     
-    $( "#symbol" ).change(function() {
+
+   $( "#symbol" ).change(function() {
         if('Sudden Attack' == $("#symbol").find(":selected").text() ||
                 'Late Entry' == $("#symbol").find(":selected").text()) {
             $("#timePlayed").html('0:00');
@@ -289,7 +294,7 @@ header{background-color:#DEDADE; }
         }
         $("#timePlayed").html(minutes+':'+seconds);
     });
-    
+
     window.loadRequestedTurn = function(clickedTab) {
         // http://localhost:4141/digital-tour/loadScoresheet/match/7/inning/1/turn/1
         var turnHref = $(clickedTab).attr('href');
@@ -348,7 +353,6 @@ header{background-color:#DEDADE; }
     }
     
     $(".clock").hover(function(event) {
-    	
         if(!window.clock.isRunning() && event.originalEvent.type && event.originalEvent.type === "mouseover") {
             $("#stopwatchBtnPanel").show();
         }
@@ -569,6 +573,20 @@ header{background-color:#DEDADE; }
             window.clock.stop();
             window.clock.addTime(1 * window.clock.getTime());
         }
+    });
+    
+    $( ".teamContainer" ).click(function() {
+        var teamId = $(this).attr("id").split('_')[1];
+        $.ajax({
+            url: '${pageContext.request.contextPath}/fetchTeamPlayers/team/'+teamId+'/tournament/${tournamentDetails.tournamentId}',
+            data: "",
+            type: "GET",
+            success: function(data) {
+                $('#teamPlayerProfileModal').html(data);
+                $('#teamPlayerProfileModal').modal();
+                $('#cbp-contentslider').cbpContentSlider();
+            }
+        });
     });
 })(window, window.document);
 

@@ -22,7 +22,7 @@
                         <label class="control-label col-lg-4" for="chaser">Player In:</label>
                         <div class="col-lg-6">
                             <select id="defenderComingIn" class="form-control">
-                                <c:forEach items="${ defendingTeam}" var="defendingPlayer" varStatus="lpHandle">
+                                <c:forEach items="${ defendingTeamPlayersList}" var="defendingPlayer" varStatus="lpHandle">
                                     <option value="${defendingPlayer.playerProfileId }">${lpHandle.count}. ${defendingPlayer.firstName} ${defendingPlayer.lastName}</option>
                                 </c:forEach>
                             </select>

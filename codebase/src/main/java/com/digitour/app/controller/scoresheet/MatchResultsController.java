@@ -101,7 +101,9 @@ public class MatchResultsController {
 
         if("matchHightlights".equals(resultType)) {
             resultTitle = "Match Highlights";
-            resultDescription = winningTeamName + " leading by " + scoreDiff + " points.";
+            if("HALFTIME-COMPLETED".equals(halfTimeStatus)) {
+                resultDescription = winningTeamName + " leading by " + scoreDiff + " points.";
+            }
             modalClass = "highlights";
         } else {
             resultTitle = "Final Score"; 
@@ -140,7 +142,7 @@ public class MatchResultsController {
 
     private MatchTurnDetails fetchTurn(Long i, Long t, List<MatchTurnDetails> turnList) {
         for(MatchTurnDetails turnDetails : turnList) {
-            if(turnDetails.getTurnNumber().longValue() == i && turnDetails.getInningNumber().longValue() == i) {
+            if(turnDetails.getTurnNumber().longValue() == t.longValue() && turnDetails.getInningNumber().longValue() == i.longValue()) {
                 return turnDetails;
             }
         }

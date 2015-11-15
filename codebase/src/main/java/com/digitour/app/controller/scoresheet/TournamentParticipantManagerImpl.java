@@ -43,7 +43,7 @@ public class TournamentParticipantManagerImpl implements TournamentParticipantMa
 
     @Override
     public TournamentParticipant getByTeamAndTournament(Team team, Tournament tournament) {
-        return participantDAO.getTournamentParticipantByTeamAndTournament(team, tournament.getTournamentId());
+        return participantDAO.getByTeamAndTournament(team, tournament.getTournamentId());
     }
 
     @Override
@@ -64,5 +64,10 @@ public class TournamentParticipantManagerImpl implements TournamentParticipantMa
             tourTeamPlayerProfile.setTournamentPartipantId(tournamentPartipant.getTourParticipantId());
             teamParticipantDAO.save(tourTeamPlayerProfile);
         }
+    }
+
+    @Override
+    public void save(TournamentParticipant tournamentParticipant) {
+        participantDAO.save(tournamentParticipant);
     }
 }

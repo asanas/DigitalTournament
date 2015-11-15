@@ -96,7 +96,7 @@ public class TournamentController {
         Tournament tournamentDetails = tourManager.getById(tournamentId);
         modelAndView.addObject("tournamentDetails", tournamentDetails);
         modelAndView.addObject("tournamentName", tournamentDetails.getTournamentName());
-        modelAndView.addObject("teamList", teamManager.getAll());
+        modelAndView.addObject("teamList", teamManager.getAllByTournament(tournamentDetails));
         // add support for sponsorer details
         modelAndView.addObject("sponsorerList", sponsorerManager.getAllSponsorers());
         return modelAndView;

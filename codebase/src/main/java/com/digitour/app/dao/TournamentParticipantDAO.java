@@ -12,7 +12,7 @@ public interface TournamentParticipantDAO {
 
     public TournamentParticipant getById(Long teamParticipant1Id);
 
-    public TournamentParticipant getTournamentParticipantByTeamAndTournament(Team team, Long tournamentId);
+    public TournamentParticipant getByTeamAndTournament(Team team, Long tournamentId);
 
 	public List<TournamentParticipant> getByTournament(Tournament tournament);
 }

@@ -29,7 +29,7 @@
                         <div class="col-lg-6">
                             <select id="chaser" class="form-control">
                                 <option value="NA">None</option>
-                                <c:forEach items="${ chasingTeam}" var="chasingPlayer" varStatus="lpHandle">
+                                <c:forEach items="${ chasingTeamPlayersList}" var="chasingPlayer" varStatus="lpHandle">
                                     <option value="${chasingPlayer.playerProfileId }">${chasingPlayer.tournamentChaseNumber }. ${chasingPlayer.firstName} ${chasingPlayer.lastName}</option>
                                 </c:forEach>
                             </select>

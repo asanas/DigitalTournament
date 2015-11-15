@@ -1,8 +1,8 @@
 <div class="scoresheet-header">
     <div class="row">
         <div class="col-lg-4 text-center">
-            <h1 class="teamContainer " id="defendingTeamName">
-                ${defendingTeamName }
+            <h1 class="teamContainer " id="defendingTeamName_${defendingTeam.teamId}">
+                ${defendingTeam.displayName}
             </h1>
             <h3 class="sponsor">
                 <small>Sponsored By</small>
@@ -13,8 +13,8 @@
             &nbsp;
         </div>
         <div class="col-lg-4 text-center">
-            <h1 class="teamContainer " id="chasingTeamName">
-                ${chasingTeamName}
+            <h1 class="teamContainer " id="chasingTeamName_${chasingTeam.teamId}">
+                ${chasingTeam.displayName}
             </h1>
             <h3 class="sponsor">
                 <small>Sponsored By</small>

@@ -28,7 +28,6 @@ import com.digitour.app.db.model.support.enums.Gender;
 import com.digitour.app.db.model.support.enums.MajorSkill;
 import com.digitour.app.db.model.support.enums.Role;
 import com.digitour.app.manager.PlayerProfileManager;
-import com.digitour.app.manager.TournamentParticipantManager;
 import com.digitour.app.manager.TournamentParticipantTeamManager;
 
 @Service
@@ -68,13 +67,12 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
                     PlayerProfile playerProfile = new PlayerProfile();
                     row = (Row) rowIterator.next();
                     Iterator<Cell> cellIterator = row.cellIterator();
-
+                    Date birthDate = new Date();
+                    playerProfile.setDateOfBirth(birthDate);
                     //Iterating over each cell (column wise)  in a particular row.
                     while (cellIterator.hasNext()) {
                         
                         Cell cell = (Cell) cellIterator.next();
-                        Date birthDate = new Date();
-                        playerProfile.setDateOfBirth(birthDate);
                         if (cell.getColumnIndex() == 1) {
                             playerProfile.setFirstName(cell.getStringCellValue());
                         }
@@ -191,7 +189,12 @@ public class PlayerProfileManagerImpl implements PlayerProfileManager {
 
     @Override
     public PlayerProfile getByTournamentParticipantProfileId(Long tourPartiProfileId) {
-    	TournamentParticipantTeam tourParticipantProfile = tourParticipantTeamManager.getById(tourPartiProfileId);
+        TournamentParticipantTeam tourParticipantProfile = tourParticipantTeamManager.getById(tourPartiProfileId);
         return playerProfileDAO.getById(tourParticipantProfile.getPlayerProfileId());
+    }
+
+    @Override
+    public List<PlayerProfile> getCoachManagerByTeam(Team team) {
+        return playerProfileDAO.getCoachManagerByTeam(team);
     }
 }

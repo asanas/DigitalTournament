@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.digitour.app.dao.MatchTurnDAO;
-import com.digitour.app.dao.TeamDAO;
 import com.digitour.app.dao.TossDetailsDAO;
 import com.digitour.app.dao.TournamentDAO;
 import com.digitour.app.dao.TournamentMatchDAO;
-import com.digitour.app.dao.TournamentParticipantDAO;
 import com.digitour.app.dao.TournamentParticipantTeamDAO;
 import com.digitour.app.db.model.MatchTossDetails;
 import com.digitour.app.db.model.PlayerProfile;
@@ -22,7 +20,9 @@ import com.digitour.app.db.model.TournamentParticipantTeam;
 import com.digitour.app.db.model.support.enums.AgeGroup;
 import com.digitour.app.db.model.support.enums.Role;
 import com.digitour.app.manager.MatchTurnManager;
+import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TournamentManager;
+import com.digitour.app.manager.TournamentParticipantManager;
 
 @Service
 public class TournamentManagerImpl implements TournamentManager {
@@ -31,14 +31,14 @@ public class TournamentManagerImpl implements TournamentManager {
     TournamentDAO tournamentDAO;
     
     @Autowired
-    TournamentParticipantDAO tournamentParticipantDAO;
+    TournamentParticipantManager tournamentParticipantManager;
     
     @Autowired
-    TeamDAO teamDAO;
+    TeamManager teamManager;
     
     @Autowired
     TournamentMatchDAO tournamentMatchDAO;
-    
+
     @Autowired
     TossDetailsDAO tossDetailsDAO;
     
@@ -52,18 +52,29 @@ public class TournamentManagerImpl implements TournamentManager {
     MatchTurnManager turnManager;
     
     @Override
-    public TournamentMatchDetails startQuickMatch(Long team1Id, Long team2Id, Long tossWonTeamId, String electedTo) {
+    public TournamentMatchDetails startQuickMatch(Long team1Id, Long team2Id, Long tossWonTeamId, String electedTo, Long tournamentId) {
         Tournament tournament = createTestTour();
-        TournamentParticipant tourparti1 = createTourPartipant(tournament, team1Id);
-        TournamentParticipant tourparti2 = createTourPartipant(tournament, team2Id);
-        createTournamentPartipantTeam(tourparti1, team1Id);
-        createTournamentPartipantTeam(tourparti2, team2Id);
-        TournamentMatchDetails tournamentMatch = createTournamentMatch(tournament, tourparti1.getTourParticipantId(), tourparti2.getTourParticipantId());
+        TournamentParticipant tourParti1 = null;
+        TournamentParticipant tourParti2 = null;
+        TournamentMatchDetails tournamentMatch = null;
+        if(tournamentId.longValue() != 0) {
+            tournament = tournamentDAO.getById(tournamentId);
+            Team team1 = teamManager.getById(team1Id, false);
+            Team team2 = teamManager.getById(team2Id, false);
+            tourParti1 = tournamentParticipantManager.getByTeamAndTournament(team1, tournament);
+            tourParti2 = tournamentParticipantManager.getByTeamAndTournament(team2, tournament);
+        } else {
+            tourParti1 = createTourPartipant(tournament, team1Id);
+            tourParti2 = createTourPartipant(tournament, team2Id);
+            createTournamentPartipantTeam(tourParti1, team1Id);
+            createTournamentPartipantTeam(tourParti2, team2Id);
+        }
+        tournamentMatch = createTournamentMatch(tournament, tourParti1.getTourParticipantId(), tourParti2.getTourParticipantId());
         turnManager.createMatchTurns(tournamentMatch);
         if(tossWonTeamId.equals(team1Id)) {
-            tossWonTeamId = tourparti1.getTourParticipantId();
+            tossWonTeamId = tourParti1.getTourParticipantId();
         } else {
-            tossWonTeamId = tourparti2.getTourParticipantId();
+            tossWonTeamId = tourParti2.getTourParticipantId();
         }
         saveMatchTossDetails(tournamentMatch, tossWonTeamId, electedTo);
         return tournamentMatch;
@@ -78,7 +89,7 @@ public class TournamentManagerImpl implements TournamentManager {
     }
 
     private void createTournamentPartipantTeam(TournamentParticipant tourParticipant, Long team1Id) {
-        Team team = teamDAO.getById(team1Id, true);
+        Team team = teamManager.getById(team1Id, true);
         Long playerChaseNumber = 1L;
         for(PlayerProfile playerProfile : team.getPlayersList()) {
             if(!Role.COACH.equals(playerProfile.getRole()) && !Role.MANAGER.equals(playerProfile.getRole())) {
@@ -106,7 +117,7 @@ public class TournamentManagerImpl implements TournamentManager {
         tourParticipant.setGrouId(1L);
         tourParticipant.setTournamentId(tournament.getTournamentId());
         tourParticipant.setTeamId(teamId);
-        tournamentParticipantDAO.save(tourParticipant);
+        tournamentParticipantManager.save(tourParticipant);
         return tourParticipant;
     }
 

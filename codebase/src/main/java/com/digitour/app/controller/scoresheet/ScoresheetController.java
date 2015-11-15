@@ -32,6 +32,7 @@ import com.digitour.app.manager.PlayerProfileManager;
 import com.digitour.app.manager.ScoresheetManager;
 import com.digitour.app.manager.TeamManager;
 import com.digitour.app.manager.TeamSponsorsManager;
+import com.digitour.app.manager.TournamentManager;
 import com.digitour.app.manager.TournamentMatchManager;
 import com.digitour.app.manager.TournamentParticipantManager;
 import com.digitour.app.manager.TournamentParticipantTeamManager;
@@ -71,6 +72,9 @@ public class ScoresheetController {
     
     @Autowired
     TeamSponsorsManager teamSponsorsManager;
+
+    @Autowired
+    TournamentManager tourManager;
     
     @RequestMapping(path ="/loadScoresheet/match/{matchId}/inning/{inning}/turn/{turn}", method=RequestMethod.GET)
     public ModelAndView showHomepage(@PathVariable Long matchId, @PathVariable Long inning, @PathVariable Long turn) {
@@ -155,6 +159,7 @@ public class ScoresheetController {
         MatchTossDetails tossDetails = tournamentMatchDetails.getMatchTossDetails();
         String tossWonMsg = scoresheetManager.createTossWonMessage(tournamentParticipant1, tournamentParticipant2, tossDetails);
         MatchTurnDetails turnDetails = turnManager.getInningDetailsByMatchInningAndTurnNumber(tournamentMatchDetails, inning, turn);
+        modelAndView.addObject("tournamentDetails", tourManager.getById(tournamentMatchDetails.getTournamentId()));
         modelAndView.addObject("tossWonMessage", tossWonMsg);
         modelAndView.addObject("matchDetails", tournamentMatchDetails);
         modelAndView.addObject("turnDetails", turnDetails);
@@ -243,11 +248,12 @@ public class ScoresheetController {
         addLapsedTimeTillNow(modelAndView, tournamentMatchDetails, inning, turn);
         addMatchTotalScoreForBothTeams(modelAndView, tournamentMatchDetails, tournamentParticipantTeam1, tournamentParticipantTeam2, defendingTeam, chasingTeam, tournamentParticipant1, tournamentParticipant2, inning, turn);
 
-        modelAndView.addObject("defendingTeam", defendingTeam);
-        modelAndView.addObject("chasingTeam", chasingTeam);
+        modelAndView.addObject("defendingTeamPlayersList", defendingTeam);
+        modelAndView.addObject("chasingTeamPlayersList", chasingTeam);
         
-        modelAndView.addObject("defendingTeamName", defendingTeam.get(0).getTeam().getDisplayName());
-        modelAndView.addObject("chasingTeamName", chasingTeam.get(0).getTeam().getDisplayName());
+        
+        modelAndView.addObject("defendingTeam", defendingTeam.get(0).getTeam());
+        modelAndView.addObject("chasingTeam", chasingTeam.get(0).getTeam());
         
     }
 

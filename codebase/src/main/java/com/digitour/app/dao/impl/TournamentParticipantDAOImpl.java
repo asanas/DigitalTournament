@@ -36,7 +36,7 @@ public class TournamentParticipantDAOImpl implements TournamentParticipantDAO {
     }
 
     @Override
-    public TournamentParticipant getTournamentParticipantByTeamAndTournament(Team team, Long tournamentId) {
+    public TournamentParticipant getByTeamAndTournament(Team team, Long tournamentId) {
         DetachedCriteria criteria = DetachedCriteria.forClass(TournamentParticipant.class);
         criteria.add(Restrictions.eq("teamId", team.getTeamId()))
                 .add(Restrictions.eq("tournamentId", tournamentId));
